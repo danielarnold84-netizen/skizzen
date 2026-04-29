@@ -544,6 +544,126 @@
   .step-element-feuer  { background: #fce4e4; color: #8b3434; }
   .step-element-luft   { background: #fef3d4; color: #5a4d1a; }
 
+  /* Drawer-Close-Bar (Bereich abschließen) */
+  .drawer-close-bar {
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px;
+    flex-wrap: wrap;
+  }
+  .complete-btn {
+    background: var(--bg-dark); border-color: var(--bg-dark);
+    color: var(--bg-white); font-weight: 600;
+    padding: 12px 22px;
+  }
+  .complete-btn:hover {
+    background: var(--text-primary); border-color: var(--text-primary);
+  }
+  .autosave-indicator {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; color: var(--text-secondary);
+  }
+  .autosave-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent-green, #4a7d4a);
+  }
+
+  /* Insight-Card (nach Bereich-Abschluss) */
+  .insight-card {
+    margin-top: 28px; padding: 22px 24px;
+    background: linear-gradient(135deg, #fef9eb, #fdf3d7);
+    border: 1px solid var(--primary);
+    border-radius: 14px;
+  }
+  .insight-eyebrow {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 0.7rem; letter-spacing: 2.5px;
+    color: var(--primary-hover); text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .insight-scores {
+    display: flex; align-items: center; gap: 18px;
+    margin-bottom: 14px;
+  }
+  .insight-score-block { flex: 1; }
+  .insight-score-label {
+    font-size: 0.74rem; color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .insight-score-value {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 2rem; color: var(--text-primary);
+  }
+  .insight-arrow {
+    font-size: 1.6rem; color: var(--text-light);
+    align-self: center; margin-top: 14px;
+  }
+  .insight-text {
+    font-size: 0.95rem; color: var(--text-primary);
+    line-height: 1.5; margin: 0 0 16px;
+  }
+  .insight-actions {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+
+  /* Top-3-Hebel-Block in der Hauptseite */
+  .levers-block {
+    margin-top: 28px; padding: 22px 24px;
+    background: var(--bg-warm); border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .levers-title {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.1rem; letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .levers-sub {
+    font-size: 0.85rem; color: var(--text-secondary);
+    margin-bottom: 14px; line-height: 1.5;
+  }
+  .levers-progress {
+    font-size: 0.82rem; color: var(--text-light);
+    margin-bottom: 14px;
+  }
+  .levers-list { display: flex; flex-direction: column; gap: 12px; }
+  .lever-item {
+    background: var(--bg-white); border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 4px solid var(--primary);
+  }
+  .lever-item-title {
+    font-family: var(--ff-heading); font-weight: 600;
+    font-size: 0.95rem; margin-bottom: 4px;
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 8px;
+  }
+  .lever-item-score {
+    font-size: 0.78rem; color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .lever-item-step {
+    font-size: 0.88rem; color: var(--text-primary);
+    line-height: 1.5;
+  }
+  .lever-item-empty {
+    color: var(--text-light); font-style: italic;
+  }
+  .levers-empty {
+    font-size: 0.88rem; color: var(--text-secondary);
+    font-style: italic;
+  }
+  /* Wheel-Marker für abgeschlossene Bereiche */
+  .wheel-svg .ist-point.completed {
+    stroke: var(--primary-hover); stroke-width: 4;
+    fill: var(--primary);
+  }
+  .wheel-svg .completed-ring {
+    fill: none; stroke: var(--primary-hover);
+    stroke-width: 1.5; stroke-dasharray: 2 2;
+    opacity: 0.6;
+  }
+
   /* ===== Splash Modal ===== */
   .splash-overlay {
     position: fixed; inset: 0;
@@ -583,6 +703,27 @@
   }
   .splash-card p.muted {
     color: var(--text-secondary); font-size: 0.85rem;
+  }
+  .splash-promise {
+    background: var(--bg-warm); border-radius: 10px;
+    padding: 14px 18px; margin: 4px 0 16px;
+  }
+  .splash-promise-title {
+    font-family: var(--ff-heading); font-weight: 600;
+    font-size: 0.85rem; letter-spacing: 0.5px;
+    color: var(--text-primary); margin-bottom: 8px;
+  }
+  .splash-promise ul {
+    margin: 0; padding-left: 0; list-style: none;
+  }
+  .splash-promise li {
+    font-size: 0.92rem; color: var(--text-primary);
+    line-height: 1.5; padding: 3px 0 3px 20px;
+    position: relative;
+  }
+  .splash-promise li::before {
+    content: "✓"; position: absolute; left: 0;
+    color: var(--primary-hover); font-weight: 700;
   }
   .splash-card .splash-actions {
     margin-top: 22px; display: flex; gap: 10px; align-items: center;
@@ -666,6 +807,14 @@
     <h2 data-i18n="splashTitle"></h2>
     <p class="splash-quote" data-i18n="splashQuote"></p>
     <p class="splash-sub" data-i18n="splashSub"></p>
+    <div class="splash-promise">
+      <div class="splash-promise-title" data-i18n="splashPromiseTitle"></div>
+      <ul>
+        <li data-i18n="splashPromise1"></li>
+        <li data-i18n="splashPromise2"></li>
+        <li data-i18n="splashPromise3"></li>
+      </ul>
+    </div>
     <p class="muted" data-i18n="splashIntro2"></p>
     <div class="splash-actions">
       <button class="action primary" id="btn-splash-close" data-i18n="splashAcknowledge"></button>
@@ -729,6 +878,14 @@
         <div class="snapshot-sub" data-i18n="snapshotSub"></div>
         <button class="action small" id="btn-snapshot-save" data-i18n="snapshotSaveNow"></button>
         <div class="snapshot-list" id="snapshot-list"></div>
+      </div>
+
+      <!-- Top-3-Hebel-Sektion (sichtbar wenn ≥3 Bereiche tief abgeschlossen) -->
+      <div class="levers-block" id="levers-block">
+        <div class="levers-title" data-i18n="leversTitle"></div>
+        <div class="levers-sub" data-i18n="leversSub"></div>
+        <div class="levers-progress" id="levers-progress"></div>
+        <div class="levers-list" id="levers-list"></div>
       </div>
 
       <div class="actions">
@@ -816,6 +973,33 @@
       <textarea data-step-text="dreamFactory" rows="4" placeholder=""></textarea>
     </div>
 
+    <!-- Insight-Card (erscheint nach Klick auf "Bereich abschließen") -->
+    <div class="insight-card" id="insight-card" hidden>
+      <div class="insight-eyebrow" data-i18n="insightTitle"></div>
+      <div class="insight-scores">
+        <div class="insight-score-block">
+          <div class="insight-score-label" data-i18n="insightFirst"></div>
+          <div class="insight-score-value" id="insight-first">—</div>
+        </div>
+        <div class="insight-arrow">→</div>
+        <div class="insight-score-block">
+          <div class="insight-score-label" data-i18n="insightAfter"></div>
+          <div class="insight-score-value" id="insight-after">—</div>
+        </div>
+      </div>
+      <p class="insight-text" id="insight-text"></p>
+      <div class="insight-actions">
+        <button class="action primary" id="btn-insight-continue" data-i18n="insightContinue"></button>
+        <button class="action" id="btn-insight-close" data-i18n="insightClose"></button>
+      </div>
+    </div>
+
+    <!-- Bereich-Abschluss-Bar -->
+    <div class="drawer-close-bar" id="drawer-close-bar">
+      <button class="action primary complete-btn" id="btn-complete-area" data-i18n="completeArea"></button>
+      <span class="autosave-indicator"><span class="autosave-dot"></span><span data-i18n="autosave"></span></span>
+    </div>
+
   </div>
 </aside>
 
@@ -877,6 +1061,25 @@ const I18N = {
     splashQuote: 'Mit etwas Abstand sieht man mehr.',
     splashSub: 'Nimm dir einen Augenblick Zeit für dein Leben.',
     splashIntro2: 'Du gehörst zu den Ersten, die dieses Tool testen. Es ist noch ein Entwurf — über dein ehrliches Feedback freue ich mich. Deine Daten bleiben in deinem Browser, nichts wird gesendet.',
+    splashPromiseTitle: 'Was du in 15 Minuten bekommst:',
+    splashPromise1: 'deinen Standort',
+    splashPromise2: 'drei Hebel',
+    splashPromise3: 'ein Bild, das du wieder besuchen kannst',
+    completeArea: 'Diesen Bereich abschließen ✓',
+    completeAreaAgain: 'Erneut bearbeiten',
+    insightTitle: 'Erkenntnis',
+    insightFirst: 'Erster Eindruck',
+    insightAfter: 'Nach dem Schreiben',
+    insightDiffSame: 'Dein Bauchgefühl war stimmig.',
+    insightDiffSmall: 'Eine kleine Verschiebung. Das Bild wird klarer.',
+    insightDiffLarge: 'Eine deutliche Verschiebung. Hier ist Bewegung möglich.',
+    insightContinue: 'Weiter zum nächsten Bereich →',
+    insightClose: 'Zurück zum Wheel',
+    leversTitle: 'Deine drei Hebel',
+    leversSub: 'Bereiche mit der größten Verschiebung oder dem niedrigsten Stand. Plus jeweils dein erster Strategie-Schritt.',
+    leversEmpty: 'Schließe drei Bereiche tief ab, um deine Hebel zu sehen.',
+    leversProgress: 'Bereiche tief bearbeitet:',
+    autosave: 'Automatisch gespeichert',
     splashAcknowledge: 'Verstanden — los geht\'s',
     cat: {
       1:  'Gesundheit & Fitness',
@@ -1034,6 +1237,25 @@ const I18N = {
     splashQuote: 'From a step back, you see more.',
     splashSub: 'Take a moment for your life.',
     splashIntro2: "You're among the first to test this tool. It's still a draft — your honest feedback would mean a lot. Your data stays in your browser, nothing is sent.",
+    splashPromiseTitle: 'What you get in 15 minutes:',
+    splashPromise1: 'your standpoint',
+    splashPromise2: 'three levers',
+    splashPromise3: 'a picture you can come back to',
+    completeArea: 'Close this area ✓',
+    completeAreaAgain: 'Edit again',
+    insightTitle: 'Insight',
+    insightFirst: 'First impression',
+    insightAfter: 'After writing',
+    insightDiffSame: 'Your gut feeling was on point.',
+    insightDiffSmall: 'A small shift. The picture sharpens.',
+    insightDiffLarge: 'A clear shift. Movement is possible here.',
+    insightContinue: 'Continue to next area →',
+    insightClose: 'Back to the wheel',
+    leversTitle: 'Your three levers',
+    leversSub: 'Areas with the largest shift or the lowest score. Plus your first strategy step from each.',
+    leversEmpty: 'Close three areas in depth to see your levers.',
+    leversProgress: 'Areas closed in depth:',
+    autosave: 'Auto-saved',
     splashAcknowledge: "Got it — let's start",
     cat: {
       1:  'Health & Fitness',
@@ -1181,7 +1403,10 @@ function ensureNotes(n) {
       dreamFactory: "",
       strategy: "",
       done: { definition: false, highsLows: false, dreamFactory: false, strategy: false },
-      statementScores: [5,5,5,5,5]
+      statementScores: [5,5,5,5,5],
+      initialScore: null,
+      completed: false,
+      completedScore: null
     };
   }
   if (!state.notes[n].statementScores) {
@@ -1190,6 +1415,9 @@ function ensureNotes(n) {
   if (!state.notes[n].done) {
     state.notes[n].done = { definition: false, highsLows: false, dreamFactory: false, strategy: false };
   }
+  if (state.notes[n].initialScore === undefined) state.notes[n].initialScore = null;
+  if (state.notes[n].completed === undefined) state.notes[n].completed = false;
+  if (state.notes[n].completedScore === undefined) state.notes[n].completedScore = null;
   return state.notes[n];
 }
 
@@ -1330,6 +1558,7 @@ function applyLang() {
   renderWheel();
   renderMeter();
   renderSnapshotList();
+  renderLevers();
   refreshDrawerLabels();
   updateLastUpdateLabel();
 }
@@ -1420,12 +1649,20 @@ function renderWheel() {
   // IST-Punkte
   AXES.forEach((a, i) => {
     const [x, y] = pts[i];
+    const notes = state.notes[a.n];
+    const isCompleted = !!(notes && notes.completed);
+    // Goldring um abgeschlossene Punkte
+    if (isCompleted) {
+      el("circle", {
+        cx: x, cy: y, r: 9, class: "completed-ring"
+      }, svg);
+    }
     const c = el("circle", {
-      cx: x, cy: y, r: 5, class: "ist-point"
+      cx: x, cy: y, r: 5, class: "ist-point" + (isCompleted ? " completed" : "")
     }, svg);
     c.dataset.idx = i;
     const ttl = el("title", {}, c);
-    ttl.textContent = dict.cat[a.n] + " · " + state.scores[i] + "/10";
+    ttl.textContent = dict.cat[a.n] + " · " + state.scores[i] + "/10" + (isCompleted ? " ✓" : "");
   });
 
   // Labels
@@ -1596,8 +1833,18 @@ let drawerN = null;
 
 function openDrawer(n) {
   drawerN = n;
-  ensureNotes(n);
+  const notes = ensureNotes(n);
+  // Initial-Score beim ersten Öffnen einer Kategorie festhalten
+  if (notes.initialScore === null || notes.initialScore === undefined) {
+    const idx = AXES.findIndex(a => a.n === n);
+    if (idx >= 0) {
+      notes.initialScore = state.scores[idx];
+      saveAll(true);
+    }
+  }
   refreshDrawerLabels();
+  // Insight-Card sichtbar wenn schon abgeschlossen, sonst versteckt
+  toggleInsightCard(notes.completed === true);
   document.getElementById("drawer").classList.add("open");
   document.getElementById("backdrop").classList.add("open");
   document.getElementById("drawer").setAttribute("aria-hidden", "false");
@@ -1606,6 +1853,101 @@ function openDrawer(n) {
     const body = document.querySelector("#drawer .drawer-body");
     if (body) body.scrollTop = 0;
   }, 50);
+}
+
+function toggleInsightCard(show) {
+  const card = document.getElementById("insight-card");
+  const closeBar = document.getElementById("drawer-close-bar");
+  if (!card || !closeBar) return;
+  if (show && drawerN !== null) {
+    const notes = ensureNotes(drawerN);
+    renderInsightCard(notes);
+    card.hidden = false;
+    closeBar.querySelector("#btn-complete-area").textContent = t("completeAreaAgain");
+  } else {
+    card.hidden = true;
+    if (closeBar.querySelector("#btn-complete-area")) {
+      closeBar.querySelector("#btn-complete-area").textContent = t("completeArea");
+    }
+  }
+}
+
+function renderInsightCard(notes) {
+  const first = notes.initialScore;
+  const after = notes.completedScore != null ? notes.completedScore : (() => {
+    const idx = AXES.findIndex(a => a.n === drawerN);
+    return idx >= 0 ? state.scores[idx] : null;
+  })();
+  document.getElementById("insight-first").textContent = first != null ? first : "—";
+  document.getElementById("insight-after").textContent = after != null ? after : "—";
+  let diffKey = "insightDiffSame";
+  if (first != null && after != null) {
+    const diff = Math.abs(after - first);
+    if (diff >= 2) diffKey = "insightDiffLarge";
+    else if (diff >= 1) diffKey = "insightDiffSmall";
+  }
+  document.getElementById("insight-text").textContent = t(diffKey);
+}
+
+function completeArea() {
+  if (drawerN === null) return;
+  const notes = ensureNotes(drawerN);
+  const idx = AXES.findIndex(a => a.n === drawerN);
+  if (idx < 0) return;
+  notes.completedScore = state.scores[idx];
+  notes.completed = true;
+  saveAll(true);
+  toggleInsightCard(true);
+  // Scroll insight-card into view
+  setTimeout(() => {
+    document.getElementById("insight-card").scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 50);
+  renderWheel();
+  renderLevers();
+}
+
+function renderLevers() {
+  const dict = I18N[state.lang] || I18N.de;
+  const block = document.getElementById("levers-block");
+  const list = document.getElementById("levers-list");
+  const progress = document.getElementById("levers-progress");
+  if (!block || !list || !progress) return;
+
+  // Alle abgeschlossenen Bereiche sammeln
+  const completedAxes = AXES.map((a, i) => {
+    const notes = state.notes[a.n];
+    if (!notes || !notes.completed) return null;
+    const initial = notes.initialScore;
+    const after = notes.completedScore != null ? notes.completedScore : state.scores[i];
+    const diff = (initial != null && after != null) ? Math.abs(after - initial) : 0;
+    const firstStrategyLine = (notes.strategy || "").split(/\r?\n/).map(s => s.trim()).filter(Boolean)[0] || "";
+    return { n: a.n, idx: i, initial, after, diff, score: state.scores[i], firstStep: firstStrategyLine };
+  }).filter(Boolean);
+
+  progress.textContent = t("leversProgress") + " " + completedAxes.length + " / 12";
+
+  if (completedAxes.length < 3) {
+    list.innerHTML = '<div class="levers-empty">' + escapeHtml(t("leversEmpty")) + '</div>';
+    return;
+  }
+
+  // Sortieren: erst nach Diff (absteigend), dann nach niedrigstem Score (aufsteigend)
+  const sorted = [...completedAxes].sort((a, b) => {
+    if (b.diff !== a.diff) return b.diff - a.diff;
+    return a.score - b.score;
+  });
+  const top3 = sorted.slice(0, 3);
+
+  list.innerHTML = top3.map(item => {
+    const catName = dict.cat[item.n] || ("#" + item.n);
+    const stepText = item.firstStep ? escapeHtml(item.firstStep)
+      : '<span class="lever-item-empty">' + escapeHtml(item.firstStep === "" ? "—" : item.firstStep) + '</span>';
+    const scoreLabel = (item.initial != null ? item.initial : "—") + " → " + (item.after != null ? item.after : "—");
+    return '<div class="lever-item">' +
+      '<div class="lever-item-title"><span>' + escapeHtml(catName) + '</span><span class="lever-item-score">' + scoreLabel + '</span></div>' +
+      '<div class="lever-item-step">' + stepText + '</div>' +
+      '</div>';
+  }).join("");
 }
 function closeDrawer() {
   document.getElementById("drawer").classList.remove("open");
@@ -1723,6 +2065,22 @@ function setupDrawerHandlers() {
   document.getElementById("btn-drawer-next").addEventListener("click", () => navDrawer(1));
   document.getElementById("backdrop").addEventListener("click", closeDrawer);
   document.getElementById("btn-apply-statements").addEventListener("click", applyStatementsAvg);
+  document.getElementById("btn-complete-area").addEventListener("click", () => {
+    if (drawerN === null) return;
+    const notes = ensureNotes(drawerN);
+    if (notes.completed) {
+      // "Erneut bearbeiten" — Insight-Card zuklappen, User kann editieren
+      notes.completed = false;
+      saveAll(true);
+      toggleInsightCard(false);
+      renderWheel();
+      renderLevers();
+    } else {
+      completeArea();
+    }
+  });
+  document.getElementById("btn-insight-continue").addEventListener("click", () => navDrawer(1));
+  document.getElementById("btn-insight-close").addEventListener("click", closeDrawer);
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
       if (drawerN !== null) closeDrawer();
