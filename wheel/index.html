@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wheel of Life V2 · Yoga-Sequenz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-warm: #f2f1ef;
+    --bg-white: #ffffff;
+    --bg-dark: #343434;
+    --primary: #edbd41;
+    --primary-hover: #d4a82e;
+    --primary-light: #fdf3d7;
+    --accent-green: #464528;
+    --accent-red: #cc3a3a;
+    --text-primary: #343434;
+    --text-secondary: #858a92;
+    --text-light: #a0a4ab;
+    --border: #e0dfdc;
+    --el-erde: #4d8b4a;
+    --el-wasser: #3a72a1;
+    --el-feuer: #cc3a3a;
+    --el-luft: #edbd41;
+    --ff-heading: 'League Spartan', sans-serif;
+    --ff-body: 'Poppins', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--ff-body);
+    background: var(--bg-warm);
+    color: var(--text-primary);
+    line-height: 1.55;
+    padding: 32px 24px 80px;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+
+  /* ===== Sprach-Switch + Hilfe oben rechts ===== */
+  .top-bar {
+    position: absolute; top: 24px; right: 28px;
+    display: inline-flex; gap: 10px; align-items: center;
+  }
+  .lang-toggle {
+    display: inline-flex; gap: 0;
+    background: var(--bg-white); border: 1px solid var(--border);
+    border-radius: 999px; padding: 3px;
+  }
+  .lang-toggle button {
+    background: transparent; border: 0;
+    padding: 6px 14px; border-radius: 999px;
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 0.78rem; letter-spacing: 1.5px; cursor: pointer;
+    color: var(--text-light); transition: all 0.15s;
+  }
+  .lang-toggle button[aria-pressed="true"] {
+    background: var(--primary); color: var(--text-primary);
+  }
+  .help-btn {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--bg-white); border: 1px solid var(--border);
+    color: var(--text-secondary); cursor: pointer; font-weight: 600;
+    font-size: 0.9rem; transition: all 0.15s;
+  }
+  .help-btn:hover { background: var(--primary-light); border-color: var(--primary); }
+
+  /* ===== Header ===== */
+  header.page {
+    text-align: center; margin-bottom: 32px;
+    border-bottom: 1px solid var(--border); padding-bottom: 24px;
+    position: relative;
+  }
+  .eyebrow {
+    font-family: var(--ff-heading); font-weight: 300; font-size: 0.78rem;
+    letter-spacing: 4px; color: var(--text-secondary); text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05;
+    letter-spacing: -0.02em; margin-bottom: 8px;
+  }
+  .lead {
+    color: var(--text-secondary); font-size: 0.95rem;
+    max-width: 640px; margin: 0 auto;
+  }
+
+  /* ===== Layout ===== */
+  .layout {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  .panel {
+    background: var(--bg-white); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px;
+  }
+
+  /* ===== Wheel SVG ===== */
+  .wheel-wrap {
+    display: flex; justify-content: center; padding: 8px 0 16px;
+    user-select: none;
+  }
+  .wheel-svg {
+    width: 100%; max-width: 520px; height: auto; overflow: visible;
+    touch-action: none;
+  }
+  .wheel-svg .grid-circle {
+    fill: none; stroke: rgba(0,0,0,0.06); stroke-width: 1;
+  }
+  .wheel-svg .grid-circle.major {
+    stroke: rgba(0,0,0,0.14); stroke-dasharray: 2 3;
+  }
+  .wheel-svg .axis-line {
+    stroke: rgba(0,0,0,0.10); stroke-width: 1;
+  }
+  .wheel-svg .axis-hit {
+    stroke: transparent; stroke-width: 24; cursor: ns-resize;
+  }
+  .wheel-svg .ist-polygon {
+    fill: var(--primary); fill-opacity: 0.32;
+    stroke: var(--primary-hover); stroke-width: 2.5; stroke-linejoin: round;
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+  .wheel-svg .compare-polygon {
+    fill: none;
+    stroke: var(--text-secondary); stroke-width: 1.8;
+    stroke-dasharray: 5 4; stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .wheel-svg .ist-point {
+    fill: var(--primary-hover); stroke: var(--bg-white); stroke-width: 2.5;
+    cursor: grab; transition: all 0.15s;
+  }
+  .wheel-svg .ist-point.dragging { cursor: grabbing; r: 8; }
+  .wheel-svg .ist-point:hover { r: 7; }
+  .wheel-svg .axis-label {
+    font-family: var(--ff-body); font-size: 12px; font-weight: 500;
+    fill: var(--text-primary); cursor: pointer;
+  }
+  .wheel-svg .axis-label:hover { fill: var(--primary-hover); }
+  .wheel-svg .scale-num {
+    font-family: var(--ff-heading); font-weight: 300;
+    font-size: 9px; fill: var(--text-light);
+  }
+
+  .drag-hint {
+    text-align: center; font-size: 0.74rem;
+    color: var(--text-light); font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* ===== Slider-Panel ===== */
+  .sliders-side { padding-top: 8px; }
+  .sliders-title {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.15rem; margin-bottom: 6px; letter-spacing: -0.01em;
+  }
+  .sliders-sub {
+    color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 18px;
+  }
+  .slider-row {
+    display: grid; grid-template-columns: 1fr 36px;
+    gap: 8px 12px; align-items: center;
+    padding: 10px 0; border-bottom: 1px dashed var(--border);
+  }
+  .slider-row:last-child { border-bottom: 0; }
+  .slider-label {
+    font-size: 0.92rem; font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .slider-label:hover { color: var(--primary-hover); }
+  .slider-label .arrow {
+    color: var(--text-light); margin-left: 4px;
+    font-size: 0.7rem; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .slider-label:hover .arrow { opacity: 1; }
+  .slider-num {
+    font-family: var(--ff-heading); font-weight: 300;
+    color: var(--text-light); font-size: 0.7rem; margin-right: 6px;
+  }
+  .slider-row input[type="range"] {
+    grid-column: 1 / -1;
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px; border-radius: 3px;
+    background: linear-gradient(to right,
+      var(--primary) 0%, var(--primary) var(--fill, 50%),
+      var(--border) var(--fill, 50%), var(--border) 100%);
+    outline: none; cursor: pointer;
+  }
+  .slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--primary-hover);
+    border: 2px solid var(--bg-white); cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  }
+  .slider-row input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--primary-hover);
+    border: 2px solid var(--bg-white); cursor: pointer;
+  }
+  .slider-value {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1rem; color: var(--text-primary);
+    text-align: right;
+  }
+  .step-progress {
+    display: inline-flex; gap: 2px; margin-left: 6px;
+    vertical-align: middle;
+  }
+  .step-progress .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border);
+  }
+  .step-progress .dot.done { background: var(--accent-green); }
+
+  /* ===== Balance Meter ===== */
+  .meter {
+    margin-top: 24px; padding: 16px 20px;
+    background: var(--primary-light); border-radius: 12px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; text-align: center;
+  }
+  .meter .stat-label {
+    font-family: var(--ff-heading); font-weight: 300;
+    font-size: 0.7rem; letter-spacing: 1.5px;
+    color: var(--text-secondary); text-transform: uppercase;
+  }
+  .meter .stat-value {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.5rem; color: var(--text-primary);
+    margin-top: 4px;
+  }
+  .meter .stat-sub {
+    font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px;
+  }
+
+  /* ===== Snapshot-Box ===== */
+  .snapshot-box {
+    margin-top: 20px; padding: 16px 18px;
+    background: var(--bg-warm); border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  .snapshot-title {
+    font-family: var(--ff-heading); font-weight: 700; font-size: 0.85rem;
+    letter-spacing: 0.5px; margin-bottom: 6px;
+  }
+  .snapshot-sub {
+    font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 10px;
+  }
+  .snapshot-list {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;
+  }
+  .snapshot-btn {
+    font-family: var(--ff-body); font-size: 0.78rem;
+    padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--bg-white);
+    cursor: pointer; transition: all 0.15s;
+    color: var(--text-secondary);
+  }
+  .snapshot-btn:hover { border-color: var(--primary); color: var(--text-primary); }
+  .snapshot-btn.active {
+    background: var(--text-primary); color: var(--bg-white); border-color: var(--text-primary);
+  }
+  .snapshot-btn .snap-avg {
+    font-family: var(--ff-heading); font-weight: 700; margin-left: 4px;
+  }
+  .snapshot-empty {
+    font-size: 0.78rem; color: var(--text-light); font-style: italic;
+  }
+
+  /* ===== Actions ===== */
+  .actions {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    margin-top: 20px; align-items: center;
+  }
+  button.action {
+    font-family: var(--ff-body); font-weight: 500; font-size: 0.85rem;
+    padding: 10px 18px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--bg-white);
+    color: var(--text-primary); transition: all 0.15s;
+  }
+  button.action:hover { background: var(--primary-light); border-color: var(--primary); }
+  button.action.primary {
+    background: var(--primary); border-color: var(--primary); color: var(--text-primary);
+    font-weight: 600;
+  }
+  button.action.primary:hover { background: var(--primary-hover); }
+  button.action.small {
+    padding: 6px 12px; font-size: 0.78rem;
+  }
+  .last-update {
+    font-size: 0.78rem; color: var(--text-light); margin-left: auto;
+  }
+
+  /* ===== Footer ===== */
+  footer.page {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center; font-size: 0.8rem; color: var(--text-secondary);
+  }
+  footer.page a { color: var(--text-primary); text-decoration: none; font-weight: 500; }
+  footer.page a:hover { color: var(--primary-hover); }
+  .privacy-line {
+    margin-top: 8px; font-size: 0.74rem; color: var(--text-light);
+  }
+  .privacy-line::before { content: "🔒 "; opacity: 0.6; }
+
+  /* ===== Drawer / Drill-In ===== */
+  .backdrop {
+    position: fixed; inset: 0;
+    background: rgba(52,52,52,0.42);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
+    z-index: 50;
+  }
+  .backdrop.open { opacity: 1; visibility: visible; }
+  .drawer {
+    position: fixed; top: 0; right: 0;
+    width: min(640px, 100%); height: 100%;
+    background: var(--bg-white);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.16);
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    z-index: 51;
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 28px 28px 20px; border-bottom: 1px solid var(--border);
+    flex-shrink: 0; gap: 12px;
+  }
+  .drawer-eyebrow {
+    font-family: var(--ff-heading); font-weight: 300; font-size: 0.7rem;
+    letter-spacing: 3px; color: var(--text-secondary); text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .drawer-header h2 {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.6rem; line-height: 1.1; letter-spacing: -0.01em;
+  }
+  .drawer-score-badge {
+    display: inline-block;
+    background: var(--primary-light); color: var(--text-primary);
+    padding: 3px 10px; border-radius: 999px;
+    font-family: var(--ff-heading); font-weight: 700; font-size: 0.78rem;
+    margin-left: 10px; vertical-align: middle;
+  }
+  .drawer-nav-buttons {
+    display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+  }
+  .drawer-nav-btn, .close-btn {
+    background: transparent; border: 1px solid var(--border);
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 1.2rem; line-height: 1; cursor: pointer;
+    color: var(--text-secondary);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .drawer-nav-btn:hover, .close-btn:hover { background: var(--bg-warm); color: var(--text-primary); }
+  .close-btn { font-size: 1.4rem; }
+
+  .drawer-body {
+    overflow-y: auto; padding: 24px 28px 40px;
+    flex: 1;
+  }
+  .drawer-intro {
+    font-size: 0.88rem; color: var(--text-secondary);
+    padding: 14px 16px; background: var(--bg-warm);
+    border-radius: 10px; margin-bottom: 24px;
+    border-left: 3px solid var(--primary);
+  }
+
+  /* Self-Check Statements */
+  .statements-block {
+    background: var(--bg-warm); border-radius: 10px;
+    padding: 18px 20px; margin-bottom: 28px;
+  }
+  .statements-title {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1rem; letter-spacing: -0.01em; margin-bottom: 4px;
+  }
+  .statements-sub {
+    font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 14px;
+  }
+  .statement-row {
+    padding: 9px 0; border-bottom: 1px dotted var(--border);
+  }
+  .statement-row:last-child { border-bottom: 0; }
+  .statement-text {
+    font-size: 0.84rem; line-height: 1.4; margin-bottom: 4px;
+    color: var(--text-primary);
+  }
+  .statement-slider-row {
+    display: grid; grid-template-columns: 1fr 28px;
+    gap: 10px; align-items: center;
+  }
+  .statement-slider-row input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px;
+    background: linear-gradient(to right,
+      var(--primary) 0%, var(--primary) var(--fill, 50%),
+      var(--border) var(--fill, 50%), var(--border) 100%);
+    outline: none; cursor: pointer;
+  }
+  .statement-slider-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--primary-hover);
+    border: 2px solid var(--bg-white); cursor: pointer;
+  }
+  .statement-slider-row input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--primary-hover);
+    border: 2px solid var(--bg-white); cursor: pointer;
+  }
+  .statement-value {
+    font-family: var(--ff-heading); font-weight: 700; font-size: 0.85rem;
+    color: var(--text-primary); text-align: right;
+  }
+  .statements-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+    font-size: 0.82rem; color: var(--text-secondary);
+  }
+
+  .step {
+    margin-bottom: 28px;
+    padding-bottom: 22px; border-bottom: 1px dashed var(--border);
+  }
+  .step:last-child { border-bottom: 0; }
+  .step-header {
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer; margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .step-header input[type="checkbox"] {
+    width: 22px; height: 22px;
+    accent-color: var(--accent-green);
+    cursor: pointer;
+  }
+  .step-title {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.15rem; letter-spacing: -0.01em;
+  }
+  .step.done .step-title {
+    text-decoration: line-through;
+    color: var(--text-light);
+  }
+  .step-prompt {
+    font-size: 0.88rem; color: var(--text-secondary);
+    margin-bottom: 10px; line-height: 1.6;
+    padding-left: 32px;
+  }
+  .step textarea {
+    width: 100%; min-height: 100px; resize: vertical;
+    padding: 12px 14px; border: 1px solid var(--border);
+    border-radius: 8px; font-family: var(--ff-body);
+    font-size: 0.92rem; color: var(--text-primary);
+    background: var(--bg-warm);
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .step textarea:focus {
+    outline: none; border-color: var(--primary);
+    background: var(--bg-white);
+  }
+  /* Element-Coding pro Schritt (V2 Yoga-Sequenz) */
+  .step.step-erde   { border-left: 4px solid var(--el-erde);   padding-left: 14px; margin-left: -18px; }
+  .step.step-wasser { border-left: 4px solid var(--el-wasser); padding-left: 14px; margin-left: -18px; }
+  .step.step-feuer  { border-left: 4px solid var(--el-feuer);  padding-left: 14px; margin-left: -18px; }
+  .step.step-luft   { border-left: 4px solid var(--el-luft);   padding-left: 14px; margin-left: -18px; }
+  .step-element {
+    display: inline-block;
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 2px 9px; border-radius: 999px; margin-left: 10px; vertical-align: middle;
+  }
+  .step-element-erde   { background: #e3efe1; color: #2d5a2d; }
+  .step-element-wasser { background: #e3eef0; color: #2d5a64; }
+  .step-element-feuer  { background: #fce4e4; color: #8b3434; }
+  .step-element-luft   { background: #fef3d4; color: #5a4d1a; }
+
+  /* ===== Splash Modal ===== */
+  .splash-overlay {
+    position: fixed; inset: 0;
+    background: rgba(52,52,52,0.55);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .splash-overlay.open { display: flex; }
+  .splash-card {
+    background: var(--bg-white); border-radius: 16px;
+    padding: 36px 36px 32px; max-width: 560px; width: 100%;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    max-height: 90vh; overflow-y: auto;
+  }
+  .splash-eyebrow {
+    font-family: var(--ff-heading); font-weight: 300; font-size: 0.72rem;
+    letter-spacing: 3.5px; color: var(--text-secondary); text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .splash-card h2 {
+    font-family: var(--ff-heading); font-weight: 700;
+    font-size: 1.8rem; line-height: 1.1; letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .splash-card p {
+    font-size: 0.92rem; line-height: 1.6; color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  .splash-card p.muted {
+    color: var(--text-secondary); font-size: 0.85rem;
+  }
+  .splash-card .splash-actions {
+    margin-top: 22px; display: flex; gap: 10px; align-items: center;
+  }
+  .splash-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px; gap: 12px;
+  }
+  .splash-top .splash-eyebrow { margin-bottom: 0; }
+  .splash-lang-toggle { padding: 2px; }
+  .splash-lang-toggle button {
+    padding: 4px 10px; font-size: 0.7rem; letter-spacing: 1px;
+  }
+
+  /* ===== Print-Output (versteckt außer Print) ===== */
+  #print-output { display: none; }
+
+  /* ===== Print-optimiert ===== */
+  @media print {
+    body { background: white; padding: 0; }
+    .wrap, .backdrop, .drawer, .splash-overlay, .top-bar { display: none !important; }
+    #print-output { display: block; }
+    .print-page {
+      page-break-after: always;
+      padding: 24px 32px; min-height: 100vh;
+    }
+    .print-page:last-child { page-break-after: auto; }
+    .print-h1 {
+      font-family: var(--ff-heading); font-weight: 700;
+      font-size: 2rem; margin-bottom: 6px;
+    }
+    .print-meta {
+      font-size: 0.8rem; color: #777; margin-bottom: 24px;
+    }
+    .print-wheel-area svg {
+      max-width: 100%; height: auto; max-height: 60vh;
+    }
+    .print-table {
+      width: 100%; border-collapse: collapse; margin-top: 24px;
+    }
+    .print-table th, .print-table td {
+      padding: 6px 10px; text-align: left;
+      border-bottom: 1px solid #e0e0e0; font-size: 0.88rem;
+    }
+    .print-table th {
+      font-family: var(--ff-heading); font-weight: 700;
+      text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px;
+    }
+    .print-cat-title {
+      font-family: var(--ff-heading); font-weight: 700; font-size: 1.5rem;
+      margin-bottom: 4px;
+    }
+    .print-cat-score { color: #555; margin-bottom: 18px; }
+    .print-step { margin-bottom: 16px; }
+    .print-step h3 {
+      font-family: var(--ff-heading); font-weight: 700; font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+    .print-element { color: #999; font-weight: 400; font-size: 0.9rem; }
+    .print-text {
+      font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap;
+      padding: 8px 12px; background: #f6f6f4; border-radius: 4px;
+      min-height: 28px;
+    }
+    .print-text i { color: #aaa; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SPLASH MODAL ============ -->
+<div class="splash-overlay" id="splash" role="dialog" aria-modal="true">
+  <div class="splash-card">
+    <div class="splash-top">
+      <div class="splash-eyebrow" data-i18n="splashEyebrow"></div>
+      <div class="lang-toggle splash-lang-toggle" role="group" aria-label="Sprache">
+        <button data-lang="de">DE</button>
+        <button data-lang="en">EN</button>
+      </div>
+    </div>
+    <h2 data-i18n="splashTitle"></h2>
+    <p data-i18n="splashIntro1"></p>
+    <p class="muted" data-i18n="splashIntro2"></p>
+    <div class="splash-actions">
+      <button class="action primary" id="btn-splash-close" data-i18n="splashAcknowledge"></button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="page">
+    <div class="top-bar">
+      <button class="help-btn" id="btn-help" title="Info" aria-label="Help">?</button>
+      <div class="lang-toggle" role="group" aria-label="Sprache">
+        <button data-lang="de" aria-pressed="true">DE</button>
+        <button data-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+    <div class="eyebrow" data-i18n="eyebrow"></div>
+    <h1 data-i18n="h1"></h1>
+    <p class="lead" data-i18n="lead"></p>
+  </header>
+
+  <div class="layout">
+
+    <!-- WHEEL -->
+    <section class="panel">
+      <div class="wheel-wrap">
+        <svg id="wheel" viewBox="0 0 540 540" class="wheel-svg" aria-label="Wheel of Life — 12 Lebensbereiche"></svg>
+      </div>
+      <div class="drag-hint" data-i18n="drag"></div>
+
+      <div class="meter" id="meter">
+        <div>
+          <div class="stat-label" data-i18n="avg"></div>
+          <div class="stat-value" id="avg-score">—</div>
+          <div class="stat-sub" data-i18n="of10"></div>
+        </div>
+        <div>
+          <div class="stat-label" data-i18n="spread"></div>
+          <div class="stat-value" id="spread">—</div>
+          <div class="stat-sub" data-i18n="spreadSub"></div>
+        </div>
+        <div>
+          <div class="stat-label" data-i18n="weakest"></div>
+          <div class="stat-value" id="weakest">—</div>
+          <div class="stat-sub" id="weakest-name">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDERS -->
+    <section class="panel sliders-side">
+      <div class="sliders-title" data-i18n="slidersTitle"></div>
+      <div class="sliders-sub" data-i18n="slidersSub"></div>
+
+      <div id="sliders"></div>
+
+      <!-- Snapshot-Box -->
+      <div class="snapshot-box">
+        <div class="snapshot-title" data-i18n="snapshotTitle"></div>
+        <div class="snapshot-sub" data-i18n="snapshotSub"></div>
+        <button class="action small" id="btn-snapshot-save" data-i18n="snapshotSaveNow"></button>
+        <div class="snapshot-list" id="snapshot-list"></div>
+      </div>
+
+      <div class="actions">
+        <button class="action primary" id="btn-save" data-i18n="save"></button>
+        <button class="action" id="btn-print" data-i18n="print"></button>
+        <button class="action" id="btn-reset" data-i18n="reset"></button>
+        <span class="last-update" id="last-update"></span>
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="page">
+    <p data-i18n="footerTagline"></p>
+    <p class="privacy-line" data-i18n="privacyLine"></p>
+    <a href="https://arnoldcoaching.de">arnoldcoaching.de</a>
+  </footer>
+
+</div>
+
+<!-- DRAWER für 4-Schritte-Bearbeitung + Self-Statements -->
+<div class="backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <header class="drawer-header">
+    <div>
+      <div class="drawer-eyebrow" data-i18n="processTitle"></div>
+      <h2><span id="drawer-title"></span><span id="drawer-score" class="drawer-score-badge"></span></h2>
+    </div>
+    <div class="drawer-nav-buttons">
+      <button class="drawer-nav-btn" id="btn-drawer-prev" aria-label="Previous">‹</button>
+      <button class="drawer-nav-btn" id="btn-drawer-next" aria-label="Next">›</button>
+      <button class="close-btn" id="btn-close-drawer" aria-label="Close">×</button>
+    </div>
+  </header>
+  <div class="drawer-body">
+
+    <!-- Self-Statements (5 Aussagen) -->
+    <div class="statements-block">
+      <div class="statements-title" data-i18n="statementsTitle"></div>
+      <div class="statements-sub" data-i18n="statementsSub"></div>
+      <div id="statements-list"></div>
+      <div class="statements-footer">
+        <span><span data-i18n="statementsAvg"></span>: <strong id="statements-avg">—</strong>/10</span>
+        <button class="action small" id="btn-apply-statements" data-i18n="statementsApply"></button>
+      </div>
+    </div>
+
+    <p class="drawer-intro" data-i18n="processIntro"></p>
+
+    <div class="step step-erde" data-step="definition">
+      <label class="step-header">
+        <input type="checkbox" data-step-check="definition">
+        <span class="step-title" data-i18n="step1Title"></span>
+        <span class="step-element step-element-erde" data-i18n="elementErde"></span>
+      </label>
+      <p class="step-prompt" data-i18n="step1Prompt"></p>
+      <textarea data-step-text="definition" rows="4" placeholder=""></textarea>
+    </div>
+
+    <div class="step step-wasser" data-step="highsLows">
+      <label class="step-header">
+        <input type="checkbox" data-step-check="highsLows">
+        <span class="step-title" data-i18n="step2Title"></span>
+        <span class="step-element step-element-wasser" data-i18n="elementWasser"></span>
+      </label>
+      <p class="step-prompt" data-i18n="step2Prompt"></p>
+      <textarea data-step-text="highsLows" rows="4" placeholder=""></textarea>
+    </div>
+
+    <div class="step step-feuer" data-step="strategy">
+      <label class="step-header">
+        <input type="checkbox" data-step-check="strategy">
+        <span class="step-title" data-i18n="step3Title"></span>
+        <span class="step-element step-element-feuer" data-i18n="elementFeuer"></span>
+      </label>
+      <p class="step-prompt" data-i18n="step3Prompt"></p>
+      <textarea data-step-text="strategy" rows="4" placeholder=""></textarea>
+    </div>
+
+    <div class="step step-luft" data-step="dreamFactory">
+      <label class="step-header">
+        <input type="checkbox" data-step-check="dreamFactory">
+        <span class="step-title" data-i18n="step4Title"></span>
+        <span class="step-element step-element-luft" data-i18n="elementLuft"></span>
+      </label>
+      <p class="step-prompt" data-i18n="step4Prompt"></p>
+      <textarea data-step-text="dreamFactory" rows="4" placeholder=""></textarea>
+    </div>
+  </div>
+</aside>
+
+<!-- Print-Output Container (versteckt außer Print) -->
+<div id="print-output"></div>
+
+<script>
+// =====================================================
+// I18N
+// =====================================================
+const I18N = {
+  de: {
+    eyebrow: 'Arnold Coaching · Standortbestimmung · v2 Yoga-Sequenz',
+    h1: 'Wheel of Life',
+    lead: '12 Lebensbereiche, ein Augenblick. Bewerte jeden Bereich von 1 (unzufrieden) bis 10 (sehr zufrieden) — das Polygon zeigt deine Balance.',
+    drag: 'Tipp: Punkte im Wheel direkt ziehen · Klick auf Label öffnet Tiefen-Bearbeitung',
+    slidersTitle: 'Bewertung',
+    slidersSub: 'Schiebe jeden Regler dort hin, wo du heute stehst — nicht wo du sein möchtest. Klick auf den Namen öffnet die 4-Schritte-Bearbeitung.',
+    save: 'Speichern',
+    print: 'PDF drucken',
+    reset: 'Zurücksetzen',
+    notSaved: 'Noch nicht gespeichert',
+    saved: 'Gespeichert: ',
+    savedFlash: '✓ Gespeichert',
+    avg: 'Durchschnitt',
+    spread: 'Spreizung',
+    weakest: 'Schwächster',
+    of10: 'von 10',
+    spreadSub: 'höchste − niedrigste',
+    confirmReset: 'Alle Werte auf 5 zurücksetzen? Notizen + Snapshots bleiben erhalten.',
+    footerTagline: 'Methodik basiert auf dem 12-Bereiche-Modell von Mindvalley · Vertiefung mit Pyramiden-Stufen + Element-Kompass im internen Tool.',
+    privacyLine: 'Alle Daten bleiben in deinem Browser. Nichts wird auf Servern gespeichert oder gesendet.',
+    processTitle: 'Tiefen-Bearbeitung · 4 Schritte',
+    processIntro: 'Auf jeder rechten Seite findest du 4 Aufgaben. Wir laden dich ein, dich der Herausforderung zu stellen, dich hinzusetzen und zu schreiben:',
+    step1Title: 'Definition',
+    step1Prompt: 'Stelle dir diese 5 Fragen: „Was, Wo, Wer, Wann & Wie ist diese Kategorie Teil meines Lebens?" Schreibe die Antworten auf.',
+    step2Title: 'Höhen und Tiefen',
+    step2Prompt: 'Eine reflektierende Schreibübung. Nimm ein leeres Blatt Papier und einen Stift. Schreibe mindestens 15 Minuten lang über konkrete Erfahrungen, positive und negative. Vermeide „weil"-Sätze. Schreibe einfach, woran du dich erinnerst.',
+    step3Title: 'Strategie',
+    step3Prompt: 'Was kannst du jetzt tun, um deiner Vision näherzukommen? Könntest du etwas täglich tun? Könntest du etwas aufhören? Finde praktische Lösungen. Schreibe sie auf. — Mal-Test: Nur was du als Bild malen könntest, ist auch wirklich umsetzbar (Beispiel: „mehr Wasser trinken" → Teekanne + Tasse).',
+    step4Title: 'Traumfabrik',
+    step4Prompt: 'Der anspruchsvollste Schritt — geht über das bisher Vorstellbare hinaus. Suche einen bequemen Ort, an dem du mindestens 20 Minuten ungestört bist. Entspanne dich und schließe die Augen. Erschaffe die perfekte Vision für dich in diesem Lebensbereich. Nur „Ja" ist erlaubt. Alles ist möglich. Was siehst du? Dann schreibe.',
+    elementErde:   'Erde',
+    elementWasser: 'Wasser',
+    elementFeuer:  'Feuer',
+    elementLuft:   'Luft',
+    statementsTitle: 'Selbst-Check · 5 Aussagen',
+    statementsSub: 'Bewerte jede Aussage von 1 (trifft gar nicht zu) bis 10 (trifft voll zu). Der Durchschnitt kann als Score für diesen Bereich übernommen werden.',
+    statementsAvg: 'Durchschnitt',
+    statementsApply: 'Als Score übernehmen',
+    snapshotTitle: 'Verlauf · Snapshots',
+    snapshotSub: 'Speichere deinen aktuellen Stand. Klick auf einen früheren Snapshot, um ihn als gepunktetes Polygon im Wheel zu vergleichen.',
+    snapshotSaveNow: '+ Aktuellen Stand sichern',
+    snapshotEmpty: 'Noch keine Snapshots gespeichert.',
+    splashEyebrow: 'Willkommen',
+    splashTitle: 'Wheel of Life',
+    splashIntro1: 'Du gehörst zu den ersten, die dieses Tool testen. Es ist noch ein Entwurf, der sich gerade weiterentwickelt — über dein ehrliches Feedback freue ich mich.',
+    splashIntro2: 'Nimm dir Zeit. Deine Daten bleiben in deinem Browser, nichts wird gesendet.',
+    splashAcknowledge: 'Verstanden — los geht\'s',
+    cat: {
+      1:  'Gesundheit & Fitness',
+      2:  'Wissen & Skills',
+      3:  'Emotionales Leben',
+      4:  'Charakter',
+      5:  'Spiritualität',
+      6:  'Liebesbeziehung',
+      7:  'Eltern sein',
+      8:  'Community & Freunde',
+      9:  'Finanzielles Leben',
+      10: 'Karriere & Beruf',
+      11: 'Lebensqualität',
+      12: 'Lebensvision'
+    },
+    catShort: {
+      1: '01 · Health', 2: '02 · Wissen', 3: '03 · Emotion', 4: '04 · Charakter',
+      5: '05 · Spirit', 6: '06 · Liebe', 7: '07 · Eltern', 8: '08 · Community',
+      9: '09 · Finanzen', 10: '10 · Karriere', 11: '11 · Qualität', 12: '12 · Vision'
+    },
+    statements: {
+      1: [
+        'Ich bin sehr zufrieden damit, wie mein Körper aussieht.',
+        'Ich habe ein klar definiertes Trainingsprogramm und halte mich diszipliniert daran.',
+        'Ich ernähre mich ausgezeichnet und gesund.',
+        'Ich sehe und fühle mich jünger als mein tatsächliches Alter.',
+        'Ich werde tagsüber nicht müde.'
+      ],
+      2: [
+        'Ich habe tief über mein intellektuelles Leben nachgedacht und weiß genau, was ich in diesem Bereich will.',
+        'Ich fühle mich intellektuell erfüllt.',
+        'Ich bin sehr selbstsicher in meinen intellektuellen Fähigkeiten.',
+        'Ich fordere mich jeden Tag intellektuell heraus.',
+        'Ich habe eine Strategie, um mich kontinuierlich weiterzubilden.'
+      ],
+      3: [
+        'Ich habe tief über meine Emotionen nachgedacht und weiß genau, was ich in diesem Bereich will.',
+        'Ich kann die Emotionen klar benennen, die mir am wichtigsten und wünschenswertesten sind.',
+        'Ich erlebe selten generalisierten Stress oder Angst.',
+        'Ich habe eine durchgehend positive Lebenseinstellung.',
+        'Ich bin die meiste Zeit freudig und glücklich.'
+      ],
+      4: [
+        'Ich habe einen hohen Grad an Integrität zwischen dem, was ich denke, sage und tue.',
+        'Ich suche aktiv nach neuen Ideen und Strategien für ein besseres Leben.',
+        'Ich vertraue auf meine Fähigkeiten, mit den Herausforderungen des Lebens umzugehen.',
+        'Ich glaube daran, Dinge in meinem Leben aktiv zu gestalten, statt sie geschehen zu lassen.',
+        'Ich habe ein klares Gefühl dafür, wer ich bin und wofür ich stehe.'
+      ],
+      5: [
+        'Ich kann mein Verständnis von innerem Wachstum klar definieren und ausdrücken.',
+        'Ich fühle mich als Mensch sehr erfüllt.',
+        'Ich akzeptiere alle Teile von mir, die guten und die schwierigen.',
+        'Ich lebe sehr bewusst und gebe allen Bereichen meines Lebens Aufmerksamkeit.',
+        'Ich trage zum Leben anderer bei und mache die Welt zu einem besseren Ort.'
+      ],
+      6: [
+        'Ich habe tief über diesen Lebensbereich nachgedacht und weiß genau, welche Beziehungen ich aufbauen möchte.',
+        'Ich bin glücklich in meinen Beziehungen.',
+        'Ich verstehe die Bedürfnisse meiner Partnerin / meines Partners.',
+        'Ich widme meiner Partnerin / meinem Partner regelmäßig wertvolle Zeit.',
+        'Ich bin dankbar, dass mein Partner / meine Partnerin in meinem Leben ist.'
+      ],
+      7: [
+        'Ich habe eine enge, liebevolle, gesunde Beziehung zu meiner Familie.',
+        'Ich habe eine bewusste, klar definierte Strategie für Erziehung bzw. den Umgang mit meiner Familie.',
+        'Ich erlebe selten Sorgen oder Anspannung in Bezug auf meine Familie.',
+        'Ich habe meiner Familie ein gutes Beispiel für ein erfülltes Leben gegeben.',
+        'Ich bin sehr zufrieden, wie sich meine Kinder als Menschen entwickeln, oder dankbar für die Beziehung zu meinen Eltern.'
+      ],
+      8: [
+        'Ich habe enge, liebevolle Beziehungen zu einigen besonderen Menschen.',
+        'Ich habe eine aktive und bereichernde Verbindung zu meiner Gemeinschaft.',
+        'Ich betrachte mich selbst als sehr guter Freund / gute Freundin für andere.',
+        'Ich achte sehr darauf, welche Beziehungen mich nähren und welche mich auslaugen.',
+        'Ich habe Freunde, auf die ich mich immer verlassen kann.'
+      ],
+      9: [
+        'Ich kann gut mit meinem Geld umgehen.',
+        'Ich erlebe selten finanziellen Stress.',
+        'Ich habe klare, schriftlich festgehaltene finanzielle Ziele.',
+        'Ich verstehe die Grundlagen der Vermögensbildung tief.',
+        'Ich fühle eine hohe finanzielle Sicherheit in meinem Leben.'
+      ],
+      10: [
+        'Ich habe tief über meine Karriere nachgedacht und weiß genau, was ich in diesem Bereich will.',
+        'Meine Arbeit erfüllt mich sehr — ich liebe, was ich tue.',
+        'Meine Arbeit fordert mich heraus und hält mich am Lernen und Wachsen.',
+        'Ich wache jeden Morgen auf und freue mich auf meine Arbeit.',
+        'Ich bin sehr gut in dem, was ich tue.'
+      ],
+      11: [
+        'Ich habe das Gefühl, dass ich mein Leben in vollem Umfang lebe.',
+        'Mein Zuhause strahlt die Gefühle aus, die mir am wichtigsten sind (Ruhe, Sinnlichkeit, Freude usw.).',
+        'Ich habe tief über meine Lebensqualität nachgedacht und definiert, was ich in diesem Bereich will.',
+        'Ich plane regelmäßig außergewöhnliche Erlebnisse für mich (Reisen, Events, besondere Momente).',
+        'Ich bin zufrieden mit der Qualität meiner Besitztümer (Auto, Möbel, Kunst oder anderen Dingen in meinem Leben).'
+      ],
+      12: [
+        'Ich habe eine starke Vorstellung davon, wie sich mein Leben in den kommenden Jahren entfalten soll.',
+        'Ich bin engagiert, mein Leben in jedem Bereich zu verbessern.',
+        'Ich habe vor, in den kommenden Jahren in meine eigene persönliche Entwicklung zu investieren.',
+        'Ich habe aktuell einen Plan, um mein ideales Leben zu erreichen.',
+        'Ich kann mein wichtigstes Lebensziel klar benennen.'
+      ]
+    }
+  },
+  en: {
+    eyebrow: 'Arnold Coaching · Standpoint Check · v2 Yoga Sequence',
+    h1: 'Wheel of Life',
+    lead: '12 life categories, one snapshot. Rate each from 1 (unsatisfied) to 10 (very satisfied) — the polygon shows your balance.',
+    drag: 'Tip: Drag the dots directly on the wheel · Click a label to open the deep dive',
+    slidersTitle: 'Rating',
+    slidersSub: 'Move each slider to where you stand today — not where you want to be. Click a category name to open the 4-step deep dive.',
+    save: 'Save',
+    print: 'Print PDF',
+    reset: 'Reset',
+    notSaved: 'Not saved yet',
+    saved: 'Saved: ',
+    savedFlash: '✓ Saved',
+    avg: 'Average',
+    spread: 'Spread',
+    weakest: 'Weakest',
+    of10: 'out of 10',
+    spreadSub: 'highest − lowest',
+    confirmReset: 'Reset all values to 5? Notes and snapshots will be kept.',
+    footerTagline: "Methodology based on Mindvalley's 12-category LifeBook model · Extended with Pyramid Stages + Element Compass in the internal tool.",
+    privacyLine: 'All your data stays in your browser. Nothing is stored or sent to any server.',
+    processTitle: 'Deep Dive · 4 Steps',
+    processIntro: 'On each right page, you will find 4 extra tasks. We invite you to challenge yourself to sit down and write:',
+    step1Title: 'Definition',
+    step1Prompt: 'Ask yourself those 5 questions: "What, Where, Who, When, & How is this category part of my life?" Write down the answers.',
+    step2Title: 'Highs and Lows',
+    step2Prompt: 'A reflective writing exercise. Take a blank sheet of paper and a pen. Write about specific circumstances that you have experienced, both positive and negative, for at least 15 minutes. Avoid "because" statements. Just write what you remember.',
+    step3Title: 'Strategy',
+    step3Prompt: 'What can you do right now to move closer to your vision? Could you do something daily? Could you stop doing something? Find practical solutions. Write them down. — Drawing test: Only what you could draw as a picture is truly actionable (example: "drink more water" → kettle + cup).',
+    step4Title: 'Dream Factory',
+    step4Prompt: 'The most challenging step — it reaches beyond what you can currently imagine. Find a comfortable place where you can be undisturbed for at least 20 minutes. Relax and close your eyes. Create the perfect vision for yourself in this area of your life. Only "yes" is allowed. Everything is possible. What do you see? Then write.',
+    elementErde:   'Earth',
+    elementWasser: 'Water',
+    elementFeuer:  'Fire',
+    elementLuft:   'Air',
+    statementsTitle: 'Self-Check · 5 Statements',
+    statementsSub: 'Rate each statement from 1 (not at all true) to 10 (completely true). The average can be applied as your score for this area.',
+    statementsAvg: 'Average',
+    statementsApply: 'Apply as score',
+    snapshotTitle: 'History · Snapshots',
+    snapshotSub: 'Save your current state. Click an earlier snapshot to compare it as a dotted polygon on the wheel.',
+    snapshotSaveNow: '+ Save current state',
+    snapshotEmpty: 'No snapshots saved yet.',
+    splashEyebrow: 'Welcome',
+    splashTitle: 'Wheel of Life',
+    splashIntro1: "You're among the first to test this tool. It's still a draft, evolving — your honest feedback would mean a lot.",
+    splashIntro2: 'Take your time. Your data stays in your browser, nothing is sent.',
+    splashAcknowledge: "Got it — let's start",
+    cat: {
+      1:  'Health & Fitness',
+      2:  'Life of Learning',
+      3:  'Emotional Life',
+      4:  'Character',
+      5:  'Inner Growth',
+      6:  'Partnership',
+      7:  'Family Life',
+      8:  'Social & Community Life',
+      9:  'Financial Life',
+      10: 'Career',
+      11: 'Quality of Life',
+      12: 'Life Vision'
+    },
+    catShort: {
+      1: '01 · Health', 2: '02 · Learning', 3: '03 · Emotion', 4: '04 · Character',
+      5: '05 · Growth', 6: '06 · Partner', 7: '07 · Family', 8: '08 · Social',
+      9: '09 · Financial', 10: '10 · Career', 11: '11 · Quality', 12: '12 · Vision'
+    },
+    statements: {
+      1: [
+        'I am very happy with the way my body looks.',
+        'I have a clearly defined exercise program and I stick to it diligently.',
+        'I have an excellent, healthy diet.',
+        'I look and feel younger than my true age.',
+        "I don't get tired during the day."
+      ],
+      2: [
+        'I have thought deeply about my intellectual life and know exactly what I want in this category.',
+        'I feel fulfilled intellectually.',
+        'I feel quite confident in my intellectual abilities.',
+        'I challenge myself intellectually every day.',
+        'I have a strategy in place to keep myself learning.'
+      ],
+      3: [
+        'I have thought deeply about my emotions and know exactly what I want in this area of my life.',
+        'I can clearly define the emotions that are most important and desirable to me.',
+        'I seldom experience generalized stress or anxiety.',
+        'I have a consistently great attitude towards life.',
+        'I am joyful and happy most of the time.'
+      ],
+      4: [
+        'I have a high level of integrity between what I think, say, and do.',
+        'I am actively looking for new ideas and strategies for living a better life.',
+        'I am confident in my abilities to cope with the challenges of life.',
+        'I believe in making things happen in my life, versus letting things happen.',
+        'I have a strong sense of who I am and what I am about.'
+      ],
+      5: [
+        'I can define and articulate my understanding of inner growth clearly.',
+        'I feel very fulfilled as a human being.',
+        'I am accepting of all parts of myself, both the good and the bad.',
+        'I live very consciously and pay attention to all areas of my life.',
+        "I contribute to others' lives and make the world a better place."
+      ],
+      6: [
+        'I have thought deeply about this area of my life and know exactly what kind of relationships I want to build.',
+        'I am happy in my relationships.',
+        "I understand my partner's needs.",
+        'I regularly dedicate quality time to my partner.',
+        'I am grateful that my partner is in my life.'
+      ],
+      7: [
+        'I have a close, loving, healthy relationship with my family.',
+        'I have a conscious, clearly defined parenting strategy or strategy for dealing with my family.',
+        'I rarely experience anxiety with regard to my family.',
+        'I have provided my family with a fine example of how to live a fulfilling life.',
+        'I am very pleased with how my children are turning out, or grateful for the relationship I have with my parents.'
+      ],
+      8: [
+        'I have close, loving relationships with a few special people.',
+        'I have an active and rewarding connection with my community.',
+        'I consider myself to be a very good friend to others.',
+        'I pay close attention to the relationships that nourish me, versus the relationships that drain me.',
+        'I have friends I can always count on to be there for me.'
+      ],
+      9: [
+        'I know how to manage my money well.',
+        'I seldom experience financial stress.',
+        'I have clear, written financial goals.',
+        'I deeply understand the fundamentals of wealth creation.',
+        'I feel that I have a high level of financial security in my life.'
+      ],
+      10: [
+        'I have thought deeply about my career and know exactly what I want in this area of my life.',
+        'My career is very fulfilling to me — I love what I do.',
+        'My career challenges me and keeps me learning and growing.',
+        'I wake up each morning looking forward to my work.',
+        'I am very good at what I do.'
+      ],
+      11: [
+        'I feel that I am living my life to the fullest.',
+        'My home projects the feelings that are most important to me (peacefulness, sensuality, fun, etc.).',
+        'I have thought deeply about my quality of life and defined exactly what I want in this area.',
+        'I plan extraordinary experiences for myself on an ongoing basis (trips, events, memorable moments).',
+        'I am satisfied with the quality of my possessions (cars, furniture, artwork, or other things in my life).'
+      ],
+      12: [
+        'I have a strong sense of how I would like my life to unfold over the coming years.',
+        'I am dedicated to improving my life in every category.',
+        'I intend to invest in my own personal development in the coming years.',
+        'I currently have a plan in place for achieving my ideal life.',
+        'I can clearly define my single most important goal in life.'
+      ]
+    }
+  }
+};
+
+// Achsen im Uhrzeigersinn ab 12 Uhr (oben)
+const AXES = [
+  { idx: 0,  n:12 }, { idx: 1,  n:11 },
+  { idx: 2,  n: 2 }, { idx: 3,  n: 9 }, { idx: 4,  n:10 },
+  { idx: 5,  n: 6 }, { idx: 6,  n: 7 }, { idx: 7,  n: 8 },
+  { idx: 8,  n: 3 }, { idx: 9,  n: 4 }, { idx:10,  n: 5 },
+  { idx:11,  n: 1 },
+];
+const STEPS = ["definition", "highsLows", "strategy", "dreamFactory"];
+
+// =====================================================
+// STATE
+// =====================================================
+const STORAGE_KEY = "wheel-of-life-yoga-v2";
+const SNAPSHOT_KEY = "wheel-of-life-yoga-v2-snapshots";
+const SEEN_KEY = "wheel-of-life-yoga-v2-seen-intro";
+const LEGACY_KEY  = "wheel-of-life-v1";
+
+let state = {
+  scores: AXES.map(() => 5),
+  notes: {},
+  lang: "de",
+  date: null,
+  compareSnapshot: null
+};
+
+function ensureNotes(n) {
+  if (!state.notes[n]) {
+    state.notes[n] = {
+      definition: "",
+      highsLows: "",
+      dreamFactory: "",
+      strategy: "",
+      done: { definition: false, highsLows: false, dreamFactory: false, strategy: false },
+      statementScores: [5,5,5,5,5]
+    };
+  }
+  if (!state.notes[n].statementScores) {
+    state.notes[n].statementScores = [5,5,5,5,5];
+  }
+  if (!state.notes[n].done) {
+    state.notes[n].done = { definition: false, highsLows: false, dreamFactory: false, strategy: false };
+  }
+  return state.notes[n];
+}
+
+function loadFromStorage() {
+  try {
+    let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      const browserLang = (navigator.language || "de").toLowerCase();
+      state.lang = browserLang.startsWith("en") ? "en" : "de";
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed.scores) && parsed.scores.length === 12) {
+      state.scores = parsed.scores.map(s => Math.max(1, Math.min(10, Number(s) || 5)));
+    }
+    if (parsed.notes && typeof parsed.notes === "object") {
+      state.notes = parsed.notes;
+    }
+    if (parsed.lang === "de" || parsed.lang === "en") {
+      state.lang = parsed.lang;
+    }
+    if (parsed.date) state.date = new Date(parsed.date);
+  } catch (e) { /* ignore */ }
+}
+
+function saveAll(silent) {
+  state.date = new Date();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    scores: state.scores,
+    notes: state.notes,
+    lang: state.lang,
+    date: state.date.toISOString()
+  }));
+  updateLastUpdateLabel();
+  if (!silent) flashSaved();
+}
+
+function resetAll() {
+  if (!confirm(t("confirmReset"))) return;
+  state.scores = AXES.map(() => 5);
+  state.date = null;
+  saveAll(true);
+  document.querySelectorAll('input[type="range"][data-idx]').forEach((inp) => {
+    inp.value = 5;
+    updateSliderFill(inp);
+    inp.parentElement.querySelector(".slider-value").textContent = "5";
+  });
+  renderWheel();
+  renderMeter();
+  updateLastUpdateLabel();
+}
+
+// =====================================================
+// SNAPSHOTS
+// =====================================================
+function loadSnapshots() {
+  try {
+    return JSON.parse(localStorage.getItem(SNAPSHOT_KEY) || "[]");
+  } catch (e) { return []; }
+}
+function persistSnapshots(arr) {
+  localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(arr));
+}
+function saveSnapshot() {
+  const snapshots = loadSnapshots();
+  snapshots.push({
+    date: new Date().toISOString(),
+    scores: [...state.scores]
+  });
+  if (snapshots.length > 12) snapshots.shift();
+  persistSnapshots(snapshots);
+  renderSnapshotList();
+}
+function renderSnapshotList() {
+  const dict = I18N[state.lang] || I18N.de;
+  const snapshots = loadSnapshots();
+  const list = document.getElementById("snapshot-list");
+  if (!list) return;
+  if (snapshots.length === 0) {
+    list.innerHTML = '<div class="snapshot-empty">' + escapeHtml(dict.snapshotEmpty) + '</div>';
+    return;
+  }
+  const recent = snapshots.slice(-5).reverse();
+  list.innerHTML = recent.map(s => {
+    const d = new Date(s.date);
+    const locale = state.lang === "en" ? "en-GB" : "de-DE";
+    const dateStr = d.toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "2-digit" });
+    const isCmp = state.compareSnapshot === s.date;
+    const avg = (s.scores.reduce((x,y)=>x+y,0) / s.scores.length).toFixed(1);
+    return '<button class="snapshot-btn ' + (isCmp ? 'active' : '') + '" data-date="' + escapeAttr(s.date) + '">' +
+      escapeHtml(dateStr) + ' <span class="snap-avg">⌀ ' + avg + '</span></button>';
+  }).join("");
+  list.querySelectorAll(".snapshot-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const date = btn.dataset.date;
+      state.compareSnapshot = (state.compareSnapshot === date) ? null : date;
+      renderSnapshotList();
+      renderWheel();
+    });
+  });
+}
+function getCompareScores() {
+  if (!state.compareSnapshot) return null;
+  const snapshots = loadSnapshots();
+  const snap = snapshots.find(s => s.date === state.compareSnapshot);
+  return snap ? snap.scores : null;
+}
+
+// =====================================================
+// I18N HELPERS
+// =====================================================
+function t(key) {
+  const dict = I18N[state.lang] || I18N.de;
+  return dict[key] != null ? dict[key] : key;
+}
+function applyLang() {
+  document.documentElement.lang = state.lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    el.textContent = t(key);
+  });
+  document.querySelectorAll(".lang-toggle button").forEach(b => {
+    b.setAttribute("aria-pressed", b.dataset.lang === state.lang ? "true" : "false");
+  });
+  rebuildSliders();
+  renderWheel();
+  renderMeter();
+  renderSnapshotList();
+  refreshDrawerLabels();
+  updateLastUpdateLabel();
+}
+function setLang(lang) {
+  if (lang !== "de" && lang !== "en") return;
+  state.lang = lang;
+  saveAll(true);
+  applyLang();
+}
+
+// =====================================================
+// WHEEL RENDER
+// =====================================================
+const WHEEL = { cx: 270, cy: 270, rMax: 200 };
+
+function angleRad(idx) { return (idx * 30 - 90) * Math.PI / 180; }
+function point(idx, r) {
+  const a = angleRad(idx);
+  return [WHEEL.cx + Math.cos(a) * r, WHEEL.cy + Math.sin(a) * r];
+}
+
+function renderWheel() {
+  const dict = I18N[state.lang] || I18N.de;
+  const svg = document.getElementById("wheel");
+  if (!svg) return;
+  svg.innerHTML = "";
+  const NS = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // Skala-Kreise
+  for (let i = 1; i <= 10; i++) {
+    el("circle", {
+      cx: WHEEL.cx, cy: WHEEL.cy, r: i * (WHEEL.rMax / 10),
+      class: "grid-circle" + (i === 5 || i === 10 ? " major" : "")
+    }, svg);
+  }
+  [2, 4, 6, 8, 10].forEach(n => {
+    el("text", {
+      x: WHEEL.cx + 4, y: WHEEL.cy - n * (WHEEL.rMax / 10) + 3,
+      class: "scale-num"
+    }, svg).textContent = n;
+  });
+
+  // Achsen-Linien (sichtbar)
+  AXES.forEach(a => {
+    const [x, y] = point(a.idx, WHEEL.rMax);
+    el("line", {
+      x1: WHEEL.cx, y1: WHEEL.cy, x2: x, y2: y, class: "axis-line"
+    }, svg);
+  });
+  // Hit-Areas
+  AXES.forEach(a => {
+    const [x, y] = point(a.idx, WHEEL.rMax);
+    const hit = el("line", {
+      x1: WHEEL.cx, y1: WHEEL.cy, x2: x, y2: y, class: "axis-hit"
+    }, svg);
+    hit.dataset.idx = a.idx;
+  });
+
+  // Compare-Polygon (Outline, falls Snapshot ausgewählt)
+  const compareScores = getCompareScores();
+  if (compareScores) {
+    const cmpPts = AXES.map((a, i) => point(a.idx, compareScores[i] * (WHEEL.rMax / 10)));
+    el("polygon", {
+      points: cmpPts.map(p => p.join(",")).join(" "),
+      class: "compare-polygon"
+    }, svg);
+  }
+
+  // IST-Polygon
+  const pts = AXES.map((a, i) => point(a.idx, state.scores[i] * (WHEEL.rMax / 10)));
+  el("polygon", {
+    points: pts.map(p => p.join(",")).join(" "),
+    class: "ist-polygon"
+  }, svg);
+
+  // IST-Punkte
+  AXES.forEach((a, i) => {
+    const [x, y] = pts[i];
+    const c = el("circle", {
+      cx: x, cy: y, r: 5, class: "ist-point"
+    }, svg);
+    c.dataset.idx = i;
+    const ttl = el("title", {}, c);
+    ttl.textContent = dict.cat[a.n] + " · " + state.scores[i] + "/10";
+  });
+
+  // Labels
+  AXES.forEach(a => {
+    const [x, y] = point(a.idx, WHEEL.rMax + 30);
+    const txt = el("text", {
+      x, y, class: "axis-label",
+      "text-anchor": "middle", "dominant-baseline": "middle"
+    }, svg);
+    txt.dataset.n = a.n;
+    txt.textContent = dict.catShort[a.n];
+  });
+}
+
+function renderMeter() {
+  const dict = I18N[state.lang] || I18N.de;
+  const avg = (state.scores.reduce((s,n)=>s+n, 0) / state.scores.length).toFixed(1);
+  const min = Math.min(...state.scores);
+  const max = Math.max(...state.scores);
+  const weakestIdx = state.scores.indexOf(min);
+  document.getElementById("avg-score").textContent = avg;
+  document.getElementById("spread").textContent = max - min;
+  document.getElementById("weakest").textContent = min;
+  document.getElementById("weakest-name").textContent = dict.cat[AXES[weakestIdx].n];
+}
+
+// =====================================================
+// SLIDERS (12 main)
+// =====================================================
+function rebuildSliders() {
+  const dict = I18N[state.lang] || I18N.de;
+  const container = document.getElementById("sliders");
+  container.innerHTML = "";
+  AXES.forEach((a, i) => {
+    const row = document.createElement("div");
+    row.className = "slider-row";
+    const notes = state.notes[a.n];
+    let progressDots = "";
+    if (notes) {
+      progressDots = '<span class="step-progress">' +
+        STEPS.map(s => '<span class="dot ' + (notes.done && notes.done[s] ? 'done' : '') + '"></span>').join("") +
+        '</span>';
+    } else {
+      progressDots = '<span class="step-progress">' +
+        STEPS.map(() => '<span class="dot"></span>').join("") +
+        '</span>';
+    }
+    row.innerHTML =
+      '<span class="slider-label" data-n="' + a.n + '">' +
+        '<span class="slider-num">' + String(a.n).padStart(2,'0') + '</span>' + escapeHtml(dict.cat[a.n]) +
+        progressDots +
+        '<span class="arrow">›</span>' +
+      '</span>' +
+      '<span class="slider-value">' + state.scores[i] + '</span>' +
+      '<input type="range" min="1" max="10" step="1" value="' + state.scores[i] + '" data-idx="' + i + '">';
+    container.appendChild(row);
+    const inp = row.querySelector("input");
+    updateSliderFill(inp);
+    inp.addEventListener("input", () => {
+      state.scores[i] = Number(inp.value);
+      row.querySelector(".slider-value").textContent = inp.value;
+      updateSliderFill(inp);
+      renderWheel();
+      renderMeter();
+    });
+    row.querySelector(".slider-label").addEventListener("click", () => {
+      openDrawer(a.n);
+    });
+  });
+}
+function updateSliderFill(inp) {
+  const v = Number(inp.value);
+  const pct = ((v - 1) / 9) * 100;
+  inp.style.setProperty("--fill", pct + "%");
+}
+
+// =====================================================
+// DRAG-AUF-WHEEL
+// =====================================================
+let pointerDown = null;
+const DRAG_THRESHOLD = 5;
+
+function clientToSVG(clientX, clientY) {
+  const svg = document.getElementById("wheel");
+  const pt = svg.createSVGPoint();
+  pt.x = clientX; pt.y = clientY;
+  const ctm = svg.getScreenCTM();
+  if (!ctm) return { x: clientX, y: clientY };
+  return pt.matrixTransform(ctm.inverse());
+}
+
+function projectToScore(idx, svgX, svgY) {
+  const a = angleRad(idx);
+  const dx = Math.cos(a), dy = Math.sin(a);
+  const proj = (svgX - WHEEL.cx) * dx + (svgY - WHEEL.cy) * dy;
+  let score = Math.round(proj / (WHEEL.rMax / 10));
+  return Math.max(1, Math.min(10, score));
+}
+
+function setScore(i, score) {
+  if (state.scores[i] === score) return;
+  state.scores[i] = score;
+  const inp = document.querySelector('input[data-idx="' + i + '"]');
+  if (inp) {
+    inp.value = score;
+    updateSliderFill(inp);
+    inp.parentElement.querySelector(".slider-value").textContent = score;
+  }
+  renderWheel();
+  renderMeter();
+}
+
+function setupWheelDrag() {
+  const svg = document.getElementById("wheel");
+  svg.addEventListener("pointerdown", e => {
+    let idx = null;
+    if (e.target.classList.contains("ist-point")) {
+      idx = Number(e.target.dataset.idx);
+    } else if (e.target.classList.contains("axis-hit")) {
+      idx = Number(e.target.dataset.idx);
+    } else if (e.target.classList.contains("axis-label")) {
+      pointerDown = { idx: null, n: Number(e.target.dataset.n), x: e.clientX, y: e.clientY, dragging: false, label: true };
+      return;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    pointerDown = { idx, x: e.clientX, y: e.clientY, dragging: false };
+    if (e.target.classList.contains("ist-point")) {
+      e.target.classList.add("dragging");
+    }
+    try { svg.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  svg.addEventListener("pointermove", e => {
+    if (!pointerDown || pointerDown.idx === null) return;
+    const dx = e.clientX - pointerDown.x;
+    const dy = e.clientY - pointerDown.y;
+    if (!pointerDown.dragging && Math.hypot(dx, dy) > DRAG_THRESHOLD) {
+      pointerDown.dragging = true;
+    }
+    if (pointerDown.dragging) {
+      const p = clientToSVG(e.clientX, e.clientY);
+      const score = projectToScore(pointerDown.idx, p.x, p.y);
+      setScore(pointerDown.idx, score);
+    }
+  });
+  svg.addEventListener("pointerup", e => {
+    if (!pointerDown) return;
+    if (pointerDown.label && !pointerDown.dragging) {
+      openDrawer(pointerDown.n);
+    } else if (!pointerDown.dragging && pointerDown.idx !== null) {
+      const a = AXES[pointerDown.idx];
+      openDrawer(a.n);
+    }
+    document.querySelectorAll(".ist-point.dragging").forEach(c => c.classList.remove("dragging"));
+    pointerDown = null;
+  });
+  svg.addEventListener("pointercancel", () => {
+    document.querySelectorAll(".ist-point.dragging").forEach(c => c.classList.remove("dragging"));
+    pointerDown = null;
+  });
+}
+
+// =====================================================
+// DRAWER + STATEMENTS + NAV
+// =====================================================
+let drawerN = null;
+
+function openDrawer(n) {
+  drawerN = n;
+  ensureNotes(n);
+  refreshDrawerLabels();
+  document.getElementById("drawer").classList.add("open");
+  document.getElementById("backdrop").classList.add("open");
+  document.getElementById("drawer").setAttribute("aria-hidden", "false");
+  // Scroll drawer body to top
+  setTimeout(() => {
+    const body = document.querySelector("#drawer .drawer-body");
+    if (body) body.scrollTop = 0;
+  }, 50);
+}
+function closeDrawer() {
+  document.getElementById("drawer").classList.remove("open");
+  document.getElementById("backdrop").classList.remove("open");
+  document.getElementById("drawer").setAttribute("aria-hidden", "true");
+  drawerN = null;
+}
+function navDrawer(dir) {
+  if (drawerN === null) return;
+  const idx = AXES.findIndex(a => a.n === drawerN);
+  if (idx < 0) return;
+  const newIdx = (idx + dir + 12) % 12;
+  openDrawer(AXES[newIdx].n);
+}
+function refreshDrawerLabels() {
+  const dict = I18N[state.lang] || I18N.de;
+  if (drawerN === null) return;
+  const idx = AXES.findIndex(a => a.n === drawerN);
+  document.getElementById("drawer-title").textContent = dict.cat[drawerN];
+  document.getElementById("drawer-score").textContent = (idx >= 0 ? state.scores[idx] : "—") + "/10";
+  const notes = ensureNotes(drawerN);
+  STEPS.forEach(step => {
+    const ta = document.querySelector('textarea[data-step-text="' + step + '"]');
+    const cb = document.querySelector('input[data-step-check="' + step + '"]');
+    if (ta) ta.value = notes[step] || "";
+    if (cb) cb.checked = !!(notes.done && notes.done[step]);
+    const wrap = document.querySelector('.step[data-step="' + step + '"]');
+    if (wrap) wrap.classList.toggle("done", !!(notes.done && notes.done[step]));
+  });
+  renderStatements(drawerN);
+}
+function renderStatements(n) {
+  const dict = I18N[state.lang] || I18N.de;
+  const stmts = (dict.statements && dict.statements[n]) || [];
+  const list = document.getElementById("statements-list");
+  if (!list) return;
+  const notes = ensureNotes(n);
+  list.innerHTML = stmts.map((stmt, i) => {
+    const v = notes.statementScores[i] || 5;
+    return '<div class="statement-row">' +
+      '<div class="statement-text">' + escapeHtml(stmt) + '</div>' +
+      '<div class="statement-slider-row">' +
+        '<input type="range" min="1" max="10" step="1" value="' + v + '" data-stmt="' + i + '">' +
+        '<span class="statement-value">' + v + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join("");
+  list.querySelectorAll('input[data-stmt]').forEach(inp => {
+    updateStatementFill(inp);
+    inp.addEventListener("input", () => {
+      const i = Number(inp.dataset.stmt);
+      const v = Number(inp.value);
+      const notes = ensureNotes(drawerN);
+      notes.statementScores[i] = v;
+      inp.parentElement.querySelector(".statement-value").textContent = v;
+      updateStatementFill(inp);
+      updateStatementsAvg();
+    });
+    inp.addEventListener("change", () => saveAll(true));
+  });
+  updateStatementsAvg();
+}
+function updateStatementFill(inp) {
+  const v = Number(inp.value);
+  const pct = ((v - 1) / 9) * 100;
+  inp.style.setProperty("--fill", pct + "%");
+}
+function updateStatementsAvg() {
+  if (drawerN === null) return;
+  const notes = ensureNotes(drawerN);
+  const avg = notes.statementScores.reduce((a,b) => a+b, 0) / notes.statementScores.length;
+  const elAvg = document.getElementById("statements-avg");
+  if (elAvg) elAvg.textContent = avg.toFixed(1);
+}
+function applyStatementsAvg() {
+  if (drawerN === null) return;
+  const notes = ensureNotes(drawerN);
+  const avg = notes.statementScores.reduce((a,b) => a+b, 0) / notes.statementScores.length;
+  const score = Math.max(1, Math.min(10, Math.round(avg)));
+  const idx = AXES.findIndex(a => a.n === drawerN);
+  if (idx < 0) return;
+  setScore(idx, score);
+  refreshDrawerLabels();
+  saveAll(true);
+}
+
+function setupDrawerHandlers() {
+  document.querySelectorAll('textarea[data-step-text]').forEach(ta => {
+    ta.addEventListener("input", () => {
+      if (drawerN === null) return;
+      const step = ta.dataset.stepText;
+      const notes = ensureNotes(drawerN);
+      notes[step] = ta.value;
+    });
+    ta.addEventListener("blur", () => {
+      saveAll(true);
+      rebuildSliders();
+    });
+  });
+  document.querySelectorAll('input[data-step-check]').forEach(cb => {
+    cb.addEventListener("change", () => {
+      if (drawerN === null) return;
+      const step = cb.dataset.stepCheck;
+      const notes = ensureNotes(drawerN);
+      if (!notes.done) notes.done = {};
+      notes.done[step] = cb.checked;
+      const wrap = document.querySelector('.step[data-step="' + step + '"]');
+      if (wrap) wrap.classList.toggle("done", cb.checked);
+      saveAll(true);
+      rebuildSliders();
+    });
+  });
+  document.getElementById("btn-close-drawer").addEventListener("click", closeDrawer);
+  document.getElementById("btn-drawer-prev").addEventListener("click", () => navDrawer(-1));
+  document.getElementById("btn-drawer-next").addEventListener("click", () => navDrawer(1));
+  document.getElementById("backdrop").addEventListener("click", closeDrawer);
+  document.getElementById("btn-apply-statements").addEventListener("click", applyStatementsAvg);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (drawerN !== null) closeDrawer();
+      const splash = document.getElementById("splash");
+      if (splash.classList.contains("open")) closeSplash();
+    }
+  });
+}
+
+// =====================================================
+// SPLASH MODAL
+// =====================================================
+function maybeShowSplash() {
+  if (!localStorage.getItem(SEEN_KEY)) {
+    document.getElementById("splash").classList.add("open");
+  }
+}
+function showSplash() {
+  document.getElementById("splash").classList.add("open");
+}
+function closeSplash() {
+  localStorage.setItem(SEEN_KEY, "true");
+  document.getElementById("splash").classList.remove("open");
+}
+
+// =====================================================
+// PRINT-OUTPUT BUILDER
+// =====================================================
+function buildPrintOutput() {
+  const dict = I18N[state.lang] || I18N.de;
+  const out = document.getElementById("print-output");
+  if (!out) return;
+
+  const stepsOrder = [
+    { key: "definition",   titleKey: "step1Title", elementKey: "elementErde" },
+    { key: "highsLows",    titleKey: "step2Title", elementKey: "elementWasser" },
+    { key: "strategy",     titleKey: "step3Title", elementKey: "elementFeuer" },
+    { key: "dreamFactory", titleKey: "step4Title", elementKey: "elementLuft" }
+  ];
+
+  const dateStr = new Date().toLocaleDateString(state.lang === "en" ? "en-GB" : "de-DE");
+
+  // Cover page
+  let html = '<div class="print-page">';
+  html += '<h1 class="print-h1">' + escapeHtml(t("h1")) + '</h1>';
+  html += '<p class="print-meta">' + escapeHtml(t("eyebrow")) + ' · ' + escapeHtml(dateStr) + '</p>';
+  html += '<div class="print-wheel-area">' + document.getElementById("wheel").outerHTML + '</div>';
+  html += '<table class="print-table"><thead><tr><th>#</th><th>' + escapeHtml(state.lang === "en" ? "Category" : "Bereich") + '</th><th>Score</th></tr></thead><tbody>';
+  AXES.forEach((a, i) => {
+    html += '<tr><td>' + a.n + '</td><td>' + escapeHtml(dict.cat[a.n]) + '</td><td>' + state.scores[i] + '/10</td></tr>';
+  });
+  html += '</tbody></table></div>';
+
+  // Per-category pages
+  AXES.forEach((a, i) => {
+    const notes = state.notes[a.n] || {};
+    html += '<div class="print-page">';
+    html += '<h2 class="print-cat-title">' + a.n + ' · ' + escapeHtml(dict.cat[a.n]) + '</h2>';
+    html += '<p class="print-cat-score">Score: <strong>' + state.scores[i] + '/10</strong></p>';
+    stepsOrder.forEach(step => {
+      const text = (notes[step.key] || "").trim();
+      const done = (notes.done && notes.done[step.key]) || false;
+      const elementLabel = t(step.elementKey);
+      html += '<div class="print-step">';
+      html += '<h3>' + (done ? '✓ ' : '') + escapeHtml(t(step.titleKey)) + ' <span class="print-element">· ' + escapeHtml(elementLabel) + '</span></h3>';
+      html += '<div class="print-text">' + (text ? escapeHtml(text).replace(/\n/g, '<br>') : '<i>—</i>') + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+
+  out.innerHTML = html;
+}
+
+function printWheel() {
+  buildPrintOutput();
+  setTimeout(() => window.print(), 50);
+}
+
+// =====================================================
+// HELPERS
+// =====================================================
+function escapeHtml(str) {
+  return String(str == null ? "" : str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
+// =====================================================
+// CHROME (lang, save, reset, print, help, snapshot)
+// =====================================================
+function setupChrome() {
+  document.querySelectorAll(".lang-toggle button").forEach(b => {
+    b.addEventListener("click", () => setLang(b.dataset.lang));
+  });
+  document.getElementById("btn-save").addEventListener("click", () => saveAll(false));
+  document.getElementById("btn-reset").addEventListener("click", resetAll);
+  document.getElementById("btn-print").addEventListener("click", printWheel);
+  document.getElementById("btn-help").addEventListener("click", showSplash);
+  document.getElementById("btn-splash-close").addEventListener("click", closeSplash);
+  document.getElementById("btn-snapshot-save").addEventListener("click", () => {
+    saveSnapshot();
+    flashSnapshotSaved();
+  });
+}
+
+function flashSnapshotSaved() {
+  const btn = document.getElementById("btn-snapshot-save");
+  const orig = btn.textContent;
+  btn.textContent = "✓";
+  setTimeout(() => { btn.textContent = orig; }, 1200);
+}
+
+function updateLastUpdateLabel() {
+  const el = document.getElementById("last-update");
+  if (!state.date) { el.textContent = t("notSaved"); return; }
+  const d = state.date instanceof Date ? state.date : new Date(state.date);
+  const locale = state.lang === "en" ? "en-GB" : "de-DE";
+  el.textContent = t("saved") + d.toLocaleDateString(locale) + " " +
+    d.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
+}
+function flashSaved() {
+  const btn = document.getElementById("btn-save");
+  const orig = t("save");
+  btn.textContent = t("savedFlash");
+  setTimeout(() => { btn.textContent = orig; }, 1400);
+}
+
+// =====================================================
+// INIT
+// =====================================================
+loadFromStorage();
+applyLang();
+setupChrome();
+setupWheelDrag();
+setupDrawerHandlers();
+maybeShowSplash();
+</script>
+
+</body>
+</html>
