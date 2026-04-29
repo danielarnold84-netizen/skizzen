@@ -551,6 +551,13 @@
     font-size: 0.92rem; line-height: 1.6; color: var(--text-primary);
     margin-bottom: 12px;
   }
+  .splash-card p.splash-quote {
+    font-style: italic; color: var(--text-secondary);
+    font-size: 1.05rem; margin-bottom: 4px;
+  }
+  .splash-card p.splash-sub {
+    font-weight: 500; margin-bottom: 16px;
+  }
   .splash-card p.muted {
     color: var(--text-secondary); font-size: 0.85rem;
   }
@@ -634,7 +641,8 @@
       </div>
     </div>
     <h2 data-i18n="splashTitle"></h2>
-    <p data-i18n="splashIntro1"></p>
+    <p class="splash-quote" data-i18n="splashQuote"></p>
+    <p class="splash-sub" data-i18n="splashSub"></p>
     <p class="muted" data-i18n="splashIntro2"></p>
     <div class="splash-actions">
       <button class="action primary" id="btn-splash-close" data-i18n="splashAcknowledge"></button>
@@ -841,8 +849,9 @@ const I18N = {
     deepDive: 'Tiefen-Session buchen →',
     deepDiveSub: 'Du willst tiefer einsteigen? In einer geführten LifeBook-Session führe ich dich durch den 4-Schritte-Prozess für einen Bereich deiner Wahl — Definition, Erinnerung, Strategie, Vision.',
     splashEyebrow: 'Willkommen',
-    splashTitle: 'Wheel of Life',
-    splashIntro1: 'Mit etwas Abstand sieht man mehr. Nimm dir die Zeit für 12 Bereiche, einen Augenblick — und erkenne, wo du wirklich stehst.',
+    splashTitle: 'Wheel of Life Quick Check',
+    splashQuote: 'Mit etwas Abstand sieht man mehr.',
+    splashSub: 'Nimm dir einen Augenblick Zeit für dein Leben.',
     splashIntro2: 'Du gehörst zu den Ersten, die dieses Tool testen. Es ist noch ein Entwurf — über dein ehrliches Feedback freue ich mich. Deine Daten bleiben in deinem Browser, nichts wird gesendet.',
     splashAcknowledge: 'Verstanden — los geht\'s',
     cat: {
@@ -997,8 +1006,9 @@ const I18N = {
     deepDive: 'Take a Deep Dive →',
     deepDiveSub: 'Want to go deeper? In a guided LifeBook session, I walk you through the 4-step process for one area of your choice — Definition, Memory, Strategy, Vision.',
     splashEyebrow: 'Welcome',
-    splashTitle: 'Wheel of Life',
-    splashIntro1: 'From a step back, you see more. Take your time for 12 areas, one snapshot — and notice where you really stand.',
+    splashTitle: 'Wheel of Life Quick Check',
+    splashQuote: 'From a step back, you see more.',
+    splashSub: 'Take a moment for your life.',
     splashIntro2: "You're among the first to test this tool. It's still a draft — your honest feedback would mean a lot. Your data stays in your browser, nothing is sent.",
     splashAcknowledge: "Got it — let's start",
     cat: {
