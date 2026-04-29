@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wheel of Life · Arnold Coaching</title>
-<meta name="description" content="Eine ehrliche Standortbestimmung in 12 Lebensbereichen. 1 Wheel, 1 Augenblick, dein eigener Stand.">
-<meta property="og:title" content="Wheel of Life · Arnold Coaching">
-<meta property="og:description" content="Eine ehrliche Standortbestimmung in 12 Lebensbereichen. 1 Wheel, 1 Augenblick, dein eigener Stand.">
+<title>LifeBook Quick Check · Wheel of Life · Arnold Coaching</title>
+<meta name="description" content="LifeBook Quick Check: Mit etwas Abstand sieht man mehr. 12 Lebensbereiche, ein Augenblick — dein Standort, nicht dein Soll.">
+<meta property="og:title" content="LifeBook Quick Check · Wheel of Life · Arnold Coaching">
+<meta property="og:description" content="LifeBook Quick Check: Mit etwas Abstand sieht man mehr. 12 Lebensbereiche, ein Augenblick — dein Standort, nicht dein Soll.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://skizzen.arnoldcoaching.de/wheel/">
 <meta property="og:locale" content="de_DE">
 <meta property="og:locale:alternate" content="en_US">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Wheel of Life · Arnold Coaching">
-<meta name="twitter:description" content="Eine ehrliche Standortbestimmung in 12 Lebensbereichen.">
+<meta name="twitter:title" content="LifeBook Quick Check · Wheel of Life · Arnold Coaching">
+<meta name="twitter:description" content="LifeBook Quick Check: 12 Lebensbereiche, ein Augenblick — dein Standort, nicht dein Soll.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -307,21 +307,28 @@
     display: flex; gap: 12px; flex-wrap: wrap;
     margin-top: 20px; align-items: center;
   }
-  button.action {
+  button.action, a.action {
+    display: inline-flex; align-items: center; gap: 6px;
     font-family: var(--ff-body); font-weight: 500; font-size: 0.85rem;
     padding: 10px 18px; border-radius: 999px; cursor: pointer;
     border: 1px solid var(--border); background: var(--bg-white);
     color: var(--text-primary); transition: all 0.15s;
+    text-decoration: none;
   }
-  button.action:hover { background: var(--primary-light); border-color: var(--primary); }
-  button.action.primary {
+  button.action:hover, a.action:hover { background: var(--primary-light); border-color: var(--primary); }
+  button.action.primary, a.action.primary {
     background: var(--primary); border-color: var(--primary); color: var(--text-primary);
     font-weight: 600;
   }
-  button.action.primary:hover { background: var(--primary-hover); }
-  button.action.small {
+  button.action.primary:hover, a.action.primary:hover { background: var(--primary-hover); }
+  button.action.small, a.action.small {
     padding: 6px 12px; font-size: 0.78rem;
   }
+  a.action.cta {
+    background: var(--bg-dark); border-color: var(--bg-dark); color: var(--bg-white);
+    font-weight: 600;
+  }
+  a.action.cta:hover { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-white); }
   .last-update {
     font-size: 0.78rem; color: var(--text-light); margin-left: auto;
   }
@@ -697,8 +704,10 @@
         <button class="action primary" id="btn-save" data-i18n="save"></button>
         <button class="action" id="btn-print" data-i18n="print"></button>
         <button class="action" id="btn-reset" data-i18n="reset"></button>
+        <a class="action cta" id="cta-deep-dive" href="#" target="_blank" rel="noopener" data-i18n="deepDive"></a>
         <span class="last-update" id="last-update"></span>
       </div>
+      <p class="muted" style="margin-top:14px; font-size:0.82rem; color:var(--text-secondary); line-height:1.5;" data-i18n="deepDiveSub"></p>
     </section>
 
   </div>
@@ -744,7 +753,6 @@
       <label class="step-header">
         <input type="checkbox" data-step-check="definition">
         <span class="step-title" data-i18n="step1Title"></span>
-        <span class="step-element step-element-erde" data-i18n="elementErde"></span>
       </label>
       <p class="step-prompt" data-i18n="step1Prompt"></p>
       <textarea data-step-text="definition" rows="4" placeholder=""></textarea>
@@ -754,7 +762,6 @@
       <label class="step-header">
         <input type="checkbox" data-step-check="highsLows">
         <span class="step-title" data-i18n="step2Title"></span>
-        <span class="step-element step-element-wasser" data-i18n="elementWasser"></span>
       </label>
       <p class="step-prompt" data-i18n="step2Prompt"></p>
       <textarea data-step-text="highsLows" rows="4" placeholder=""></textarea>
@@ -764,7 +771,6 @@
       <label class="step-header">
         <input type="checkbox" data-step-check="strategy">
         <span class="step-title" data-i18n="step3Title"></span>
-        <span class="step-element step-element-feuer" data-i18n="elementFeuer"></span>
       </label>
       <p class="step-prompt" data-i18n="step3Prompt"></p>
       <textarea data-step-text="strategy" rows="4" placeholder=""></textarea>
@@ -774,7 +780,6 @@
       <label class="step-header">
         <input type="checkbox" data-step-check="dreamFactory">
         <span class="step-title" data-i18n="step4Title"></span>
-        <span class="step-element step-element-luft" data-i18n="elementLuft"></span>
       </label>
       <p class="step-prompt" data-i18n="step4Prompt"></p>
       <textarea data-step-text="dreamFactory" rows="4" placeholder=""></textarea>
@@ -791,9 +796,9 @@
 // =====================================================
 const I18N = {
   de: {
-    eyebrow: 'Arnold Coaching · Standortbestimmung · v2 Yoga-Sequenz',
+    eyebrow: 'Arnold Coaching · LifeBook Quick Check',
     h1: 'Wheel of Life',
-    lead: '12 Lebensbereiche, ein Augenblick. Bewerte jeden Bereich von 1 (unzufrieden) bis 10 (sehr zufrieden) — das Polygon zeigt deine Balance.',
+    lead: 'Mit etwas Abstand sieht man mehr. 12 Bereiche, ein Augenblick — dein Standort, nicht dein Soll. Das Polygon zeigt deine Balance.',
     drag: 'Tipp: Punkte im Wheel direkt <strong>ziehen</strong> · <strong>Klick</strong> auf Label öffnet die Tiefen-Bearbeitung',
     slidersTitle: 'Bewertung',
     slidersSub: 'Schiebe jeden Regler dort hin, wo du heute stehst — nicht wo du sein möchtest. Klick auf den Namen öffnet die 4-Schritte-Bearbeitung.',
@@ -818,32 +823,34 @@ const I18N = {
     step2Title: 'Höhen und Tiefen',
     step2Prompt: 'Eine reflektierende Schreibübung. Nimm ein leeres Blatt Papier und einen Stift. Schreibe mindestens 15 Minuten lang über konkrete Erfahrungen, positive und negative. Vermeide „weil"-Sätze. Schreibe einfach, woran du dich erinnerst.',
     step3Title: 'Strategie',
-    step3Prompt: 'Was kannst du jetzt tun, um deiner Vision näherzukommen? Könntest du etwas täglich tun? Könntest du etwas aufhören? Finde praktische Lösungen. Schreibe sie auf. — Mal-Test: Nur was du als Bild malen könntest, ist auch wirklich umsetzbar (Beispiel: „mehr Wasser trinken" → Teekanne + Tasse).',
+    step3Prompt: 'Was kannst du heute tun, um diesen Lebensbereich 10% besser zu gestalten? Etwas täglich tun? Etwas aufhören? Finde praktische Schritte. Schreibe sie auf. — Mal-Test: Nur was du als Bild malen könntest, ist auch wirklich umsetzbar (Beispiel: „mehr Wasser trinken" → Teekanne + Tasse).',
     step4Title: 'Traumfabrik',
     step4Prompt: 'Der anspruchsvollste Schritt — geht über das bisher Vorstellbare hinaus. Suche einen bequemen Ort, an dem du mindestens 20 Minuten ungestört bist. Entspanne dich und schließe die Augen. Erschaffe die perfekte Vision für dich in diesem Lebensbereich. Nur „Ja" ist erlaubt. Alles ist möglich. Was siehst du? Dann schreibe.',
     elementErde:   'Erde',
     elementWasser: 'Wasser',
     elementFeuer:  'Feuer',
     elementLuft:   'Luft',
-    statementsTitle: 'Selbst-Check · 5 Aussagen',
-    statementsSub: 'Bewerte jede Aussage von 1 (trifft gar nicht zu) bis 10 (trifft voll zu). Der Durchschnitt kann als Score für diesen Bereich übernommen werden.',
+    statementsTitle: 'Anregungen · 5 Aussagen',
+    statementsSub: 'Falls du keine klare Idee hast, was in diesem Bereich für dich zählt — diese Aussagen sind Anregungen, keine Maßstäbe. Den Score gibst du dir selbst. (1 = trifft gar nicht zu · 10 = trifft voll zu)',
     statementsAvg: 'Durchschnitt',
     statementsApply: 'Als Score übernehmen',
     snapshotTitle: 'Verlauf · Snapshots',
     snapshotSub: 'Speichere deinen aktuellen Stand. Klick auf einen früheren Snapshot, um ihn als gepunktetes Polygon im Wheel zu vergleichen.',
     snapshotSaveNow: '+ Aktuellen Stand sichern',
     snapshotEmpty: 'Noch keine Snapshots gespeichert.',
+    deepDive: 'Tiefen-Session buchen →',
+    deepDiveSub: 'Du willst tiefer einsteigen? In einer geführten LifeBook-Session führe ich dich durch den 4-Schritte-Prozess für einen Bereich deiner Wahl — Definition, Erinnerung, Strategie, Vision.',
     splashEyebrow: 'Willkommen',
     splashTitle: 'Wheel of Life',
-    splashIntro1: 'Du gehörst zu den ersten, die dieses Tool testen. Es ist noch ein Entwurf, der sich gerade weiterentwickelt — über dein ehrliches Feedback freue ich mich.',
-    splashIntro2: 'Nimm dir Zeit. Deine Daten bleiben in deinem Browser, nichts wird gesendet.',
+    splashIntro1: 'Mit etwas Abstand sieht man mehr. Nimm dir die Zeit für 12 Bereiche, einen Augenblick — und erkenne, wo du wirklich stehst.',
+    splashIntro2: 'Du gehörst zu den Ersten, die dieses Tool testen. Es ist noch ein Entwurf — über dein ehrliches Feedback freue ich mich. Deine Daten bleiben in deinem Browser, nichts wird gesendet.',
     splashAcknowledge: 'Verstanden — los geht\'s',
     cat: {
       1:  'Gesundheit & Fitness',
       2:  'Wissen & Skills',
       3:  'Emotionales Leben',
       4:  'Charakter',
-      5:  'Spiritualität',
+      5:  'Inneres Wachstum',
       6:  'Liebesbeziehung',
       7:  'Eltern sein',
       8:  'Community & Freunde',
@@ -854,100 +861,100 @@ const I18N = {
     },
     catShort: {
       1: '01 · Health', 2: '02 · Wissen', 3: '03 · Emotion', 4: '04 · Charakter',
-      5: '05 · Spirit', 6: '06 · Liebe', 7: '07 · Eltern', 8: '08 · Community',
+      5: '05 · Wachstum', 6: '06 · Liebe', 7: '07 · Eltern', 8: '08 · Community',
       9: '09 · Finanzen', 10: '10 · Karriere', 11: '11 · Qualität', 12: '12 · Vision'
     },
     statements: {
       1: [
-        'Ich bin sehr zufrieden damit, wie mein Körper aussieht.',
-        'Ich habe ein klar definiertes Trainingsprogramm und halte mich diszipliniert daran.',
-        'Ich ernähre mich ausgezeichnet und gesund.',
-        'Ich sehe und fühle mich jünger als mein tatsächliches Alter.',
-        'Ich werde tagsüber nicht müde.'
+        'Ich fühle mich morgens beim Aufstehen ausgeruht.',
+        'Ich habe Energie für die Dinge, die mir wichtig sind.',
+        'Mein Körper meldet sich rechtzeitig, wenn er etwas braucht — und ich höre hin.',
+        'Ich bewege mich regelmäßig auf eine Art, die mir guttut.',
+        'Ich esse so, dass ich mich danach gut fühle — nicht nur satt.'
       ],
       2: [
-        'Ich habe tief über mein intellektuelles Leben nachgedacht und weiß genau, was ich in diesem Bereich will.',
-        'Ich fühle mich intellektuell erfüllt.',
-        'Ich bin sehr selbstsicher in meinen intellektuellen Fähigkeiten.',
-        'Ich fordere mich jeden Tag intellektuell heraus.',
-        'Ich habe eine Strategie, um mich kontinuierlich weiterzubilden.'
+        'Ich lerne regelmäßig etwas Neues, das mich wirklich interessiert.',
+        'Ich erkenne, wenn ich an einer Grenze stehe — und weiß, was ich tun kann, um sie zu erweitern.',
+        'Wenn ich vor einem Thema stehe, das mich überfordert, finde ich einen Weg hinein.',
+        'Ich habe Quellen — Bücher, Menschen, Erfahrungen — aus denen ich regelmäßig schöpfe.',
+        'Ich kann jemandem etwas, das ich gut verstanden habe, in eigenen Worten erklären.'
       ],
       3: [
-        'Ich habe tief über meine Emotionen nachgedacht und weiß genau, was ich in diesem Bereich will.',
-        'Ich kann die Emotionen klar benennen, die mir am wichtigsten und wünschenswertesten sind.',
-        'Ich erlebe selten generalisierten Stress oder Angst.',
-        'Ich habe eine durchgehend positive Lebenseinstellung.',
-        'Ich bin die meiste Zeit freudig und glücklich.'
+        'Ich erkenne, was ich gerade fühle — auch wenn es unangenehm ist.',
+        'Ich kann unter Druck einen klaren Kopf behalten oder ihn schnell wiederfinden.',
+        'Ich habe Wege, mit Stress umzugehen, die für mich wirklich funktionieren.',
+        'Ich kann anderen sagen, wie es mir geht — ohne Maske, ohne Drama.',
+        'Wenn etwas schwer ist, lasse ich es zu, ohne mich darin zu verlieren.'
       ],
       4: [
-        'Ich habe einen hohen Grad an Integrität zwischen dem, was ich denke, sage und tue.',
-        'Ich suche aktiv nach neuen Ideen und Strategien für ein besseres Leben.',
-        'Ich vertraue auf meine Fähigkeiten, mit den Herausforderungen des Lebens umzugehen.',
-        'Ich glaube daran, Dinge in meinem Leben aktiv zu gestalten, statt sie geschehen zu lassen.',
-        'Ich habe ein klares Gefühl dafür, wer ich bin und wofür ich stehe.'
+        'Was ich sage und was ich tue, passt zusammen.',
+        'Ich halte Zusagen — auch die, die ich mir selbst gebe.',
+        'Wenn ich einen Fehler gemacht habe, stehe ich dazu.',
+        'Ich kenne meine Werte und kann sie benennen, ohne lange nachzudenken.',
+        'Wenn etwas wichtig ist, sage ich es — auch wenn es unbequem ist.'
       ],
       5: [
-        'Ich kann mein Verständnis von innerem Wachstum klar definieren und ausdrücken.',
-        'Ich fühle mich als Mensch sehr erfüllt.',
-        'Ich akzeptiere alle Teile von mir, die guten und die schwierigen.',
-        'Ich lebe sehr bewusst und gebe allen Bereichen meines Lebens Aufmerksamkeit.',
-        'Ich trage zum Leben anderer bei und mache die Welt zu einem besseren Ort.'
+        'Ich nehme mir Zeit, in der ich nichts erreichen muss.',
+        'Es gibt Momente, in denen ich mit etwas Größerem als mir selbst verbunden bin.',
+        'Ich kann auch das Schwere im Leben annehmen, ohne dagegen zu kämpfen.',
+        'Ich fühle mich nicht zufällig hier — mein Leben hat für mich Bedeutung.',
+        'Ich habe eine Praxis (egal welcher Art), die mir Klarheit zurückgibt.'
       ],
       6: [
-        'Ich habe tief über diesen Lebensbereich nachgedacht und weiß genau, welche Beziehungen ich aufbauen möchte.',
-        'Ich bin glücklich in meinen Beziehungen.',
-        'Ich verstehe die Bedürfnisse meiner Partnerin / meines Partners.',
-        'Ich widme meiner Partnerin / meinem Partner regelmäßig wertvolle Zeit.',
-        'Ich bin dankbar, dass mein Partner / meine Partnerin in meinem Leben ist.'
+        'Ich habe in meinem Leben Menschen, mit denen ich offen über Schwieriges sprechen kann.',
+        'Ich weiß, was ich in einer Liebesbeziehung gebe und was ich brauche.',
+        'Wenn Distanz oder Streit entsteht, finde ich Wege zurück in Verbindung.',
+        'Ich nehme mir bewusst Zeit für Nähe — körperlich, emotional, im Alltag.',
+        'Ich fühle mich gesehen, so wie ich bin.'
       ],
       7: [
-        'Ich habe eine enge, liebevolle, gesunde Beziehung zu meiner Familie.',
-        'Ich habe eine bewusste, klar definierte Strategie für Erziehung bzw. den Umgang mit meiner Familie.',
-        'Ich erlebe selten Sorgen oder Anspannung in Bezug auf meine Familie.',
-        'Ich habe meiner Familie ein gutes Beispiel für ein erfülltes Leben gegeben.',
-        'Ich bin sehr zufrieden, wie sich meine Kinder als Menschen entwickeln, oder dankbar für die Beziehung zu meinen Eltern.'
+        'Ich bin im Kontakt mit meinen Kindern (oder Eltern) — in der Tiefe, nicht nur in der Logistik.',
+        'Ich kenne die Themen, die meine Kinder gerade beschäftigen — oder weiß, was meine Eltern bewegt.',
+        'Wenn etwas in der Familie zu klären ist, gehe ich es an, statt es liegen zu lassen.',
+        'Ich gebe weiter, was ich für richtig halte — durch das, was ich tue, nicht nur durch das, was ich sage.',
+        'Ich habe Frieden mit der Rolle, die ich in meiner Familie spiele.'
       ],
       8: [
-        'Ich habe enge, liebevolle Beziehungen zu einigen besonderen Menschen.',
-        'Ich habe eine aktive und bereichernde Verbindung zu meiner Gemeinschaft.',
-        'Ich betrachte mich selbst als sehr guter Freund / gute Freundin für andere.',
-        'Ich achte sehr darauf, welche Beziehungen mich nähren und welche mich auslaugen.',
-        'Ich habe Freunde, auf die ich mich immer verlassen kann.'
+        'Ich habe Menschen in meinem Leben, die ich anrufen kann, wenn etwas wirklich brennt.',
+        'Ich gebe meinen Freunden Zeit — nicht nur, wenn ich etwas brauche.',
+        'Ich erkenne, welche Begegnungen mich nähren und welche mich auslaugen — und handle danach.',
+        'Ich gehöre zu Räumen — Vereinen, Gruppen, Nachbarschaften — in denen ich willkommen bin.',
+        'Wenn ein Freundschaftsfaden dünn wird, mache ich den ersten Schritt, ihn wieder zu stärken.'
       ],
       9: [
-        'Ich kann gut mit meinem Geld umgehen.',
-        'Ich erlebe selten finanziellen Stress.',
-        'Ich habe klare, schriftlich festgehaltene finanzielle Ziele.',
-        'Ich verstehe die Grundlagen der Vermögensbildung tief.',
-        'Ich fühle eine hohe finanzielle Sicherheit in meinem Leben.'
+        'Ich weiß, was im Monat reinkommt und was rausgeht — ohne lange zu rechnen.',
+        'Ich kann meine laufenden Verpflichtungen ohne Sorge bezahlen.',
+        'Ich habe einen Puffer für Unerwartetes, der mir Ruhe gibt.',
+        'Ich treffe finanzielle Entscheidungen aus Klarheit, nicht aus Angst.',
+        'Mein Umgang mit Geld passt zu dem, was mir im Leben wichtig ist.'
       ],
       10: [
-        'Ich habe tief über meine Karriere nachgedacht und weiß genau, was ich in diesem Bereich will.',
-        'Meine Arbeit erfüllt mich sehr — ich liebe, was ich tue.',
-        'Meine Arbeit fordert mich heraus und hält mich am Lernen und Wachsen.',
-        'Ich wache jeden Morgen auf und freue mich auf meine Arbeit.',
-        'Ich bin sehr gut in dem, was ich tue.'
+        'Was ich beruflich tue, hat für mich einen Sinn — über das Geld hinaus.',
+        'Ich nutze meine Stärken regelmäßig in meiner Arbeit.',
+        'Ich habe Menschen oder Aufgaben in meinem Berufsalltag, die mich wachsen lassen.',
+        'Wenn ich abends an den Tag zurückdenke, kann ich etwas benennen, das gut war.',
+        'Ich kann zwischen Arbeit und dem Rest meines Lebens trennen, wenn ich es brauche.'
       ],
       11: [
-        'Ich habe das Gefühl, dass ich mein Leben in vollem Umfang lebe.',
-        'Mein Zuhause strahlt die Gefühle aus, die mir am wichtigsten sind (Ruhe, Sinnlichkeit, Freude usw.).',
-        'Ich habe tief über meine Lebensqualität nachgedacht und definiert, was ich in diesem Bereich will.',
-        'Ich plane regelmäßig außergewöhnliche Erlebnisse für mich (Reisen, Events, besondere Momente).',
-        'Ich bin zufrieden mit der Qualität meiner Besitztümer (Auto, Möbel, Kunst oder anderen Dingen in meinem Leben).'
+        'Mein Zuhause ist ein Ort, an dem ich gerne bin.',
+        'Ich habe regelmäßig Erlebnisse, an die ich mich gerne erinnere.',
+        'Ich nehme mir Pausen — nicht erst, wenn ich am Limit bin.',
+        'Es gibt Dinge, die ich nicht aufschiebe, weil sie mich heute nähren.',
+        'Ich umgebe mich mit Dingen, die mir wirklich gefallen — wenig, aber stimmig.'
       ],
       12: [
-        'Ich habe eine starke Vorstellung davon, wie sich mein Leben in den kommenden Jahren entfalten soll.',
-        'Ich bin engagiert, mein Leben in jedem Bereich zu verbessern.',
-        'Ich habe vor, in den kommenden Jahren in meine eigene persönliche Entwicklung zu investieren.',
-        'Ich habe aktuell einen Plan, um mein ideales Leben zu erreichen.',
-        'Ich kann mein wichtigstes Lebensziel klar benennen.'
+        'Wenn mich jemand fragt, wohin mein Leben gehen soll, habe ich eine Antwort, die sich richtig anfühlt.',
+        'Was ich heute tue, zahlt auf etwas ein, das mir in fünf Jahren noch wichtig sein wird.',
+        'Ich treffe größere Entscheidungen mit Blick auf das, was ich wirklich will — nicht nur auf das, was gerade einfach ist.',
+        'Ich kann meine Richtung in einem Satz benennen, ohne lange zu suchen.',
+        'Ich erkenne, wenn ich von meinem Weg abkomme — und finde zurück.'
       ]
     }
   },
   en: {
-    eyebrow: 'Arnold Coaching · Standpoint Check · v2 Yoga Sequence',
+    eyebrow: 'Arnold Coaching · LifeBook Quick Check',
     h1: 'Wheel of Life',
-    lead: '12 life categories, one snapshot. Rate each from 1 (unsatisfied) to 10 (very satisfied) — the polygon shows your balance.',
+    lead: 'From a step back, you see more. 12 areas, one snapshot — where you stand, not where you should be. The polygon shows your balance.',
     drag: 'Tip: <strong>Drag</strong> the dots directly on the wheel · <strong>Click</strong> a label to open the deep dive',
     slidersTitle: 'Rating',
     slidersSub: 'Move each slider to where you stand today — not where you want to be. Click a category name to open the 4-step deep dive.',
@@ -972,25 +979,27 @@ const I18N = {
     step2Title: 'Highs and Lows',
     step2Prompt: 'A reflective writing exercise. Take a blank sheet of paper and a pen. Write about specific circumstances that you have experienced, both positive and negative, for at least 15 minutes. Avoid "because" statements. Just write what you remember.',
     step3Title: 'Strategy',
-    step3Prompt: 'What can you do right now to move closer to your vision? Could you do something daily? Could you stop doing something? Find practical solutions. Write them down. — Drawing test: Only what you could draw as a picture is truly actionable (example: "drink more water" → kettle + cup).',
+    step3Prompt: 'What can you do today to make this area of your life 10% better? Something daily? Something to stop? Find practical steps. Write them down. — Drawing test: Only what you could draw as a picture is truly actionable (example: "drink more water" → kettle + cup).',
     step4Title: 'Dream Factory',
     step4Prompt: 'The most challenging step — it reaches beyond what you can currently imagine. Find a comfortable place where you can be undisturbed for at least 20 minutes. Relax and close your eyes. Create the perfect vision for yourself in this area of your life. Only "yes" is allowed. Everything is possible. What do you see? Then write.',
     elementErde:   'Earth',
     elementWasser: 'Water',
     elementFeuer:  'Fire',
     elementLuft:   'Air',
-    statementsTitle: 'Self-Check · 5 Statements',
-    statementsSub: 'Rate each statement from 1 (not at all true) to 10 (completely true). The average can be applied as your score for this area.',
+    statementsTitle: 'Prompts · 5 Statements',
+    statementsSub: "If you don't have a clear sense yet of what counts for you in this area — these statements are prompts, not standards. The score is yours. (1 = not at all true · 10 = completely true)",
     statementsAvg: 'Average',
     statementsApply: 'Apply as score',
     snapshotTitle: 'History · Snapshots',
     snapshotSub: 'Save your current state. Click an earlier snapshot to compare it as a dotted polygon on the wheel.',
     snapshotSaveNow: '+ Save current state',
     snapshotEmpty: 'No snapshots saved yet.',
+    deepDive: 'Take a Deep Dive →',
+    deepDiveSub: 'Want to go deeper? In a guided LifeBook session, I walk you through the 4-step process for one area of your choice — Definition, Memory, Strategy, Vision.',
     splashEyebrow: 'Welcome',
     splashTitle: 'Wheel of Life',
-    splashIntro1: "You're among the first to test this tool. It's still a draft, evolving — your honest feedback would mean a lot.",
-    splashIntro2: 'Take your time. Your data stays in your browser, nothing is sent.',
+    splashIntro1: 'From a step back, you see more. Take your time for 12 areas, one snapshot — and notice where you really stand.',
+    splashIntro2: "You're among the first to test this tool. It's still a draft — your honest feedback would mean a lot. Your data stays in your browser, nothing is sent.",
     splashAcknowledge: "Got it — let's start",
     cat: {
       1:  'Health & Fitness',
@@ -1013,88 +1022,88 @@ const I18N = {
     },
     statements: {
       1: [
-        'I am very happy with the way my body looks.',
-        'I have a clearly defined exercise program and I stick to it diligently.',
-        'I have an excellent, healthy diet.',
-        'I look and feel younger than my true age.',
-        "I don't get tired during the day."
+        'I wake up feeling rested in the morning.',
+        'I have the energy for the things that matter to me.',
+        'My body lets me know when it needs something — and I listen.',
+        'I move regularly in ways that do me good.',
+        'I eat in a way that leaves me feeling well — not just full.'
       ],
       2: [
-        'I have thought deeply about my intellectual life and know exactly what I want in this category.',
-        'I feel fulfilled intellectually.',
-        'I feel quite confident in my intellectual abilities.',
-        'I challenge myself intellectually every day.',
-        'I have a strategy in place to keep myself learning.'
+        'I regularly learn something new that genuinely interests me.',
+        'I notice when I hit a limit — and I know what to do to push past it.',
+        'When a topic overwhelms me, I find a way in.',
+        'I have sources — books, people, experiences — that I regularly draw from.',
+        "I can explain something I've understood well — in my own words."
       ],
       3: [
-        'I have thought deeply about my emotions and know exactly what I want in this area of my life.',
-        'I can clearly define the emotions that are most important and desirable to me.',
-        'I seldom experience generalized stress or anxiety.',
-        'I have a consistently great attitude towards life.',
-        'I am joyful and happy most of the time.'
+        "I notice what I'm feeling — even when it's uncomfortable.",
+        'I can keep a clear head under pressure, or find it again quickly.',
+        'I have ways of dealing with stress that actually work for me.',
+        "I can tell others how I'm doing — without a mask, without drama.",
+        'When something is hard, I let it be — without losing myself in it.'
       ],
       4: [
-        'I have a high level of integrity between what I think, say, and do.',
-        'I am actively looking for new ideas and strategies for living a better life.',
-        'I am confident in my abilities to cope with the challenges of life.',
-        'I believe in making things happen in my life, versus letting things happen.',
-        'I have a strong sense of who I am and what I am about.'
+        'What I say and what I do line up.',
+        'I keep promises — including the ones I make to myself.',
+        "When I've made a mistake, I own it.",
+        'I know my values and can name them without thinking long.',
+        "When something matters, I say it — even when it's uncomfortable."
       ],
       5: [
-        'I can define and articulate my understanding of inner growth clearly.',
-        'I feel very fulfilled as a human being.',
-        'I am accepting of all parts of myself, both the good and the bad.',
-        'I live very consciously and pay attention to all areas of my life.',
-        "I contribute to others' lives and make the world a better place."
+        "I make time during which I don't need to achieve anything.",
+        'There are moments when I feel connected to something larger than myself.',
+        'I can accept what is heavy in life without fighting it.',
+        "I don't feel I'm here by accident — my life has meaning for me.",
+        'I have a practice — whatever kind — that brings me back to clarity.'
       ],
       6: [
-        'I have thought deeply about this area of my life and know exactly what kind of relationships I want to build.',
-        'I am happy in my relationships.',
-        "I understand my partner's needs.",
-        'I regularly dedicate quality time to my partner.',
-        'I am grateful that my partner is in my life.'
+        'There are people in my life with whom I can talk openly about hard things.',
+        'I know what I give in a love relationship, and what I need.',
+        'When distance or conflict arises, I find ways back into connection.',
+        'I make conscious time for closeness — physically, emotionally, in daily life.',
+        'I feel seen, as I am.'
       ],
       7: [
-        'I have a close, loving, healthy relationship with my family.',
-        'I have a conscious, clearly defined parenting strategy or strategy for dealing with my family.',
-        'I rarely experience anxiety with regard to my family.',
-        'I have provided my family with a fine example of how to live a fulfilling life.',
-        'I am very pleased with how my children are turning out, or grateful for the relationship I have with my parents.'
+        'I am in real contact with my children (or parents) — in depth, not just logistics.',
+        "I know what's currently on my children's minds — or what's moving my parents.",
+        'When something in the family needs to be addressed, I go to it — instead of letting it sit.',
+        'I pass on what I believe is right — through what I do, not only what I say.',
+        'I am at peace with the role I play in my family.'
       ],
       8: [
-        'I have close, loving relationships with a few special people.',
-        'I have an active and rewarding connection with my community.',
-        'I consider myself to be a very good friend to others.',
-        'I pay close attention to the relationships that nourish me, versus the relationships that drain me.',
-        'I have friends I can always count on to be there for me.'
+        'I have people in my life I can call when something is really burning.',
+        'I give my friends time — not only when I need something.',
+        'I notice which encounters nourish me and which drain me — and act on it.',
+        "I belong to spaces — clubs, groups, neighborhoods — where I'm welcome.",
+        'When a friendship thread thins out, I take the first step to strengthen it again.'
       ],
       9: [
-        'I know how to manage my money well.',
-        'I seldom experience financial stress.',
-        'I have clear, written financial goals.',
-        'I deeply understand the fundamentals of wealth creation.',
-        'I feel that I have a high level of financial security in my life.'
+        'I know what comes in and what goes out each month — without having to do the math.',
+        'I can pay my current obligations without worry.',
+        'I have a buffer for the unexpected that gives me calm.',
+        'I make financial decisions out of clarity, not fear.',
+        'The way I handle money fits what matters to me in life.'
       ],
       10: [
-        'I have thought deeply about my career and know exactly what I want in this area of my life.',
-        'My career is very fulfilling to me — I love what I do.',
-        'My career challenges me and keeps me learning and growing.',
-        'I wake up each morning looking forward to my work.',
-        'I am very good at what I do.'
+        'What I do professionally has meaning for me — beyond the money.',
+        'I regularly use my strengths in my work.',
+        'I have people or tasks in my work life that make me grow.',
+        'When I look back at the day in the evening, I can name something that was good.',
+        'I can separate work from the rest of my life when I need to.'
       ],
       11: [
-        'I feel that I am living my life to the fullest.',
-        'My home projects the feelings that are most important to me (peacefulness, sensuality, fun, etc.).',
-        'I have thought deeply about my quality of life and defined exactly what I want in this area.',
-        'I plan extraordinary experiences for myself on an ongoing basis (trips, events, memorable moments).',
-        'I am satisfied with the quality of my possessions (cars, furniture, artwork, or other things in my life).'
+        'My home is a place where I genuinely like to be.',
+        'I regularly have experiences I look back on fondly.',
+        "I take breaks — not only when I'm at my limit.",
+        "There are things I don't postpone because they nourish me today.",
+        'I surround myself with things I really like — few, but right.'
       ],
       12: [
-        'I have a strong sense of how I would like my life to unfold over the coming years.',
-        'I am dedicated to improving my life in every category.',
-        'I intend to invest in my own personal development in the coming years.',
-        'I currently have a plan in place for achieving my ideal life.',
-        'I can clearly define my single most important goal in life.'
+        'When someone asks me where my life is heading, I have an answer that feels right.',
+        'What I do today contributes to something that will still matter to me in five years.',
+        'I make bigger decisions with an eye on what I really want — not just what is easy now.',
+        'I can name my direction in one sentence, without searching for it.',
+        "I notice when I'm drifting off course — and find my way back."
       ]
     }
   }
@@ -1110,6 +1119,9 @@ const AXES = [
 // Alte Yoga-Achsen-Reihenfolge (V2 vor 29.04. abend) — für Migration
 const LEGACY_AXES_N_V2 = [12, 11, 2, 9, 10, 6, 7, 8, 3, 4, 5, 1];
 const STEPS = ["definition", "highsLows", "strategy", "dreamFactory"];
+
+// Reclaim-Link für die Tiefen-Session (Daniel-bestätigt 29.04.)
+const DEEP_DIVE_URL = "https://app.reclaim.ai/m/daniel-arnold/meet-daniel";
 
 // =====================================================
 // STATE
@@ -1781,6 +1793,7 @@ function setupChrome() {
   document.getElementById("btn-save").addEventListener("click", () => saveAll(false));
   document.getElementById("btn-reset").addEventListener("click", resetAll);
   document.getElementById("btn-print").addEventListener("click", printWheel);
+  document.getElementById("cta-deep-dive").setAttribute("href", DEEP_DIVE_URL);
   document.getElementById("btn-help").addEventListener("click", showSplash);
   document.getElementById("btn-splash-close").addEventListener("click", closeSplash);
   document.getElementById("btn-snapshot-save").addEventListener("click", () => {
