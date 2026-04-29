@@ -412,17 +412,31 @@
     border-left: 3px solid var(--primary);
   }
 
-  /* Self-Check Statements */
-  .statements-block {
+  /* Self-Check Statements (collapsed by default) */
+  .statements-block-collapsed {
     background: var(--bg-warm); border-radius: 10px;
-    padding: 18px 20px; margin-bottom: 28px;
+    padding: 14px 18px; margin-top: 32px;
+    border: 1px solid var(--border);
   }
-  .statements-title {
-    font-family: var(--ff-heading); font-weight: 700;
-    font-size: 1rem; letter-spacing: -0.01em; margin-bottom: 4px;
+  .statements-block-collapsed > summary {
+    cursor: pointer; list-style: none;
+    font-family: var(--ff-heading); font-weight: 600;
+    font-size: 0.95rem; letter-spacing: -0.01em;
+    color: var(--text-primary);
+    padding: 4px 0;
+    display: flex; align-items: center; gap: 8px;
   }
+  .statements-block-collapsed > summary::-webkit-details-marker { display: none; }
+  .statements-block-collapsed > summary::before {
+    content: "▸"; color: var(--primary-hover);
+    font-size: 0.85rem; transition: transform 0.2s;
+    display: inline-block;
+  }
+  .statements-block-collapsed[open] > summary::before { transform: rotate(90deg); }
+  .statements-block-collapsed[open] > summary { margin-bottom: 12px; }
   .statements-sub {
-    font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 14px;
+    font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 14px;
+    line-height: 1.5;
   }
   .statement-row {
     padding: 9px 0; border-bottom: 1px dotted var(--border);
@@ -490,8 +504,17 @@
   }
   .step-prompt {
     font-size: 0.88rem; color: var(--text-secondary);
-    margin-bottom: 10px; line-height: 1.6;
+    margin-bottom: 14px; line-height: 1.65;
     padding-left: 32px;
+  }
+  .step-prompt p { margin: 0 0 10px 0; }
+  .step-prompt p:last-child { margin-bottom: 0; }
+  .step-prompt em { color: var(--text-primary); font-style: italic; }
+  .step-prompt .hint {
+    display: block; font-style: italic;
+    color: var(--text-light); font-size: 0.82rem;
+    margin-top: 6px; padding-left: 10px;
+    border-left: 2px solid var(--border);
   }
   .step textarea {
     width: 100%; min-height: 100px; resize: vertical;
@@ -696,7 +719,7 @@
     <!-- SLIDERS -->
     <section class="panel sliders-side">
       <div class="sliders-title" data-i18n="slidersTitle"></div>
-      <div class="sliders-sub" data-i18n="slidersSub"></div>
+      <div class="sliders-sub" data-i18n-html="slidersSub"></div>
 
       <div id="sliders"></div>
 
@@ -744,25 +767,14 @@
   </header>
   <div class="drawer-body">
 
-    <!-- Self-Statements (5 Aussagen) -->
-    <div class="statements-block">
-      <div class="statements-title" data-i18n="statementsTitle"></div>
-      <div class="statements-sub" data-i18n="statementsSub"></div>
-      <div id="statements-list"></div>
-      <div class="statements-footer">
-        <span><span data-i18n="statementsAvg"></span>: <strong id="statements-avg">—</strong>/10</span>
-        <button class="action small" id="btn-apply-statements" data-i18n="statementsApply"></button>
-      </div>
-    </div>
-
-    <p class="drawer-intro" data-i18n="processIntro"></p>
+    <p class="drawer-intro" data-i18n-html="processIntro"></p>
 
     <div class="step step-erde" data-step="definition">
       <label class="step-header">
         <input type="checkbox" data-step-check="definition">
         <span class="step-title" data-i18n="step1Title"></span>
       </label>
-      <p class="step-prompt" data-i18n="step1Prompt"></p>
+      <p class="step-prompt" data-i18n-html="step1Prompt"></p>
       <textarea data-step-text="definition" rows="4" placeholder=""></textarea>
     </div>
 
@@ -771,7 +783,7 @@
         <input type="checkbox" data-step-check="highsLows">
         <span class="step-title" data-i18n="step2Title"></span>
       </label>
-      <p class="step-prompt" data-i18n="step2Prompt"></p>
+      <p class="step-prompt" data-i18n-html="step2Prompt"></p>
       <textarea data-step-text="highsLows" rows="4" placeholder=""></textarea>
     </div>
 
@@ -780,7 +792,7 @@
         <input type="checkbox" data-step-check="strategy">
         <span class="step-title" data-i18n="step3Title"></span>
       </label>
-      <p class="step-prompt" data-i18n="step3Prompt"></p>
+      <p class="step-prompt" data-i18n-html="step3Prompt"></p>
       <textarea data-step-text="strategy" rows="4" placeholder=""></textarea>
     </div>
 
@@ -789,9 +801,21 @@
         <input type="checkbox" data-step-check="dreamFactory">
         <span class="step-title" data-i18n="step4Title"></span>
       </label>
-      <p class="step-prompt" data-i18n="step4Prompt"></p>
+      <p class="step-prompt" data-i18n-html="step4Prompt"></p>
       <textarea data-step-text="dreamFactory" rows="4" placeholder=""></textarea>
     </div>
+
+    <!-- Self-Statements (collapsed by default) -->
+    <details class="statements-block-collapsed">
+      <summary data-i18n="statementsTitle"></summary>
+      <div class="statements-sub" data-i18n-html="statementsSub"></div>
+      <div id="statements-list"></div>
+      <div class="statements-footer">
+        <span><span data-i18n="statementsAvg"></span>: <strong id="statements-avg">—</strong>/10</span>
+        <button class="action small" id="btn-apply-statements" data-i18n="statementsApply"></button>
+      </div>
+    </details>
+
   </div>
 </aside>
 
@@ -809,7 +833,7 @@ const I18N = {
     lead: 'Mit etwas Abstand sieht man mehr. 12 Bereiche, ein Augenblick — dein Standort, nicht dein Soll. Das Polygon zeigt deine Balance.',
     drag: 'Tipp: Punkte im Wheel direkt <strong>ziehen</strong> · <strong>Klick</strong> auf Label öffnet die Tiefen-Bearbeitung',
     slidersTitle: 'Bewertung',
-    slidersSub: 'Schiebe jeden Regler dort hin, wo du heute stehst — nicht wo du sein möchtest. Klick auf den Namen öffnet die 4-Schritte-Bearbeitung.',
+    slidersSub: '<strong>Schiebe</strong> jeden Regler dort hin, wo du heute stehst. <strong>Klick</strong> auf den Namen öffnet die 4-Schritte-Bearbeitung.',
     save: 'Speichern',
     print: 'PDF drucken',
     reset: 'Zurücksetzen',
@@ -825,21 +849,21 @@ const I18N = {
     footerTagline: 'Methodik basiert auf dem 12-Bereiche-Modell von Mindvalley · Vertiefung mit Pyramiden-Stufen + Element-Kompass im internen Tool.',
     privacyLine: 'Alle Daten bleiben in deinem Browser. Nichts wird auf Servern gespeichert oder gesendet.',
     processTitle: 'Tiefen-Bearbeitung · 4 Schritte',
-    processIntro: 'Auf jeder rechten Seite findest du 4 Aufgaben. Wir laden dich ein, dich der Herausforderung zu stellen, dich hinzusetzen und zu schreiben:',
+    processIntro: 'Wenn du <strong>15 Minuten</strong> hast und etwas tiefer gehen möchtest, hast du hier die Gelegenheit. Vier Schritte — Definition, Höhen und Tiefen, Strategie, Traumfabrik. Setz dich hin, schreibe. Niemand liest mit. Nur du.',
     step1Title: 'Definition',
-    step1Prompt: 'Stelle dir diese 5 Fragen: „Was, Wo, Wer, Wann & Wie ist diese Kategorie Teil meines Lebens?" Schreibe die Antworten auf.',
+    step1Prompt: '<p><strong>Schreibe in einem Satz, was dieser Lebensbereich für dich bedeutet.</strong></p><span class="hint">Nimm dir vorher einen Augenblick: Welche Orte gehören dazu? Welche Menschen? Welche Zeiten — im Jahr, im Monat, im Tag? So aktivierst du dein Gedächtnis räumlich, zeitlich und sozial — und dein Satz wird tragfähig.</span>',
     step2Title: 'Höhen und Tiefen',
-    step2Prompt: 'Eine reflektierende Schreibübung. Nimm ein leeres Blatt Papier und einen Stift. Schreibe mindestens 15 Minuten lang über konkrete Erfahrungen, positive und negative. Vermeide „weil"-Sätze. Schreibe einfach, woran du dich erinnerst.',
+    step2Prompt: '<p><strong>Schreibe zuerst über den niedrigsten Punkt</strong> in deinem Leben in diesem Bereich. Beschreibe ihn so genau du kannst. Es gibt nichts Falsches. Du musst dich nicht erklären. Niemand liest mit — nur du.</p><p><strong>Dann beschreibe das beste Erlebnis</strong> oder die beste Zeit in diesem Bereich. Wie hat es sich angefühlt? Was hast du erlebt? Wer war da?</p><span class="hint">Vermeide „weil"-Sätze. Erinnere konkret — nicht erklärend.</span>',
     step3Title: 'Strategie',
-    step3Prompt: 'Was kannst du heute tun, um diesen Lebensbereich 10% besser zu gestalten? Etwas täglich tun? Etwas aufhören? Finde praktische Schritte. Schreibe sie auf. — Mal-Test: Nur was du als Bild malen könntest, ist auch wirklich umsetzbar (Beispiel: „mehr Wasser trinken" → Teekanne + Tasse).',
+    step3Prompt: '<p><strong>Was kannst du heute tun, um diesen Lebensbereich 10% besser zu gestalten?</strong> Etwas täglich tun? Etwas aufhören? Schreibe konkrete Schritte auf.</p><p><strong>Wie stellst du dir diesen Bereich in 5 Jahren vor?</strong> Und in 25 Jahren? Plane voraus — realistisch, gerichtet.</p><span class="hint">Mal-Test: Nimm einen Stift und versuche, jeden Schritt als Bild zu malen. Was du nicht malen kannst, lässt sich auch nicht umsetzen. Beispiel: „mehr Wasser trinken" → Teekanne + Tasse → wird Realität.</span>',
     step4Title: 'Traumfabrik',
-    step4Prompt: 'Der anspruchsvollste Schritt — geht über das bisher Vorstellbare hinaus. Suche einen bequemen Ort, an dem du mindestens 20 Minuten ungestört bist. Entspanne dich und schließe die Augen. Erschaffe die perfekte Vision für dich in diesem Lebensbereich. Nur „Ja" ist erlaubt. Alles ist möglich. Was siehst du? Dann schreibe.',
+    step4Prompt: '<p><strong>Wäre die Welt ein perfekter Ort — wie würde sich dieser Lebensbereich für dich anfühlen?</strong></p><p>Wie würde dein Leben darin funktionieren? Wie würden die Menschen um dich herum davon beeinflusst?</p><span class="hint">Hier zählt nur „Ja". Alles ist möglich. Lös dich von dem, was bisher denkbar war — und schreibe, was du siehst.</span>',
     elementErde:   'Erde',
     elementWasser: 'Wasser',
     elementFeuer:  'Feuer',
     elementLuft:   'Luft',
-    statementsTitle: 'Anregungen · 5 Aussagen',
-    statementsSub: 'Falls du keine klare Idee hast, was in diesem Bereich für dich zählt — diese Aussagen sind Anregungen, keine Maßstäbe. Den Score gibst du dir selbst. (1 = trifft gar nicht zu · 10 = trifft voll zu)',
+    statementsTitle: 'Brauchst du Anregungen?',
+    statementsSub: 'Falls du noch keine klare Idee hast, was in diesem Bereich für dich zählt — diese 5 Aussagen sind Anregungen, keine Maßstäbe. Den Score gibst du dir selbst. <em>(1 = trifft gar nicht zu · 10 = trifft voll zu)</em>',
     statementsAvg: 'Durchschnitt',
     statementsApply: 'Als Score übernehmen',
     snapshotTitle: 'Verlauf · Snapshots',
@@ -966,7 +990,7 @@ const I18N = {
     lead: 'From a step back, you see more. 12 areas, one snapshot — where you stand, not where you should be. The polygon shows your balance.',
     drag: 'Tip: <strong>Drag</strong> the dots directly on the wheel · <strong>Click</strong> a label to open the deep dive',
     slidersTitle: 'Rating',
-    slidersSub: 'Move each slider to where you stand today — not where you want to be. Click a category name to open the 4-step deep dive.',
+    slidersSub: '<strong>Move</strong> each slider to where you stand today. <strong>Click</strong> a category name to open the 4-step deep dive.',
     save: 'Save',
     print: 'Print PDF',
     reset: 'Reset',
@@ -982,21 +1006,21 @@ const I18N = {
     footerTagline: "Methodology based on Mindvalley's 12-category LifeBook model · Extended with Pyramid Stages + Element Compass in the internal tool.",
     privacyLine: 'All your data stays in your browser. Nothing is stored or sent to any server.',
     processTitle: 'Deep Dive · 4 Steps',
-    processIntro: 'On each right page, you will find 4 extra tasks. We invite you to challenge yourself to sit down and write:',
+    processIntro: 'If you have <strong>15 minutes</strong> and want to go deeper, this is your chance. Four steps — Definition, Highs and Lows, Strategy, Dream Factory. Sit down, write. No one reads this. Only you.',
     step1Title: 'Definition',
-    step1Prompt: 'Ask yourself those 5 questions: "What, Where, Who, When, & How is this category part of my life?" Write down the answers.',
+    step1Prompt: '<p><strong>Write in one sentence what this area of life means to you.</strong></p><span class="hint">Take a moment first: which places belong here? Which people? Which times — across the year, the month, the day? This activates your memory spatially, in time, and socially — and your sentence will hold weight.</span>',
     step2Title: 'Highs and Lows',
-    step2Prompt: 'A reflective writing exercise. Take a blank sheet of paper and a pen. Write about specific circumstances that you have experienced, both positive and negative, for at least 15 minutes. Avoid "because" statements. Just write what you remember.',
+    step2Prompt: '<p><strong>Start by writing about the lowest point</strong> of your life in this area. Describe it as precisely as you can. There is no wrong answer. You don\'t have to explain. No one reads this — only you.</p><p><strong>Then write about the best experience</strong> or the best time you\'ve had in this area. How did it feel? What did you live? Who was there?</p><span class="hint">Avoid "because" sentences. Remember concretely — not in explanations.</span>',
     step3Title: 'Strategy',
-    step3Prompt: 'What can you do today to make this area of your life 10% better? Something daily? Something to stop? Find practical steps. Write them down. — Drawing test: Only what you could draw as a picture is truly actionable (example: "drink more water" → kettle + cup).',
+    step3Prompt: '<p><strong>What can you do today to make this area of your life 10% better?</strong> Something daily? Something to stop? Write down concrete steps.</p><p><strong>Where do you see this area in 5 years?</strong> And in 25 years? Plan ahead — realistic, directed.</p><span class="hint">Drawing test: Take a pen and try to sketch each step as a picture. What you can\'t draw, you can\'t put into action either. Example: "drink more water" → kettle + cup → becomes real.</span>',
     step4Title: 'Dream Factory',
-    step4Prompt: 'The most challenging step — it reaches beyond what you can currently imagine. Find a comfortable place where you can be undisturbed for at least 20 minutes. Relax and close your eyes. Create the perfect vision for yourself in this area of your life. Only "yes" is allowed. Everything is possible. What do you see? Then write.',
+    step4Prompt: '<p><strong>If the world were a perfect place — how would this area of your life feel?</strong></p><p>How would your life work in it? How would it shape the people around you?</p><span class="hint">Only "yes" counts here. Everything is possible. Step away from what was thinkable so far — and write what you see.</span>',
     elementErde:   'Earth',
     elementWasser: 'Water',
     elementFeuer:  'Fire',
     elementLuft:   'Air',
-    statementsTitle: 'Prompts · 5 Statements',
-    statementsSub: "If you don't have a clear sense yet of what counts for you in this area — these statements are prompts, not standards. The score is yours. (1 = not at all true · 10 = completely true)",
+    statementsTitle: 'Need a few prompts?',
+    statementsSub: "If you don't have a clear sense yet of what counts for you in this area — these 5 statements are prompts, not standards. The score is yours. <em>(1 = not at all true · 10 = completely true)</em>",
     statementsAvg: 'Average',
     statementsApply: 'Apply as score',
     snapshotTitle: 'History · Snapshots',
