@@ -415,7 +415,7 @@
   /* Self-Check Statements (collapsed by default) */
   .statements-block-collapsed {
     background: var(--bg-warm); border-radius: 10px;
-    padding: 14px 18px; margin-top: 32px;
+    padding: 14px 18px; margin-bottom: 24px;
     border: 1px solid var(--border);
   }
   .statements-block-collapsed > summary {
@@ -767,6 +767,17 @@
   </header>
   <div class="drawer-body">
 
+    <!-- Quick Check (collapsed by default, oben) -->
+    <details class="statements-block-collapsed">
+      <summary data-i18n="statementsTitle"></summary>
+      <div class="statements-sub" data-i18n-html="statementsSub"></div>
+      <div id="statements-list"></div>
+      <div class="statements-footer">
+        <span><span data-i18n="statementsAvg"></span>: <strong id="statements-avg">—</strong>/10</span>
+        <button class="action small" id="btn-apply-statements" data-i18n="statementsApply"></button>
+      </div>
+    </details>
+
     <p class="drawer-intro" data-i18n-html="processIntro"></p>
 
     <div class="step step-erde" data-step="definition">
@@ -804,17 +815,6 @@
       <p class="step-prompt" data-i18n-html="step4Prompt"></p>
       <textarea data-step-text="dreamFactory" rows="4" placeholder=""></textarea>
     </div>
-
-    <!-- Self-Statements (collapsed by default) -->
-    <details class="statements-block-collapsed">
-      <summary data-i18n="statementsTitle"></summary>
-      <div class="statements-sub" data-i18n-html="statementsSub"></div>
-      <div id="statements-list"></div>
-      <div class="statements-footer">
-        <span><span data-i18n="statementsAvg"></span>: <strong id="statements-avg">—</strong>/10</span>
-        <button class="action small" id="btn-apply-statements" data-i18n="statementsApply"></button>
-      </div>
-    </details>
 
   </div>
 </aside>
@@ -862,7 +862,7 @@ const I18N = {
     elementWasser: 'Wasser',
     elementFeuer:  'Feuer',
     elementLuft:   'Luft',
-    statementsTitle: 'Brauchst du Anregungen?',
+    statementsTitle: 'Quick Check',
     statementsSub: 'Falls du noch keine klare Idee hast, was in diesem Bereich für dich zählt — diese 5 Aussagen sind Anregungen, keine Maßstäbe. Den Score gibst du dir selbst. <em>(1 = trifft gar nicht zu · 10 = trifft voll zu)</em>',
     statementsAvg: 'Durchschnitt',
     statementsApply: 'Als Score übernehmen',
@@ -1019,7 +1019,7 @@ const I18N = {
     elementWasser: 'Water',
     elementFeuer:  'Fire',
     elementLuft:   'Air',
-    statementsTitle: 'Need a few prompts?',
+    statementsTitle: 'Quick Check',
     statementsSub: "If you don't have a clear sense yet of what counts for you in this area — these 5 statements are prompts, not standards. The score is yours. <em>(1 = not at all true · 10 = completely true)</em>",
     statementsAvg: 'Average',
     statementsApply: 'Apply as score',
