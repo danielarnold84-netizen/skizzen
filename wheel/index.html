@@ -172,9 +172,12 @@
   }
 
   .drag-hint {
-    text-align: center; font-size: 0.74rem;
-    color: var(--text-light); font-style: italic;
-    margin-top: 4px;
+    text-align: center; font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+  .drag-hint strong {
+    color: var(--text-primary); font-weight: 700;
   }
 
   /* ===== Slider-Panel ===== */
@@ -654,7 +657,7 @@
       <div class="wheel-wrap">
         <svg id="wheel" viewBox="0 0 540 540" class="wheel-svg" aria-label="Wheel of Life — 12 Lebensbereiche"></svg>
       </div>
-      <div class="drag-hint" data-i18n="drag"></div>
+      <div class="drag-hint" data-i18n-html="drag"></div>
 
       <div class="meter" id="meter">
         <div>
@@ -791,7 +794,7 @@ const I18N = {
     eyebrow: 'Arnold Coaching · Standortbestimmung · v2 Yoga-Sequenz',
     h1: 'Wheel of Life',
     lead: '12 Lebensbereiche, ein Augenblick. Bewerte jeden Bereich von 1 (unzufrieden) bis 10 (sehr zufrieden) — das Polygon zeigt deine Balance.',
-    drag: 'Tipp: Punkte im Wheel direkt ziehen · Klick auf Label öffnet Tiefen-Bearbeitung',
+    drag: 'Tipp: Punkte im Wheel direkt <strong>ziehen</strong> · <strong>Klick</strong> auf Label öffnet die Tiefen-Bearbeitung',
     slidersTitle: 'Bewertung',
     slidersSub: 'Schiebe jeden Regler dort hin, wo du heute stehst — nicht wo du sein möchtest. Klick auf den Namen öffnet die 4-Schritte-Bearbeitung.',
     save: 'Speichern',
@@ -945,7 +948,7 @@ const I18N = {
     eyebrow: 'Arnold Coaching · Standpoint Check · v2 Yoga Sequence',
     h1: 'Wheel of Life',
     lead: '12 life categories, one snapshot. Rate each from 1 (unsatisfied) to 10 (very satisfied) — the polygon shows your balance.',
-    drag: 'Tip: Drag the dots directly on the wheel · Click a label to open the deep dive',
+    drag: 'Tip: <strong>Drag</strong> the dots directly on the wheel · <strong>Click</strong> a label to open the deep dive',
     slidersTitle: 'Rating',
     slidersSub: 'Move each slider to where you stand today — not where you want to be. Click a category name to open the 4-step deep dive.',
     save: 'Save',
@@ -1270,6 +1273,10 @@ function applyLang() {
     const key = el.getAttribute("data-i18n");
     el.textContent = t(key);
   });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    const key = el.getAttribute("data-i18n-html");
+    el.innerHTML = t(key);
+  });
   document.querySelectorAll(".lang-toggle button").forEach(b => {
     b.setAttribute("aria-pressed", b.dataset.lang === state.lang ? "true" : "false");
   });
@@ -1292,7 +1299,12 @@ function setLang(lang) {
 // =====================================================
 const WHEEL = { cx: 270, cy: 270, rMax: 200 };
 
-function angleRad(idx) { return (idx * 30 - 90) * Math.PI / 180; }
+function angleRad(idx) {
+  // Uhr-Position: n=12 → 12 Uhr (oben), n=1..11 → 1..11 Uhr (im Uhrzeigersinn)
+  const a = AXES[idx];
+  const clockPos = (a && a.n === 12) ? 0 : (a ? a.n : 0);
+  return (clockPos * 30 - 90) * Math.PI / 180;
+}
 function point(idx, r) {
   const a = angleRad(idx);
   return [WHEEL.cx + Math.cos(a) * r, WHEEL.cy + Math.sin(a) * r];
