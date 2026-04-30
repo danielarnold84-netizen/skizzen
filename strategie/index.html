@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Strategie-Cockpit · Arnold Coaching FY26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #F4EFE3; color: #1E1A14;
+    font-family: 'IBM Plex Mono', monospace;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage {
+    max-width: 1180px; margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  /* Header */
+  .preamble {
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #847C6E;
+    margin-bottom: 18px; display: flex; align-items: center; gap: 14px;
+  }
+  .preamble::before {
+    content: ''; width: 24px; height: 1px; background: #847C6E;
+  }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 42px; line-height: 1.1;
+    letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  h1 em { font-style: italic; font-weight: 300; color: #B85735; }
+  .lede {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 16px; line-height: 1.55; color: #4A4339;
+    margin-bottom: 48px; max-width: 760px;
+  }
+
+  /* KPI-Strip oben */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 18px 22px;
+    background: rgba(30, 26, 20, 0.04);
+    border: 1px solid rgba(30, 26, 20, 0.08);
+    border-radius: 10px;
+    margin-bottom: 56px;
+  }
+  .kpi-strip .item { text-align: center; }
+  .kpi-strip .label {
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #847C6E; margin-bottom: 6px;
+  }
+  .kpi-strip .value {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 22px; color: #1E1A14;
+  }
+  .kpi-strip .value small {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    color: #847C6E; margin-left: 3px;
+  }
+
+  /* 5 Säulen */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 18px;
+    margin-bottom: 48px;
+  }
+  .pillar {
+    background: #FBF8F0;
+    border: 1px solid rgba(30, 26, 20, 0.08);
+    border-left: 4px solid var(--pillar-color, #B85735);
+    border-radius: 10px;
+    padding: 22px 24px 20px;
+    display: flex; flex-direction: column;
+  }
+  .pillar-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .pillar-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px; color: #847C6E; letter-spacing: 0.1em;
+  }
+  .pillar-status {
+    font-size: 17px;
+  }
+  .pillar h2 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 19px; color: #1E1A14;
+    margin-bottom: 4px;
+  }
+  .pillar-meta {
+    font-size: 10px; color: #847C6E; margin-bottom: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .subgoal {
+    padding: 10px 0;
+    border-top: 1px dashed rgba(30, 26, 20, 0.10);
+    font-size: 12.5px; line-height: 1.4;
+  }
+  .subgoal:first-of-type { border-top: none; padding-top: 4px; }
+  .subgoal-name {
+    color: #4A4339; margin-bottom: 4px;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .subgoal-name .st { font-size: 12px; }
+  .subgoal-metric {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 14px; color: #1E1A14;
+  }
+  .subgoal-metric small { color: #847C6E; font-family: inherit; font-weight: 300; }
+  .bar {
+    height: 4px; background: rgba(30, 26, 20, 0.08); border-radius: 2px;
+    margin-top: 5px; overflow: hidden;
+  }
+  .bar > span {
+    display: block; height: 100%; background: var(--pillar-color);
+    border-radius: 2px;
+  }
+
+  .pillar-next {
+    margin-top: auto; padding-top: 16px;
+    font-size: 11px; color: #4A4339; line-height: 1.5;
+    border-top: 1px solid rgba(30, 26, 20, 0.06);
+    margin-top: 14px;
+  }
+  .pillar-next strong {
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 9.5px; color: #847C6E; display: block;
+    margin-bottom: 4px; font-weight: 500;
+  }
+
+  /* Pillar-Farben */
+  .pillar.s1 { --pillar-color: #B85735; }
+  .pillar.s2 { --pillar-color: #C8843A; }
+  .pillar.s3 { --pillar-color: #6B8E5A; }
+  .pillar.s4 { --pillar-color: #4A6B7C; }
+  .pillar.s5 { --pillar-color: #6E5C8F; }
+
+  /* Pipeline-Block */
+  .pipeline {
+    background: #FBF8F0;
+    border: 1px solid rgba(30, 26, 20, 0.08);
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-bottom: 32px;
+  }
+  .pipeline h3 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: 17px; margin-bottom: 14px;
+  }
+  .pipeline-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-bottom: 12px;
+  }
+  .pipeline-row .item .label {
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #847C6E; margin-bottom: 4px;
+  }
+  .pipeline-row .item .value {
+    font-family: 'Fraunces', serif; font-size: 17px;
+  }
+  .pipeline-list {
+    font-size: 11.5px; color: #4A4339; line-height: 1.55;
+    padding-top: 12px; border-top: 1px solid rgba(30, 26, 20, 0.08);
+  }
+
+  /* OPSP-Streifen unten */
+  .opsp {
+    background: #1E1A14; color: #F4EFE3;
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+  }
+  .opsp .label {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: #B85735; margin-bottom: 10px;
+  }
+  .opsp .xfactor {
+    font-family: 'Fraunces', serif; font-weight: 300;
+    font-size: 22px; line-height: 1.3; color: #F4EFE3;
+    margin-bottom: 18px; max-width: 800px;
+  }
+  .opsp .xfactor em { font-style: italic; color: #E8C075; }
+  .opsp-priorities {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(244, 239, 227, 0.15);
+  }
+  .opsp-priorities .item {
+    font-size: 12px; color: #C8C0AE; line-height: 1.5;
+  }
+  .opsp-priorities .item .num {
+    color: #B85735; font-family: 'Fraunces', serif;
+    font-size: 18px; margin-right: 8px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 32px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(30, 26, 20, 0.08);
+    font-size: 10px; letter-spacing: 0.06em;
+    color: #847C6E; line-height: 1.6;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  }
+  .footer a { color: #B85735; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 700px) {
+    .stage { padding: 40px 18px 60px; }
+    h1 { font-size: 30px; }
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 14px; }
+    .kpi-strip .value { font-size: 18px; }
+    .pipeline-row { grid-template-columns: repeat(2, 1fr); }
+    .opsp-priorities { grid-template-columns: 1fr; }
+    .footer { font-size: 9.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="preamble">Etappe 1 · Mock · 2026-04-30</div>
+  <h1>Strategie-Cockpit <em>FY26</em></h1>
+  <p class="lede">Wo stehen wir im Zieljahr? 5 Säulen, 14 aktive Subgoals, ein Bild. Werte hand-befüllt für E1 — Datenanbindung folgt in E2 (snapshot.json + Asana-Goals-API).</p>
+
+  <!-- KPI-Strip oben -->
+  <div class="kpi-strip">
+    <div class="item">
+      <div class="label">Aktive Kunden</div>
+      <div class="value">6</div>
+    </div>
+    <div class="item">
+      <div class="label">MRR (real)</div>
+      <div class="value">1.712 <small>€</small></div>
+    </div>
+    <div class="item">
+      <div class="label">vMRR</div>
+      <div class="value">2.208 <small>€</small></div>
+    </div>
+    <div class="item">
+      <div class="label">Pipeline gewichtet</div>
+      <div class="value">8.229 <small>€</small></div>
+    </div>
+    <div class="item">
+      <div class="label">Posts YTD</div>
+      <div class="value">14<small>/48</small></div>
+    </div>
+    <div class="item">
+      <div class="label">BE-Gap H1</div>
+      <div class="value">−1.288 <small>€</small></div>
+    </div>
+  </div>
+
+  <!-- 5 Säulen -->
+  <div class="pillars">
+
+    <!-- Säule 1 -->
+    <div class="pillar s1">
+      <div class="pillar-head">
+        <span class="pillar-num">SÄULE 01</span>
+        <span class="pillar-status">🟡</span>
+      </div>
+      <h2>Sales &amp; Wachstum</h2>
+      <div class="pillar-meta">F2 Sales · F10 CRM · Sales-Prozess</div>
+
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Sales 1:1 anteilig FY26</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">10.723 <small>/ 40.000 €</small></div>
+        <div class="bar"><span style="width: 27%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Team-Coaching FY26</span><span class="st">🔴</span></div>
+        <div class="subgoal-metric">0 <small>/ 25.000 €</small> · 0/2 Verträge</div>
+        <div class="bar"><span style="width: 0%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>LinkedIn-Inbound FY26</span><span class="st">🔴</span></div>
+        <div class="subgoal-metric">0 <small>/ 6 Leads</small></div>
+        <div class="bar"><span style="width: 0%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Empfehlungs-Inbound FY26</span><span class="st">🟢</span></div>
+        <div class="subgoal-metric">1 <small>/ 6 Leads</small></div>
+        <div class="bar"><span style="width: 17%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Verlängerungsrate FY26 (OPSP)</span><span class="st">🟢</span></div>
+        <div class="subgoal-metric">— <small>/ ≥80 %</small> · zu früh</div>
+        <div class="bar"><span style="width: 0%"></span></div>
+      </div>
+
+      <div class="pillar-next">
+        <strong>Nächster Schritt</strong>
+        Hülya-Verlängerung Mai-Mitte (+520 €) · Danilo-Antwort abwarten · BNI-Welle KW18 diszipliniert (Möckel/Wolf/Schreiber)
+      </div>
+    </div>
+
+    <!-- Säule 2 -->
+    <div class="pillar s2">
+      <div class="pillar-head">
+        <span class="pillar-num">SÄULE 02</span>
+        <span class="pillar-status">🔴</span>
+      </div>
+      <h2>Marketing &amp; Sichtbarkeit</h2>
+      <div class="pillar-meta">F3 Marketing · Content-Prozess</div>
+
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Posts FY26 (8/Mo)</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">14 <small>/ 48 Posts</small></div>
+        <div class="bar"><span style="width: 29%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Website live (Q2)</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">DE live · EN-Drafts &amp; Subpages offen</div>
+        <div class="bar"><span style="width: 50%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Q3-Rock: 24 Posts/Q3</span><span class="st">⏳</span></div>
+        <div class="subgoal-metric">0 <small>/ 24</small> · ab Juli</div>
+        <div class="bar"><span style="width: 0%"></span></div>
+      </div>
+
+      <div class="pillar-next">
+        <strong>Nächster Schritt</strong>
+        Wöchentlicher Kurations-Slot statt Reflex-Schedule · Landing Pages für 1:1 + Team (DE/EN) live
+      </div>
+    </div>
+
+    <!-- Säule 3 -->
+    <div class="pillar s3">
+      <div class="pillar-head">
+        <span class="pillar-num">SÄULE 03</span>
+        <span class="pillar-status">🟢</span>
+      </div>
+      <h2>Services &amp; Kundenerlebnis</h2>
+      <div class="pillar-meta">F4 Delivery · F5 Service · F9 Komm.</div>
+
+      <div class="subgoal">
+        <div class="subgoal-name"><span>10 Kunden zu messbarer Verbesserung</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">3 <small>/ 10</small></div>
+        <div class="bar"><span style="width: 30%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>5+ Midterm-Reviews FY26</span><span class="st">🔴</span></div>
+        <div class="subgoal-metric">0 <small>/ 5</small> · Q3-Rock „Midterm-Maschine"</div>
+        <div class="bar"><span style="width: 0%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Aktive Kunden</span><span class="st">🟢</span></div>
+        <div class="subgoal-metric">6 <small>aktiv</small></div>
+        <div class="bar"><span style="width: 100%"></span></div>
+      </div>
+
+      <div class="pillar-next">
+        <strong>Nächster Schritt</strong>
+        Midterm-Format spec (Anker-Fragen + Vorher-Nachher-Visual analog Wheel) · Hülya/Vicent/Caroline-Sessions Mo-Fr verankern
+      </div>
+    </div>
+
+    <!-- Säule 4 -->
+    <div class="pillar s4">
+      <div class="pillar-head">
+        <span class="pillar-num">SÄULE 04</span>
+        <span class="pillar-status">🟡</span>
+      </div>
+      <h2>Finance &amp; Sicherheit</h2>
+      <div class="pillar-meta">F6 Finance · Finanz-Prozess</div>
+
+      <div class="subgoal">
+        <div class="subgoal-name"><span>MRR H1 (Break-Even Juni)</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">1.712 <small>/ 3.000 €</small></div>
+        <div class="bar"><span style="width: 57%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>MRR Dez 2026</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">1.712 <small>/ 5.000 €</small></div>
+        <div class="bar"><span style="width: 34%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>vMRR (real + confirmed)</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">2.208 <small>/ 5.000 €</small></div>
+        <div class="bar"><span style="width: 44%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Strukturelle Sicherheit H1</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">25 <small>/ 100 %</small> · Steuer 2024 ÜBERFÄLLIG</div>
+        <div class="bar"><span style="width: 25%"></span></div>
+      </div>
+
+      <div class="pillar-next">
+        <strong>Nächster Schritt</strong>
+        Steuer 2024 abschließen · Christiaan 389 € Eingang · Gründungszuschuss-Antrag bis Juni
+      </div>
+    </div>
+
+    <!-- Säule 5 -->
+    <div class="pillar s5">
+      <div class="pillar-head">
+        <span class="pillar-num">SÄULE 05</span>
+        <span class="pillar-status">🟢</span>
+      </div>
+      <h2>Infrastruktur &amp; Strategie</h2>
+      <div class="pillar-meta">F1 Strategie · F7 HR · F8 IT</div>
+
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Operative Infrastruktur 2026</span><span class="st">🟢</span></div>
+        <div class="subgoal-metric">60 <small>/ 100 %</small></div>
+        <div class="bar"><span style="width: 60%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Methodik &amp; Marktposition 2026</span><span class="st">🟡</span></div>
+        <div class="subgoal-metric">30 <small>/ 100 %</small></div>
+        <div class="bar"><span style="width: 30%"></span></div>
+      </div>
+      <div class="subgoal">
+        <div class="subgoal-name"><span>Signature Program</span><span class="st">⏳</span></div>
+        <div class="subgoal-metric">Spec offen · Q3 nach 1. Team-Vertrag</div>
+        <div class="bar"><span style="width: 5%"></span></div>
+      </div>
+
+      <div class="pillar-next">
+        <strong>Nächster Schritt</strong>
+        Pitch-Standard-Set bauen (KW19) · Kitty-Scope finalisieren · 6 P1-Dossiers vollenden (Pilot Positionierung-Marketing läuft)
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pipeline-Block -->
+  <div class="pipeline">
+    <h3>Pipeline · Stand 30.04.2026</h3>
+    <div class="pipeline-row">
+      <div class="item">
+        <div class="label">Hot</div>
+        <div class="value">15.698 €</div>
+      </div>
+      <div class="item">
+        <div class="label">Gewichtet</div>
+        <div class="value">8.229 €</div>
+      </div>
+      <div class="item">
+        <div class="label">Gesamt</div>
+        <div class="value">36.098 €</div>
+      </div>
+      <div class="item">
+        <div class="label">Asana überfällig</div>
+        <div class="value">38</div>
+      </div>
+    </div>
+    <div class="pipeline-list">
+      <strong>Hot:</strong> Danilo Voigtmann (Angebot 24.04.) · Zollstab (Pilot KW17) ·
+      <strong>Warm:</strong> WoTa/IBV (CEO 27.03., stockt) · Gina Flachsbart · Zane · Elohim/SIS ·
+      <strong>BNI-Welle KW17/18:</strong> Möckel · Wolf · Schreiber · Bertram · Heigel-Build-Pilot ·
+      <strong>Raus:</strong> MERKUR (22.04.)
+    </div>
+  </div>
+
+  <!-- OPSP-Streifen -->
+  <div class="opsp">
+    <div class="label">OPSP · Strategischer Rahmen</div>
+    <div class="xfactor">
+      „Wir coachen <em>nicht</em> über Kommunikation. Wir coachen Kommunikation <em>im Moment</em> ihres Entstehens."
+    </div>
+    <div class="opsp-priorities">
+      <div class="item"><span class="num">01</span>Hülya-Verlängerung — Vertragsende Juni, Hebel +520 €/Mo</div>
+      <div class="item"><span class="num">02</span>Christiaan-Anschluss — Ende Juli, SA-Reise 01.05.–03.06.</div>
+      <div class="item"><span class="num">03</span>Steuer 2024 — überfällig seit 31.07.25, Compliance-Risiko</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>
+      Mock · Etappe 1 · Werte handgepflegt aus snapshot.json + Asana-Goal-Audit (30.04.20:17)<br>
+      Quelle: <code>meta/scripts/asana-goals.py --audit-goals</code> · 19 Subgoals · 17 Schema-Lücke „Risiko &amp; Trigger"
+    </div>
+    <div style="text-align: right;">
+      Skizze · <a href="../">zurück</a> · Roadmap E2 = snapshot.json-Anbindung<br>
+      Kein öffentlicher Link · noindex
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
