@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="robots" content="noindex,nofollow">
+<title>BNI-Prep · DA</title>
+<style>
+  :root {
+    --bg:#f7f6f3; --card:#ffffff; --ink:#2a2a2a; --muted:#777; --line:#e8e5de;
+    --senfgelb:#d4a646; --anthrazit:#2b2e33; --kirschrot:#b8453a;
+    --ok:#2f9e6f; --warn:#d69b35; --crit:#b8453a;
+    --pill-ok:#e3f3eb; --pill-warn:#fdf1da; --pill-crit:#fbe6e3;
+    --code-bg:#1f2228; --code-ink:#e8e6e0;
+    --r:14px;
+  }
+  html[data-theme="dark"] {
+    --bg:#17181b; --card:#22242a; --ink:#e8e6e0; --muted:#8e9098; --line:#2f3238;
+    --senfgelb:#e0b553; --anthrazit:#f2f0ea; --kirschrot:#d66054;
+    --ok:#4cc192; --warn:#e5b35d; --crit:#e17164;
+    --pill-ok:#1f3a2d; --pill-warn:#3a2e18; --pill-crit:#3a1e1a;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; line-height:1.45; -webkit-text-size-adjust:100%; }
+  .wrap { max-width:780px; margin:0 auto; padding:14px 14px 60px; }
+  header { display:flex; gap:10px; align-items:baseline; margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--line); }
+  .brand { font-size:18px; font-weight:700; color:var(--anthrazit); }
+  .date { font-size:13px; color:var(--muted); margin-left:8px; }
+  .theme-btn { margin-left:auto; background:transparent; color:var(--muted); border:1px solid var(--line); padding:5px 10px; border-radius:18px; font-size:12px; cursor:pointer; }
+
+  section.card { background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:14px 16px; margin-bottom:14px; }
+  section.card h2 { font-size:15px; color:var(--anthrazit); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+  section.card h3 { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.5px; margin:12px 0 6px; }
+  section.card p { font-size:14px; margin-bottom:8px; }
+  section.card ul { margin:6px 0 6px 18px; }
+  section.card li { font-size:14px; margin-bottom:4px; }
+
+  pre.pitch { background:var(--code-bg); color:var(--code-ink); padding:14px 16px; border-radius:10px; font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:13px; line-height:1.55; white-space:pre-wrap; overflow-x:auto; }
+
+  .pill { display:inline-block; padding:2px 8px; border-radius:12px; font-size:11px; font-weight:600; margin-right:4px; }
+  .pill.warn { background:var(--pill-warn); color:var(--warn); }
+  .pill.crit { background:var(--pill-crit); color:var(--crit); }
+
+  .task { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; padding:8px 10px; background:var(--bg); border-radius:8px; }
+  .task .check { font-size:18px; flex-shrink:0; }
+  .task .body { flex:1; font-size:13px; }
+  .task .body .name { font-weight:600; }
+  .task .body .meta { color:var(--muted); font-size:12px; margin-top:2px; }
+  .task.done { opacity:0.55; }
+  .task.done .body .name { text-decoration:line-through; }
+
+  .footer { text-align:center; color:var(--muted); font-size:11px; margin-top:18px; }
+  .privacy { font-size:11px; color:var(--muted); padding:8px 12px; background:var(--bg); border-radius:8px; margin-bottom:14px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="brand">BNI-Prep · Di 05.05.</div>
+    <div class="date">KW19</div>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">🌗</button>
+</header>
+
+<div class="privacy">🔒 Personen-Daten anonymisiert · vollständige Version intern (iCloud)</div>
+
+<!-- 1. PITCH -->
+<section class="card">
+  <h2>💬 60-Sek-Pitch</h2>
+
+  <pre class="pitch">Daniel Arnold, Arnold Coaching.
+
+Hand aufs Herz — wer von euch denkt manchmal:
+„Mein Englisch reicht für 'One beer please'.
+Aber ein echtes Gespräch?"
+
+Eine Klientin von mir hat vor fünf Monaten gesagt:
+„I must something say."
+
+Letzten Mittwoch hat sie 74 Minuten lang
+einen Investoren-Pitch auf Englisch gehalten.
+Über Aktien-Fachterminologie.
+
+Das ist nicht Talent. Das ist ein halbes Jahr Arbeit
+mit jemandem, der mit dir am Telefon dranbleibt.
+
+Wenn ihr selbst denkt „da müsste ich mal ran" —
+sprecht mich nach dem Meeting an. 30 Minuten Erstgespräch,
+keine Verpflichtung.
+
+Daniel Arnold, Arnold Coaching.</pre>
+
+  <h3>Anti-Fallen-Check (vor dem Sprechen)</h3>
+  <ul>
+    <li>❌ NIE Mantra alleinstehend</li>
+    <li>❌ NIE bilingual als USP — hier verkaufst du EN-Inhalt direkt</li>
+    <li>⚠️ <em>„I must something say"</em> liebevoll, nie spöttisch</li>
+  </ul>
+</section>
+
+<!-- 2. FOKUS-MITGLIED -->
+<section class="card">
+  <h2>🎯 Fokus-Mitglied: Mentorin (E.L.)</h2>
+  <p><strong>Anlass:</strong> 4 Mentor-HAs überfällig — Trust-Drift verhindern.</p>
+  <p><strong>Frage:</strong> <em>„Ich hab 4 HAs offen — Plan: HA1/HA2 schließe ich diese Woche, HA8 (Bio+121-PDFs) habe ich Mo Abend gesendet, Workshop-URL klären wir am MET 15.05. Ist das so für dich ok?"</em></p>
+  <p><strong>HA7 in einem Atemzug:</strong> <em>„Wo verortest du mich offiziell — Spalte D Zeile 18 als Klassifikations-Komplement, oder neue Zeile?"</em></p>
+  <p style="font-size:13px;"><span class="pill warn">⚠️ Konflikt</span> Mo 18.05. 09:30 (nächstes Mentor-Touch-Up) hat Kollision — heute verschieben (Vorschlag 10:30 oder 11:00).</p>
+
+  <h3>Side-Touches (30 Sek nach Meeting)</h3>
+  <ul>
+    <li><strong>A.R.</strong> — Do 07.05. 14:00 bestätigen (BNI-1-2-1 oder anderer Slot?)</li>
+    <li><strong>T.H.</strong> — direkt nach Meeting 08:30 1-2-1 (15 Min)</li>
+    <li><strong>M.Z.</strong> — AURA-Login für Quartal-Meeting 12.05. einfordern</li>
+    <li style="color:var(--crit);"><strong>T.W. ❌</strong> — NICHT „2 Steuerberater-Vorschläge" überreichen (Halluzination aus anderem Transkript)</li>
+  </ul>
+</section>
+
+<!-- 3. MO-MIKRO-VERSPRECHEN -->
+<section class="card">
+  <h2>📋 Mo-Mikro-Versprechen (5)</h2>
+
+  <div class="task done">
+    <div class="check">✅</div>
+    <div class="body">
+      <div class="name">T.H. — KI-Hilfe / Schaltschrank-Update</div>
+      <div class="meta">erledigt</div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="check">⬜</div>
+    <div class="body">
+      <div class="name">M.M. — Konzept-Skizze (Vertriebs-Modell)</div>
+      <div class="meta">Anker: <em>„Legen wir ein Konzept vor"</em></div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="check">⬜</div>
+    <div class="body">
+      <div class="name">J.B. — 3 Referral-Szenarien per E-Mail + 2.-1-2-1-Vorschlag</div>
+      <div class="meta">⚠️ war fällig Mi 30.04.</div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="check">⬜</div>
+    <div class="body">
+      <div class="name">L.S. — 5-Punkte-Liste „Auftritt verständlicher" (WhatsApp scrappy)</div>
+      <div class="meta">5 inhaltliche Punkte fehlen</div>
+    </div>
+  </div>
+
+  <div class="task">
+    <div class="check">❌</div>
+    <div class="body">
+      <div class="name" style="color:var(--crit);">T.W. — 2 Steuerberater-Vorschläge</div>
+      <div class="meta" style="color:var(--crit);">Halluzination — abhaken+Note, NICHT senden</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. TRAFFIC-LIGHTS -->
+<section class="card">
+  <h2>📊 Traffic-Lights KW19</h2>
+  <ul>
+    <li><strong>1-2-1:</strong> 1 fix + 1? = <strong>2/2</strong> falls Do bestätigt</li>
+    <li><strong>Ref-given:</strong> <strong>0</strong> — Mo-Versprechen + Connect-Slips = ≥3 erreichbar</li>
+    <li><strong>Visitors:</strong> <strong>0/4 H1</strong> — Eventagentur-Recherche starten</li>
+    <li><strong>CEU:</strong> 1 (Meeting morgen)</li>
+    <li><strong>Frühindikator:</strong> <span class="pill warn">🟡 gelb</span> 4 Mentor-HAs überfällig + Pitch-Standard-Set noch nicht gebaut</li>
+  </ul>
+</section>
+
+<!-- 5. KW18-RÜCKBLICK -->
+<section class="card">
+  <h2>🔍 KW18-Rückblick (3 Learnings)</h2>
+  <ol style="margin-left:18px; font-size:13px;">
+    <li><strong>1-2-1-Spiegel</strong> zog Schicht-2-Pitch-Schwäche raus — verklausuliert</li>
+    <li><strong>Pitch-Stolperer + Sitzten-Lacher = Drift-Doppel</strong> — 60-Sek brauchen Standard-Set, das halbschlafig funktioniert</li>
+    <li><strong>Tempo-Drift bei 1-2-1s</strong> — kürzere geplante 30-Min-Slots gegensteuern</li>
+  </ol>
+</section>
+
+<div class="footer">
+  Daniel Arnold · Arnold Coaching · 🔒 noindex · BNI-Prep KW19
+</div>
+
+</div>
+
+<script>
+  function toggleTheme() {
+    const cur = document.documentElement.dataset.theme;
+    document.documentElement.dataset.theme = (cur === 'dark') ? 'light' : 'dark';
+    try { localStorage.setItem('bni-prep-theme', document.documentElement.dataset.theme); } catch(e) {}
+  }
+  try {
+    const saved = localStorage.getItem('bni-prep-theme');
+    if (saved) document.documentElement.dataset.theme = saved;
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.dataset.theme = 'dark';
+  } catch(e) {}
+</script>
+
+</body>
+</html>
