@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Wärmepumpen-Recht mit Claude — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&family=Quicksand:wght@400;500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2f1ef;
+    --paper: #ffffff;
+    --ink: #343434;
+    --ink-soft: #565656;
+    --ink-mute: #858a92;
+    --line: #e0ddd6;
+    --accent: #edbd41;
+    --accent-bg: #fbf3da;
+    --accent-deep: #b78d18;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--paper);
+    min-height: 100vh;
+    box-shadow: 0 0 40px rgba(0,0,0,0.05);
+  }
+
+  header {
+    padding: 36px 24px 30px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: relative;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0;
+    width: 64px; height: 3px;
+    background: var(--accent);
+  }
+
+  .eyebrow {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    font-size: clamp(30px, 7vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  h1 .mark { color: var(--accent-deep); }
+
+  .subtitle { font-size: 16px; color: var(--ink-soft); line-height: 1.55; }
+
+  section { padding: 28px 24px; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+
+  h2 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 23px;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+
+  p { margin-bottom: 12px; color: var(--ink-soft); }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  .lede {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .howto { list-style: none; counter-reset: step; margin-top: 16px; }
+  .howto li {
+    position: relative;
+    padding: 0 0 18px 48px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .howto li:last-child { padding-bottom: 0; }
+  .howto li::before {
+    counter-increment: step;
+    content: counter(step, decimal-leading-zero);
+    position: absolute; left: 0; top: -2px;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700; font-size: 15px;
+    color: var(--accent-deep);
+    background: var(--accent-bg);
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+  }
+  .howto li strong { display: block; color: var(--ink); margin-bottom: 2px; }
+
+  .ai-output {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 20px 20px;
+    margin-top: 18px;
+    position: relative;
+  }
+  .ai-output::before {
+    content: 'Beispiel · Claude-Ausgabe';
+    position: absolute; top: -9px; left: 16px;
+    background: var(--paper);
+    padding: 0 8px;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  .step { margin-bottom: 20px; }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700; font-size: 13px;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-bottom: 6px;
+  }
+  .step p { color: var(--ink-soft); font-size: 14.5px; margin: 0; }
+  .step ul { padding-left: 0; list-style: none; }
+  .step ul li {
+    padding-left: 18px; position: relative;
+    margin-bottom: 6px; color: var(--ink-soft); font-size: 14.5px;
+  }
+  .step ul li::before {
+    content: ''; position: absolute; left: 0; top: 11px;
+    width: 8px; height: 1px; background: var(--accent);
+  }
+
+  .info-box {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+    padding: 16px 18px;
+    margin: 18px 0 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .info-box .label {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent-deep);
+    margin-bottom: 6px;
+  }
+  .info-box p { color: var(--ink); font-size: 14px; margin: 0; }
+
+  .care-box {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+    margin-top: 18px;
+    border-radius: 4px;
+  }
+  .care-box .label {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .care-box p { color: var(--ink-soft); font-size: 14px; margin: 0; }
+
+  .cta-block { background: var(--ink); color: white; padding: 34px 24px; }
+  .cta-block h2 { color: white; }
+  .cta-block p { color: rgba(255,255,255,0.78); }
+
+  .button-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .btn {
+    display: block;
+    padding: 15px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500; font-size: 15px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-align: left;
+    position: relative;
+  }
+  .btn-primary { background: var(--accent); color: var(--ink); }
+  .btn-primary:hover { background: #f2cb5e; }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.16); }
+  .btn::after {
+    content: '→';
+    position: absolute; right: 18px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px; transition: transform 0.2s;
+  }
+  .btn:hover::after { transform: translateY(-50%) translateX(4px); }
+  .btn-meta {
+    display: block;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 400; font-size: 12px;
+    margin-top: 3px; opacity: 0.65; letter-spacing: 0.04em;
+  }
+
+  footer { padding: 26px 24px; background: var(--bg); text-align: center; border-top: 1px solid var(--line); }
+  .signature { font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 19px; color: var(--ink); margin-bottom: 4px; }
+  .role {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 500; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-mute); margin-bottom: 12px;
+  }
+  .contact-link {
+    color: var(--accent-deep); text-decoration: none; font-size: 14px;
+    border-bottom: 1px solid transparent; transition: border-color 0.2s;
+  }
+  .contact-link:hover { border-bottom-color: var(--accent-deep); }
+
+  @media (max-width: 480px) { h1 { font-size: 30px; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Demo · Wärmepumpen-Recht mit Claude</div>
+    <h1>Die Regeln,<br><span class="mark">für dich gelesen.</span></h1>
+    <p class="subtitle">Hallo André — das ist das Setup, über das wir gesprochen haben. Du lädst das Gesetz oder die Anschlussregeln als PDF rein, stellst eine Frage, und Claude sortiert: was ihr tun müsst, was erlaubt ist, und was im Dokument nicht steht.</p>
+  </header>
+
+  <section>
+    <h2>Worum es geht</h2>
+    <p class="lede">Ein Claude-Project, das deutsche Regeln zu Wärmepumpen-Installation, Netzanschluss und Zähler liest — und in einem festen 5-Punkte-Schema antwortet.</p>
+    <p>Genau die Zähler-Frage, die euren Kunden überrascht hat, fängt das ab. Statt jemanden zu fragen, der es nicht weiß, lädst du die Regeln rein und lässt Claude die Pflichten und Fristen herausziehen — und das, was offen bleibt.</p>
+  </section>
+
+  <section>
+    <h2>So läuft es</h2>
+    <ul class="howto">
+      <li><strong>Claude Pro starten</strong>20 € im Monat. Claude, nicht ChatGPT — liest lange Dokumente und sagt „steht hier nicht drin", statt zu raten.</li>
+      <li><strong>Project anlegen</strong>Den deutschen Anweisungs-Block einmal einfügen. Deine Standard-Anschlussregeln als Project-Dateien hinterlegen, dann sind sie immer geladen.</li>
+      <li><strong>PDF reinziehen</strong>Gesetz oder Anschlussregeln anhängen, fragen: „Wir wollen eine Wärmepumpe installieren — was müssen wir tun?"</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Was zurückkommt</h2>
+    <p>Die Antwort kommt auf Deutsch, direkt nutzbar — fünf Punkte, jedes Mal. Das Folgende ist ein <strong>Muster, keine geprüfte Rechtsauskunft</strong>:</p>
+
+    <div class="ai-output">
+      <div class="step">
+        <div class="step-num">01 / Anlage &amp; Übersicht</div>
+        <p>Luft-Wasser-Wärmepumpe, elektrisch, Einfamilienhaus Bestand. Vorliegend: Anschlussregeln des Netzbetreibers (PDF). Es fehlt: konkrete Anschlussleistung der gewählten Pumpe und der aktuelle Zählerplatz-Typ.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02 / Erforderlich — Pflichten &amp; Anmeldungen</div>
+        <ul>
+          <li>Anmeldung der Wärmepumpe beim Netzbetreiber <strong>vor</strong> Installation (Abschnitt 3 des Dokuments)</li>
+          <li>Zustimmung des Netzbetreibers abwarten, bevor angeschlossen wird</li>
+          <li>Inbetriebnahme-Meldung nach Installation</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-num">03 / Erlaubt / Bedingt</div>
+        <p>Reduziertes Netzentgelt möglich, wenn die Pumpe als steuerbare Verbrauchseinrichtung angemeldet ist. Parallelbetrieb mit der vorhandenen Heizung erlaubt, solange die Anschlussleistung im Rahmen bleibt.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04 / Nicht aus diesem Dokument ableitbar</div>
+        <ul>
+          <li>Ob der vorhandene Zähler / Zählerplatz für die Last reicht</li>
+          <li>Landesspezifische Abweichungen außerhalb dieses Netzgebiets</li>
+          <li>Förderbedingungen (andere Quelle nötig)</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-num">05 / Nächster Schritt</div>
+        <p>Anschlussleistung der gewählten Pumpe festlegen, dann beim Netzbetreiber Zählerplatz und Zustimmungs-Schwelle klären. Anmeldeformular aus Abschnitt 3 besorgen.</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <div class="label">Der Zähler-/Netz-Spezialfall</div>
+      <p>Claude prüft die Zähler- und Netzbetreiber-Frage immer von sich aus: reicht der vorhandene Zähler, braucht es einen Zählertausch, muss der Netzbetreiber vor der Installation zustimmen. Steht das Dokument dazu still, sagt Claude das in Punkt 04 — statt zu raten.</p>
+    </div>
+
+    <div class="care-box">
+      <div class="label">Was das nicht ist</div>
+      <p>Eine Lese-Hilfe, keine Rechtsberatung. Sie ersetzt nicht die Fachplanung, die Elektrofachkraft oder die Freigabe des Netzbetreibers. Wenn Claude „nicht aus diesem Dokument ableitbar" sagt, ist das der Moment, die Stelle anzurufen, die entscheidet.</p>
+    </div>
+  </section>
+
+  <div class="cta-block">
+    <h2>Ausprobieren?</h2>
+    <p>Drei Schritte, etwa 15 Minuten. Die ganze Anleitung liegt als Markdown — der deutsche Anweisungs-Block ist drin, fertig zum Einfügen ins Project.</p>
+
+    <div class="button-group">
+      <a href="https://claude.ai/upgrade" class="btn btn-primary" target="_blank" rel="noopener">
+        Claude Pro starten
+        <span class="btn-meta">claude.ai/upgrade · 20 €/Monat</span>
+      </a>
+      <a href="https://claude.ai/projects" class="btn btn-secondary" target="_blank" rel="noopener">
+        Project anlegen
+        <span class="btn-meta">claude.ai/projects</span>
+      </a>
+      <a href="setup.md" class="btn btn-secondary" target="_blank" rel="noopener">
+        Anleitung öffnen
+        <span class="btn-meta">Markdown · Block zum Einfügen</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="signature">Daniel Arnold</div>
+    <div class="role">Arnold Coaching · Zwickau</div>
+    <a href="https://arnoldcoaching.de" class="contact-link" target="_blank" rel="noopener">arnoldcoaching.de</a>
+  </footer>
+
+</div>
+
+</body>
+</html>
