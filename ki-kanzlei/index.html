@@ -40,48 +40,37 @@
   }
 
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } }
   body { margin:0; font-family:var(--sans); color:var(--ink); background:var(--paper); line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-  .deck { height:100vh; overflow-y:scroll; scroll-snap-type:y proximity; scroll-behavior:smooth; }
-  @media (prefers-reduced-motion: reduce) { .deck { scroll-behavior:auto; } }
+  /* ---- Continuous page: stacked sections ---- */
+  .section { padding:clamp(2.6rem,6vh,4.5rem) clamp(1.4rem,7vw,5rem); border-top:1px solid var(--line); }
+  .section > .wrap { max-width:880px; margin:0 auto; width:100%; }
+  .hero { border-top:0; min-height:74vh; display:flex; align-items:center; padding-top:clamp(4.6rem,9vh,6.5rem); }
 
-  .slide {
-    min-height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:center;
-    padding:clamp(2rem,6vw,6rem) clamp(1.5rem,8vw,9rem); position:relative;
-  }
-  .slide::before {
-    content:attr(data-n); position:absolute; top:clamp(1.5rem,4vw,3rem); right:clamp(1.5rem,8vw,9rem);
-    font-family:var(--mono); font-size:.72rem; letter-spacing:.18em; color:var(--ink-faint);
-  }
-  .wrap { width:100%; max-width:940px; margin:0 auto; }
-
-  .eyebrow {
-    font-family:var(--mono); font-size:.74rem; letter-spacing:.22em; text-transform:uppercase; color:var(--green);
-    display:inline-flex; align-items:center; gap:.7em; margin:0 0 1.4rem;
-  }
+  .eyebrow { font-family:var(--mono); font-size:.74rem; letter-spacing:.22em; text-transform:uppercase; color:var(--green); display:inline-flex; align-items:center; gap:.7em; margin:0 0 1.3rem; }
   .eyebrow::before { content:""; width:1.8rem; height:2px; background:var(--brass); display:inline-block; }
 
   h1 { font-family:var(--serif); font-weight:600; font-size:clamp(2.5rem,7vw,5rem); line-height:1.04; letter-spacing:-.015em; margin:0 0 1.4rem; text-wrap:balance; }
-  h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.85rem,4.4vw,3rem); line-height:1.08; letter-spacing:-.01em; margin:0 0 1.6rem; text-wrap:balance; }
-  .lede { font-size:clamp(1.08rem,2vw,1.4rem); color:var(--ink-soft); max-width:60ch; margin:0; }
+  h2 { font-family:var(--serif); font-weight:600; font-size:clamp(1.8rem,4.4vw,2.9rem); line-height:1.1; letter-spacing:-.01em; margin:0 0 1.5rem; text-wrap:balance; }
+  .lede { font-size:clamp(1.05rem,2vw,1.35rem); color:var(--ink-soft); max-width:60ch; margin:0; }
   .lede strong { color:var(--ink); font-weight:600; }
 
-  .title-meta { margin-top:2.6rem; padding-top:1.6rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:1.1rem 2.8rem; font-family:var(--mono); font-size:.8rem; letter-spacing:.04em; color:var(--ink-soft); }
+  .title-meta { margin-top:2.4rem; padding-top:1.5rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:1rem 2.6rem; font-family:var(--mono); font-size:.8rem; letter-spacing:.04em; color:var(--ink-soft); }
   .title-meta b { color:var(--ink); font-weight:600; }
-  .thesis { font-family:var(--serif); font-size:clamp(1.25rem,2.6vw,1.85rem); font-style:italic; line-height:1.4; color:var(--ink); margin:2.2rem 0 0; max-width:52ch; padding-left:1.4rem; border-left:3px solid var(--green); }
+  .thesis { font-family:var(--serif); font-size:clamp(1.2rem,2.6vw,1.8rem); font-style:italic; line-height:1.4; color:var(--ink); margin:2.1rem 0 0; max-width:52ch; padding-left:1.4rem; border-left:3px solid var(--green); }
 
-  .rows { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
-  .rows li { display:grid; grid-template-columns:11rem 1fr; gap:1.6rem; padding:1.1rem 0; border-top:1px solid var(--line); align-items:baseline; }
+  .rows { list-style:none; margin:0; padding:0; }
+  .rows li { display:grid; grid-template-columns:11rem 1fr; gap:1.5rem; padding:1.1rem 0; border-top:1px solid var(--line); align-items:baseline; }
   .rows li:last-child { border-bottom:1px solid var(--line); }
   .rows .k { font-family:var(--mono); font-size:.82rem; letter-spacing:.04em; text-transform:uppercase; color:var(--green); font-weight:600; }
   .rows .v { font-size:1.04rem; color:var(--ink-soft); }
   .rows .v b { color:var(--ink); font-weight:600; }
-
   .thread { margin-top:2rem; font-family:var(--serif); font-style:italic; font-size:1.2rem; color:var(--ink); }
   .thread .lbl { color:var(--green); font-style:normal; font-family:var(--mono); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:.3rem; }
 
-  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; margin-top:.5rem; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin-top:.5rem; }
   .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.3rem 1.4rem; box-shadow:var(--shadow); }
   .card .num { font-family:var(--mono); font-size:.74rem; color:var(--brass); letter-spacing:.1em; }
   .card h3 { font-family:var(--sans); font-size:1.02rem; font-weight:650; margin:.5rem 0 .5rem; color:var(--ink); line-height:1.25; }
@@ -94,17 +83,15 @@
   .guard p { margin:0; color:var(--ink-soft); font-size:.96rem; }
   .guard p b { color:var(--ink); font-weight:600; }
 
-  /* Start slide */
   .startcard { margin-top:.4rem; background:var(--card); border:1px solid var(--line); border-top:4px solid var(--green); border-radius:12px; padding:1.5rem 1.6rem; box-shadow:var(--shadow); }
   .startcard .tool { font-family:var(--mono); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--green); font-weight:600; display:flex; align-items:center; gap:.6em; margin-bottom:.7rem; }
-  .startcard .why { font-size:1.06rem; color:var(--ink-soft); margin:0; }
+  .startcard .why { font-size:1.05rem; color:var(--ink-soft); margin:0; }
   .startcard .why b { color:var(--ink); font-weight:600; }
   .twosteps { list-style:none; margin:1.3rem 0 0; padding:1.2rem 0 0; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:.8rem; }
   .twosteps li { display:grid; grid-template-columns:auto 1fr; gap:.8rem; font-size:1rem; color:var(--ink-soft); align-items:baseline; }
   .twosteps li b { color:var(--ink); font-weight:600; }
   .twosteps .mk { font-family:var(--serif); font-weight:600; color:var(--green); }
 
-  /* Traffic light */
   .ampel { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:.5rem; }
   .zone { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.2rem 1.3rem; box-shadow:var(--shadow); }
   .zone.green { border-top:4px solid var(--green); }
@@ -116,7 +103,6 @@
   .zone li::before { content:"·"; position:absolute; left:.2rem; color:var(--ink-faint); }
   .ampel-rule { margin-top:1.3rem; font-family:var(--serif); font-style:italic; font-size:1.2rem; color:var(--ink); }
 
-  /* Prompt cards */
   .prompts { display:flex; flex-direction:column; gap:1rem; margin-top:.5rem; }
   .promptcard { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1.15rem 1.3rem; box-shadow:var(--shadow); display:grid; grid-template-columns:auto 1fr auto; gap:1rem; align-items:center; }
   .promptcard .pnum { font-family:var(--mono); font-size:.74rem; color:var(--brass); letter-spacing:.1em; }
@@ -126,64 +112,31 @@
   .copybtn:focus-visible { outline:2px solid var(--brass); outline-offset:2px; }
   .prompts-note { margin-top:1rem; font-size:.88rem; color:var(--ink-faint); font-family:var(--mono); }
 
-  /* Rule sheet */
-  .rulesheet { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:1.6rem 1.7rem; box-shadow:var(--shadow); }
-  .rulesheet .sheet-title { font-family:var(--serif); font-size:1.35rem; font-weight:600; margin:0 0 1.1rem; color:var(--ink); }
-  .rulesheet ol { margin:0; padding:0; list-style:none; counter-reset:r; display:flex; flex-direction:column; gap:.9rem; }
-  .rulesheet li { counter-increment:r; display:grid; grid-template-columns:1.8rem 1fr; gap:.7rem; font-size:1.02rem; color:var(--ink); align-items:baseline; }
-  .rulesheet li::before { content:counter(r); font-family:var(--mono); font-weight:600; color:var(--green); }
-  .rulesheet li b { font-weight:650; }
-  .printbtn { margin-top:1.4rem; font-family:var(--sans); font-size:.85rem; font-weight:600; border:1px solid var(--green); background:var(--green); color:var(--paper-2); padding:.55rem 1.1rem; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:.5em; }
-  .printbtn:hover { background:var(--green-2); border-color:var(--green-2); }
-  .printbtn:focus-visible { outline:2px solid var(--brass); outline-offset:2px; }
-  .close { margin-top:1.8rem; font-family:var(--serif); font-style:italic; font-size:clamp(1.2rem,2.4vw,1.6rem); color:var(--ink); text-wrap:balance; }
+  .posterrow { display:flex; flex-wrap:wrap; align-items:center; gap:1rem 1.4rem; margin-top:1.4rem; }
+  .posterbtn { display:inline-flex; align-items:center; gap:.6em; font-family:var(--sans); font-size:1rem; font-weight:650; text-decoration:none; border:1px solid var(--green); background:var(--green); color:var(--paper-2); padding:.75rem 1.4rem; border-radius:10px; transition:background .2s,border-color .2s; }
+  .posterbtn:hover { background:var(--green-2); border-color:var(--green-2); }
+  .posterbtn:focus-visible { outline:2px solid var(--brass); outline-offset:2px; }
+  .posterhint { font-size:.9rem; color:var(--ink-faint); }
+  .close { margin-top:2rem; font-family:var(--serif); font-style:italic; font-size:clamp(1.2rem,2.4vw,1.6rem); color:var(--ink); text-wrap:balance; }
 
-  /* Language switch */
-  .langswitch { position:fixed; top:clamp(.9rem,3vw,1.6rem); left:50%; transform:translateX(-50%); z-index:30; display:flex; gap:2px; padding:3px; background:color-mix(in srgb,var(--paper) 78%,transparent); border:1px solid var(--line); border-radius:999px; backdrop-filter:blur(6px); box-shadow:var(--shadow); }
-  .langswitch button { font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; font-weight:600; border:0; background:transparent; color:var(--ink-soft); padding:.34rem .85rem; border-radius:999px; cursor:pointer; transition:background .2s,color .2s; }
+  .langswitch { position:fixed; top:clamp(.9rem,3vw,1.4rem); right:clamp(.9rem,3vw,1.4rem); z-index:30; display:flex; gap:2px; padding:3px; background:color-mix(in srgb,var(--paper) 80%,transparent); border:1px solid var(--line); border-radius:999px; backdrop-filter:blur(6px); box-shadow:var(--shadow); }
+  .langswitch button { font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; font-weight:600; border:0; background:transparent; color:var(--ink-soft); padding:.34rem .8rem; border-radius:999px; cursor:pointer; transition:background .2s,color .2s; }
   .langswitch button[aria-pressed="true"] { background:var(--green); color:var(--paper-2); }
   .langswitch button:focus-visible { outline:2px solid var(--brass); outline-offset:2px; }
 
-  .nav { position:fixed; right:clamp(.9rem,2vw,1.7rem); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:.7rem; z-index:20; }
-  .nav a { width:9px; height:9px; border-radius:50%; border:1.5px solid var(--ink-faint); background:transparent; transition:background .2s,border-color .2s,transform .2s; }
-  .nav a.active { background:var(--green); border-color:var(--green); transform:scale(1.25); }
-  .nav a:focus-visible { outline:2px solid var(--brass); outline-offset:3px; }
-
-  .hint { position:fixed; bottom:1.1rem; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; color:var(--ink-faint); z-index:20; display:flex; align-items:center; gap:.5em; background:color-mix(in srgb,var(--paper) 80%,transparent); padding:.3rem .8rem; border-radius:999px; backdrop-filter:blur(4px); }
-  kbd { font-family:var(--mono); border:1px solid var(--line); border-bottom-width:2px; border-radius:4px; padding:.05em .4em; font-size:.9em; color:var(--ink-soft); }
-
   .reveal > * { opacity:0; transform:translateY(14px); }
   .reveal.seen > * { opacity:1; transform:none; transition:opacity .6s ease, transform .6s ease; }
-  .reveal.seen > *:nth-child(2) { transition-delay:.06s; }
-  .reveal.seen > *:nth-child(3) { transition-delay:.12s; }
-  .reveal.seen > *:nth-child(4) { transition-delay:.18s; }
+  .reveal.seen > *:nth-child(2) { transition-delay:.05s; }
+  .reveal.seen > *:nth-child(3) { transition-delay:.1s; }
+  .reveal.seen > *:nth-child(4) { transition-delay:.15s; }
   @media (prefers-reduced-motion: reduce) { .reveal > * { opacity:1; transform:none; } }
 
-  @media (max-width: 760px) {
-    .deck { height:auto; overflow:visible; scroll-snap-type:none; }
-    .slide { min-height:auto; scroll-snap-align:none; padding:4.2rem 1.3rem 3rem; }
-    .slide + .slide { border-top:1px solid var(--line); }
-    .nav, .hint { display:none; }
+  @media (max-width: 720px) {
+    .hero { min-height:auto; padding-top:4.4rem; }
     .rows li { grid-template-columns:1fr; gap:.3rem; }
     .ampel { grid-template-columns:1fr; }
     .promptcard { grid-template-columns:1fr; gap:.7rem; }
     .copybtn { justify-self:start; }
-    .slide::before { right:1.3rem; top:1.4rem; }
-    .langswitch { top:.75rem; }
-  }
-
-  @media print {
-    .langswitch, .nav, .hint, .printbtn, .copybtn { display:none !important; }
-    .deck { height:auto !important; overflow:visible !important; }
-    .slide { display:none !important; min-height:auto !important; padding:0 !important; }
-    .slide::before { display:none !important; }
-    #s8 { display:block !important; }
-    #s8 .eyebrow, #s8 h2, #s8 .close { display:none !important; }
-    .reveal > * { opacity:1 !important; transform:none !important; }
-    body { background:#fff; color:#000; }
-    .rulesheet { border:2px solid #000; box-shadow:none; }
-    .rulesheet .sheet-title, .rulesheet li, .rulesheet li b { color:#000 !important; }
-    .rulesheet li::before { color:#000 !important; }
   }
 </style>
 </head>
@@ -194,16 +147,9 @@
   <button type="button" data-lang="en" aria-pressed="true">EN</button>
 </div>
 
-<nav class="nav" aria-label="Slides">
-  <a href="#s1" class="active" aria-label="1"></a><a href="#s2" aria-label="2"></a><a href="#s3" aria-label="3"></a><a href="#s4" aria-label="4"></a><a href="#s5" aria-label="5"></a><a href="#s6" aria-label="6"></a><a href="#s7" aria-label="7"></a><a href="#s8" aria-label="8"></a>
-</nav>
+<main>
 
-<div class="hint"><kbd>↓</kbd> <span data-t="hint">or <kbd>Space</kbd> to advance</span></div>
-
-<div class="deck" id="deck">
-
-  <!-- 1 -->
-  <section class="slide" id="s1" data-n="01 · 08">
+  <section class="section hero">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb1">A short look</p>
       <h1 data-t="h1">AI in your office —<br>what works today</h1>
@@ -217,8 +163,7 @@
     </div>
   </section>
 
-  <!-- 2 -->
-  <section class="slide" id="s2" data-n="02 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb2">From my day</p>
       <h2 data-t="h2b">How I use AI every day</h2>
@@ -233,8 +178,7 @@
     </div>
   </section>
 
-  <!-- 3 -->
-  <section class="slide" id="s3" data-n="03 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb3">For you</p>
       <h2 data-t="h3b">Seven ways to use it in your office</h2>
@@ -250,8 +194,7 @@
     </div>
   </section>
 
-  <!-- 4 -->
-  <section class="slide" id="s4" data-n="04 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb4">Important</p>
       <h2 data-t="h4b">Three safety rules</h2>
@@ -281,8 +224,7 @@
     </div>
   </section>
 
-  <!-- 5 -->
-  <section class="slide" id="s5" data-n="05 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb5">Your first step</p>
       <h2 data-t="h5b">Start here — ChatGPT Team</h2>
@@ -297,8 +239,7 @@
     </div>
   </section>
 
-  <!-- 6 — Traffic light -->
-  <section class="slide" id="s6" data-n="06 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb6">What is safe</p>
       <h2 data-t="h6b">Safe today — or not yet</h2>
@@ -333,8 +274,7 @@
     </div>
   </section>
 
-  <!-- 7 — Starter prompts -->
-  <section class="slide" id="s7" data-n="07 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb7">Ready to use</p>
       <h2 data-t="h7b">Try these three first</h2>
@@ -359,39 +299,29 @@
     </div>
   </section>
 
-  <!-- 8 — Print rule sheet -->
-  <section class="slide" id="s8" data-n="08 · 08">
+  <section class="section">
     <div class="wrap reveal">
       <p class="eyebrow" data-t="eb8">For your team</p>
-      <h2 data-t="h8b">Print this for the office</h2>
-      <div class="rulesheet">
-        <p class="sheet-title" data-t="sheettitle">AI in our office — our rules</p>
-        <ol>
-          <li data-t="r1"><b>One place:</b> we use ChatGPT Team, nothing else.</li>
-          <li data-t="r2"><b>Green means go, red means stop.</b> No client data — no names, numbers or files.</li>
-          <li data-t="r3"><b>Always check.</b> The AI can be wrong with numbers, dates and § references.</li>
-          <li data-t="r4"><b>AI writes the draft. You decide and sign.</b></li>
-        </ol>
-        <button class="printbtn" type="button" data-t="printlabel">⎙ &nbsp;Print</button>
+      <h2 data-t="h8b">A poster for the office</h2>
+      <p class="lede" data-t="teamlede">One page for the wall: what is safe and what is not — at a glance, in colour. Open it, then print.</p>
+      <div class="posterrow">
+        <a class="posterbtn" id="posterbtn" href="poster.html" target="_blank" rel="noopener"><span data-t="posterlabel">Open the office poster</span> <span aria-hidden="true">→</span></a>
+        <span class="posterhint" data-t="posterhint">Opens in a new tab · print in A4</span>
       </div>
       <p class="close" data-t="close">Not everything at once. One account, the safe tasks first — and I am right there with you.</p>
     </div>
   </section>
 
-</div>
+</main>
 
 <script>
   (function () {
     var T = {
-      hint:{en:'or <kbd>Space</kbd> to advance',de:'oder <kbd>Leertaste</kbd> zum Blättern'},
-
       eb1:{en:'A short look',de:'Ein kurzer Blick'},
       h1:{en:'AI in your office —<br>what works today',de:'KI in Ihrem Büro —<br>was heute geht'},
       lede1:{en:'How I use AI in my own work — and what you can use in <strong>your tax office</strong>.',de:'Wie ich KI in meiner Arbeit nutze — und was Sie in <strong>Ihrer Kanzlei</strong> nutzen können.'},
       thesis:{en:'AI does not take away your responsibility. It takes away the first hour of every task.',de:'KI nimmt Ihnen nicht die Verantwortung. Sie nimmt Ihnen die erste Stunde jeder Aufgabe.'},
-      m_for:{en:'For',de:'Für'},
-      m_by:{en:'By',de:'Von'},
-      m_date:{en:'July 10, 2026',de:'10. Juli 2026'},
+      m_for:{en:'For',de:'Für'}, m_by:{en:'By',de:'Von'}, m_date:{en:'July 10, 2026',de:'10. Juli 2026'},
 
       eb2:{en:'From my day',de:'Aus meinem Alltag'},
       h2b:{en:'How I use AI every day',de:'Wie ich KI jeden Tag nutze'},
@@ -463,38 +393,32 @@
       p1:{en:'Explain [topic] in simple words, for someone with no tax knowledge. Five short sentences, friendly tone.',de:'Erkläre [Thema] in einfachen Worten, für jemanden ohne Steuerwissen. Fünf kurze Sätze, freundlicher Ton.'},
       p2:{en:'Write a neutral template letter to the tax office asking for a deadline extension. Use [placeholders] for name, date and reference. No real data.',de:'Schreibe eine neutrale Vorlage für einen Brief ans Finanzamt mit der Bitte um Fristverlängerung. Nutze [Platzhalter] für Name, Datum und Aktenzeichen. Keine echten Daten.'},
       p3:{en:'Make this text shorter and clearer. Keep the meaning. [paste an internal text with no client data]',de:'Mach diesen Text kürzer und klarer. Behalte die Bedeutung. [internen Text ohne Mandantendaten einfügen]'},
-      copylabel:{en:'Copy',de:'Kopieren'},
-      copied:{en:'Copied ✓',de:'Kopiert ✓'},
+      copylabel:{en:'Copy',de:'Kopieren'}, copied:{en:'Copied ✓',de:'Kopiert ✓'},
       promptsnote:{en:'Each prompt is safe — there is no client data in it.',de:'Jeder Prompt ist sicher — es sind keine Mandantendaten darin.'},
 
       eb8:{en:'For your team',de:'Für Ihr Team'},
-      h8b:{en:'Print this for the office',de:'Zum Ausdrucken fürs Büro'},
-      sheettitle:{en:'AI in our office — our rules',de:'KI in unserem Büro — unsere Regeln'},
-      r1:{en:'<b>One place:</b> we use ChatGPT Team, nothing else.',de:'<b>Ein Ort:</b> Wir nutzen ChatGPT Team, sonst nichts.'},
-      r2:{en:'<b>Green means go, red means stop.</b> No client data — no names, numbers or files.',de:'<b>Grün heißt los, rot heißt stopp.</b> Keine Mandantendaten — keine Namen, Zahlen oder Dateien.'},
-      r3:{en:'<b>Always check.</b> The AI can be wrong with numbers, dates and § references.',de:'<b>Immer prüfen.</b> Die KI kann bei Zahlen, Daten und §-Angaben falsch liegen.'},
-      r4:{en:'<b>AI writes the draft. You decide and sign.</b>',de:'<b>Die KI schreibt den Entwurf. Sie entscheiden und unterschreiben.</b>'},
-      printlabel:{en:'⎙ &nbsp;Print',de:'⎙ &nbsp;Drucken'},
+      h8b:{en:'A poster for the office',de:'Ein Poster fürs Büro'},
+      teamlede:{en:'One page for the wall: what is safe and what is not — at a glance, in colour. Open it, then print.',de:'Eine Seite für die Wand: was sicher ist und was nicht — auf einen Blick, in Farbe. Öffnen, dann drucken.'},
+      posterlabel:{en:'Open the office poster',de:'Büro-Poster öffnen'},
+      posterhint:{en:'Opens in a new tab · print in A4',de:'Öffnet in neuem Tab · Druck in A4'},
       close:{en:'Not everything at once. One account, the safe tasks first — and I am right there with you.',de:'Nicht alles auf einmal. Ein Konto, die sicheren Aufgaben zuerst — und ich bin direkt an Ihrer Seite.'}
     };
 
     var lang = 'en';
     var nodes = document.querySelectorAll('[data-t]');
     var btns = document.querySelectorAll('.langswitch button');
+    var poster = document.getElementById('posterbtn');
 
     function applyLang(l) {
       lang = l;
       document.documentElement.setAttribute('lang', l);
-      nodes.forEach(function (el) {
-        var e = T[el.getAttribute('data-t')];
-        if (e && e[l] != null) el.innerHTML = e[l];
-      });
+      nodes.forEach(function (el) { var e = T[el.getAttribute('data-t')]; if (e && e[l] != null) el.innerHTML = e[l]; });
       btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+      if (poster) poster.setAttribute('href', 'poster.html?lang=' + l);
     }
     btns.forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); }); });
     applyLang('en');
 
-    // Copy buttons
     document.querySelectorAll('.copybtn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.promptcard');
@@ -505,49 +429,13 @@
       });
     });
 
-    // Print button
-    var pb = document.querySelector('.printbtn');
-    if (pb) pb.addEventListener('click', function () { window.print(); });
-
-    // Deck
-    var deck = document.getElementById('deck');
-    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
-    var dots = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
-    var ratios = {};
-
-    function setActive() {
-      var best = -1, bi = 0;
-      slides.forEach(function (s, i) { var r = ratios[i] || 0; if (r > best) { best = r; bi = i; } });
-      dots.forEach(function (d, di) { d.classList.toggle('active', di === bi); });
-    }
+    var revs = document.querySelectorAll('.reveal');
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          var i = slides.indexOf(e.target);
-          ratios[i] = e.isIntersecting ? e.intersectionRatio : 0;
-          if (e.isIntersecting && e.intersectionRatio > 0.08) {
-            var r = e.target.querySelector('.reveal'); if (r) r.classList.add('seen');
-          }
-        });
-        setActive();
-      }, { threshold: [0, 0.08, 0.25, 0.5, 0.75, 1] });
-      slides.forEach(function (s) { io.observe(s); });
-    } else {
-      document.querySelectorAll('.reveal').forEach(function (r) { r.classList.add('seen'); });
-    }
-
-    function go(dir) {
-      var idx = Math.round(deck.scrollTop / window.innerHeight);
-      var next = Math.max(0, Math.min(slides.length - 1, idx + dir));
-      slides[next].scrollIntoView({ behavior: 'smooth' });
-    }
-    window.addEventListener('keydown', function (e) {
-      if (e.target && /^(BUTTON|A|INPUT|TEXTAREA)$/.test(e.target.tagName) && (e.key === ' ' || e.key === 'Enter')) return;
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(1); }
-      else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
-      else if (e.key === 'Home') { e.preventDefault(); slides[0].scrollIntoView({ behavior: 'smooth' }); }
-      else if (e.key === 'End') { e.preventDefault(); slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' }); }
-    });
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } });
+      }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0 });
+      revs.forEach(function (r) { io.observe(r); });
+    } else { revs.forEach(function (r) { r.classList.add('seen'); }); }
   })();
 </script>
 </body>

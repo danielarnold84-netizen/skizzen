@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>KI im Büro — Poster</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#1A2620; --ink-soft:#4A5A50; --paper:#FFFFFF;
+    --green:#1F5C3D; --green-bg:#E7F1EB; --green-ink:#123C28;
+    --red:#B23A2E; --red-bg:#F8E7E3; --red-ink:#7E2A22;
+    --amber:#9A7B24; --amber-bg:#F7EFD9; --amber-ink:#6B5514;
+    --serif:"Fraunces",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",system-ui,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:var(--sans); color:var(--ink); background:#E6E4DE; line-height:1.4; -webkit-font-smoothing:antialiased; padding:28px 16px 90px; }
+
+  .poster {
+    background:var(--paper); color:var(--ink);
+    max-width:820px; margin:0 auto; padding:40px 44px;
+    border-radius:6px; box-shadow:0 14px 44px rgba(0,0,0,.18);
+    border:1px solid #E3E0D8;
+  }
+
+  .p-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; border-bottom:3px solid var(--green); padding-bottom:16px; margin-bottom:22px; flex-wrap:wrap; }
+  .kicker { font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--green); margin-bottom:8px; }
+  h1 { font-family:var(--serif); font-weight:700; font-size:44px; line-height:1; letter-spacing:-.02em; }
+  .sub { font-family:var(--serif); font-size:19px; font-style:italic; color:var(--ink-soft); text-align:right; max-width:16ch; }
+
+  .lights { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px; }
+  .light { border-radius:10px; padding:16px 16px 18px; border:1px solid rgba(0,0,0,.06); }
+  .light.green { background:var(--green-bg); }
+  .light.red   { background:var(--red-bg); }
+  .light.amber { background:var(--amber-bg); }
+  .light .lh { display:flex; align-items:center; gap:9px; margin-bottom:3px; }
+  .light .disc { width:16px; height:16px; border-radius:50%; flex:0 0 auto; }
+  .light.green .disc { background:var(--green); }
+  .light.red   .disc { background:var(--red); }
+  .light.amber .disc { background:var(--amber); }
+  .light .word { font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:.08em; }
+  .light.green .word { color:var(--green-ink); }
+  .light.red   .word { color:var(--red-ink); }
+  .light.amber .word { color:var(--amber-ink); }
+  .light .tag { font-size:12px; color:var(--ink-soft); margin:0 0 12px 25px; font-weight:500; }
+  .light ul { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .light li { font-size:14px; line-height:1.35; color:var(--ink); padding-left:18px; position:relative; }
+  .light li::before { position:absolute; left:0; top:0; font-weight:700; }
+  .light.green li::before { content:"✓"; color:var(--green); }
+  .light.red   li::before { content:"✕"; color:var(--red); }
+  .light.amber li::before { content:"•"; color:var(--amber); font-size:1.3em; line-height:1; }
+
+  .goldrule { background:var(--green); color:#FBFBF8; border-radius:10px; padding:16px 22px; text-align:center; margin-bottom:20px; }
+  .goldrule .gr-label { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; opacity:.8; margin-bottom:5px; }
+  .goldrule .gr-text { font-family:var(--serif); font-size:23px; font-weight:600; line-height:1.2; }
+
+  .principles { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
+  .principle { border:1px solid #E3E0D8; border-radius:10px; padding:13px 15px; display:flex; gap:11px; align-items:flex-start; }
+  .principle .ico { font-family:var(--serif); font-size:22px; font-weight:700; color:var(--green); line-height:1; flex:0 0 auto; }
+  .principle .pt { font-weight:650; font-size:14.5px; color:var(--ink); }
+  .principle .ps { font-size:12.5px; color:var(--ink-soft); margin-top:2px; }
+
+  .p-foot { display:flex; align-items:center; justify-content:space-between; gap:12px; border-top:1px solid #E3E0D8; padding-top:14px; font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; color:var(--ink-soft); flex-wrap:wrap; }
+  .p-foot .brand { color:var(--green); font-weight:600; }
+
+  .controls { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:40; display:flex; gap:10px; align-items:center; background:rgba(255,255,255,.92); border:1px solid #DAD6CC; border-radius:999px; padding:6px 8px; box-shadow:0 8px 24px rgba(0,0,0,.18); backdrop-filter:blur(6px); }
+  .seg { display:flex; gap:2px; }
+  .seg button { font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.1em; border:0; background:transparent; color:var(--ink-soft); padding:7px 12px; border-radius:999px; cursor:pointer; }
+  .seg button[aria-pressed="true"] { background:var(--green); color:#fff; }
+  .printbtn { font-family:var(--sans); font-size:13px; font-weight:650; border:0; background:var(--green); color:#fff; padding:8px 16px; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+  .printbtn:hover { background:#17492F; }
+  .backlink { font-family:var(--sans); font-size:12.5px; color:var(--ink-soft); text-decoration:none; padding:0 6px; }
+  .backlink:hover { color:var(--green); }
+  .seg button:focus-visible, .printbtn:focus-visible { outline:2px solid var(--amber); outline-offset:2px; }
+
+  @media (max-width: 660px) {
+    body { padding:14px 10px 90px; }
+    .poster { padding:26px 20px; }
+    h1 { font-size:34px; }
+    .sub { text-align:left; max-width:none; }
+    .p-head { border-bottom-width:2px; }
+    .lights, .principles { grid-template-columns:1fr; }
+  }
+
+  @page { size:A4 portrait; margin:12mm; }
+  @media print {
+    html, body { background:#fff !important; padding:0 !important; }
+    .controls { display:none !important; }
+    .poster { box-shadow:none !important; border:0 !important; max-width:none !important; margin:0 !important; padding:0 !important; border-radius:0 !important; }
+    .light, .goldrule, .principle { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .lights, .principles { grid-template-columns:repeat(3,1fr) !important; }
+    h1 { font-size:40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+  <div class="p-head">
+    <div>
+      <div class="kicker" data-t="kicker">ChatGPT Team · Kanzlei</div>
+      <h1 data-t="title">KI im Büro</h1>
+    </div>
+    <p class="sub" data-t="sub">Was ist sicher — auf einen Blick</p>
+  </div>
+
+  <div class="lights">
+    <div class="light green">
+      <div class="lh"><span class="disc" aria-hidden="true"></span><span class="word" data-t="g_word">SICHER</span></div>
+      <div class="tag" data-t="g_tag">heute nutzen</div>
+      <ul>
+        <li data-t="g1">Allgemeine Fragen &amp; Recherche</li>
+        <li data-t="g2">Texte einfacher machen</li>
+        <li data-t="g3">Brief-Vorlagen — Namen per Hand</li>
+        <li data-t="g4">Öffentliche Dokumente zusammenfassen</li>
+        <li data-t="g5">Englisch üben, Ideen sammeln</li>
+      </ul>
+    </div>
+    <div class="light red">
+      <div class="lh"><span class="disc" aria-hidden="true"></span><span class="word" data-t="r_word">STOPP</span></div>
+      <div class="tag" data-t="r_tag">nie hineingeben</div>
+      <ul>
+        <li data-t="r1">Mandantennamen</li>
+        <li data-t="r2">Steuernummern &amp; Zahlen</li>
+        <li data-t="r3">Mandanten-Dateien &amp; Belege</li>
+      </ul>
+    </div>
+    <div class="light amber">
+      <div class="lh"><span class="disc" aria-hidden="true"></span><span class="word" data-t="a_word">SPÄTER</span></div>
+      <div class="tag" data-t="a_tag">mit Datenvertrag</div>
+      <ul>
+        <li data-t="a1">Anonyme Fälle: Mandant A, B, C</li>
+        <li data-t="a2">Die KI sieht die echte Liste nie</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="goldrule">
+    <div class="gr-label" data-t="gr_label">Die eine Regel</div>
+    <div class="gr-text" data-t="gr_text">Sind keine Mandantendaten drin, ist es sicher.</div>
+  </div>
+
+  <div class="principles">
+    <div class="principle"><span class="ico" aria-hidden="true">✓</span><div><div class="pt" data-t="pr1t">Immer prüfen</div><div class="ps" data-t="pr1s">Zahlen · Daten · §-Angaben</div></div></div>
+    <div class="principle"><span class="ico" aria-hidden="true">✍</span><div><div class="pt" data-t="pr2t">KI schreibt den Entwurf</div><div class="ps" data-t="pr2s">Sie entscheiden &amp; unterschreiben</div></div></div>
+    <div class="principle"><span class="ico" aria-hidden="true">◆</span><div><div class="pt" data-t="pr3t">Ein Ort</div><div class="ps" data-t="pr3s">ChatGPT Team, sonst nichts</div></div></div>
+  </div>
+
+  <div class="p-foot">
+    <span data-t="foot">Zusammengestellt mit Daniel Arnold</span>
+    <span class="brand">arnoldcoaching.de</span>
+  </div>
+</div>
+
+<div class="controls">
+  <a class="backlink" href="index.html" data-t="back">‹ zurück</a>
+  <div class="seg" role="group" aria-label="Language / Sprache">
+    <button type="button" data-lang="de" aria-pressed="true">DE</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+  <button class="printbtn" type="button" id="printbtn"><span aria-hidden="true">⎙</span> <span data-t="print">Drucken</span></button>
+</div>
+
+<script>
+  (function () {
+    var T = {
+      kicker:{de:'ChatGPT Team · Kanzlei',en:'ChatGPT Team · Office'},
+      title:{de:'KI im Büro',en:'AI in the office'},
+      sub:{de:'Was ist sicher — auf einen Blick',en:'What is safe — at a glance'},
+
+      g_word:{de:'SICHER',en:'SAFE'}, g_tag:{de:'heute nutzen',en:'use today'},
+      g1:{de:'Allgemeine Fragen &amp; Recherche',en:'General questions &amp; research'},
+      g2:{de:'Texte einfacher machen',en:'Make texts simpler'},
+      g3:{de:'Brief-Vorlagen — Namen per Hand',en:'Letter templates — names by hand'},
+      g4:{de:'Öffentliche Dokumente zusammenfassen',en:'Summarize public documents'},
+      g5:{de:'Englisch üben, Ideen sammeln',en:'English practice, collecting ideas'},
+
+      r_word:{de:'STOPP',en:'STOP'}, r_tag:{de:'nie hineingeben',en:'never enter'},
+      r1:{de:'Mandantennamen',en:'Client names'},
+      r2:{de:'Steuernummern &amp; Zahlen',en:'Tax numbers &amp; figures'},
+      r3:{de:'Mandanten-Dateien &amp; Belege',en:'Client files &amp; receipts'},
+
+      a_word:{de:'SPÄTER',en:'LATER'}, a_tag:{de:'mit Datenvertrag',en:'with data contract'},
+      a1:{de:'Anonyme Fälle: Mandant A, B, C',en:'Anonymous cases: Client A, B, C'},
+      a2:{de:'Die KI sieht die echte Liste nie',en:'The AI never sees the real list'},
+
+      gr_label:{de:'Die eine Regel',en:'The one rule'},
+      gr_text:{de:'Sind keine Mandantendaten drin, ist es sicher.',en:'If there is no client data in it, it is safe.'},
+
+      pr1t:{de:'Immer prüfen',en:'Always check'}, pr1s:{de:'Zahlen · Daten · §-Angaben',en:'numbers · dates · § references'},
+      pr2t:{de:'KI schreibt den Entwurf',en:'AI writes the draft'}, pr2s:{de:'Sie entscheiden &amp; unterschreiben',en:'you decide &amp; sign'},
+      pr3t:{de:'Ein Ort',en:'One place'}, pr3s:{de:'ChatGPT Team, sonst nichts',en:'ChatGPT Team, nothing else'},
+
+      foot:{de:'Zusammengestellt mit Daniel Arnold',en:'Prepared with Daniel Arnold'},
+      back:{de:'‹ zurück',en:'‹ back'},
+      print:{de:'Drucken',en:'Print'}
+    };
+
+    var nodes = document.querySelectorAll('[data-t]');
+    var btns = document.querySelectorAll('.seg button');
+
+    function applyLang(l) {
+      document.documentElement.setAttribute('lang', l);
+      nodes.forEach(function (el) { var e = T[el.getAttribute('data-t')]; if (e && e[l] != null) el.innerHTML = e[l]; });
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); }); });
+
+    var q = (location.search.match(/[?&]lang=(de|en)/) || [])[1];
+    applyLang(q || 'de');
+
+    document.getElementById('printbtn').addEventListener('click', function () { window.print(); });
+  })();
+</script>
+</body>
+</html>
