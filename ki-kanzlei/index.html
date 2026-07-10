@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>AI in the Practice — for Oliver</title>
+<meta name="description" content="AI in your tax office — what already works today. A short bilingual walkthrough by Daniel Arnold.">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F2F3EF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E1613">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%AE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:      #F2F3EF;
+    --paper-2:    #FBFBF8;
+    --ink:        #14231C;
+    --ink-soft:   #43574C;
+    --ink-faint:  #7C8C82;
+    --line:       #DDE1D8;
+    --green:      #1F5C3D;
+    --green-2:    #2E7A52;
+    --brass:      #9A7B24;
+    --alert:      #B23A2E;
+    --card:       #FFFFFF;
+    --shadow:     0 1px 2px rgba(20,35,28,.05), 0 8px 26px rgba(20,35,28,.07);
+
+    --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans:  -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", "SF Mono", SFMono-Regular, ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:#0E1613; --paper-2:#101C17; --ink:#E8EBE4; --ink-soft:#A9B6AC; --ink-faint:#6E7F74;
+      --line:#23332B; --green:#5FB98A; --green-2:#7CCB9F; --brass:#D2A94E; --alert:#E0776A;
+      --card:#16241D; --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper:#F2F3EF; --paper-2:#FBFBF8; --ink:#14231C; --ink-soft:#43574C; --ink-faint:#7C8C82;
+    --line:#DDE1D8; --green:#1F5C3D; --green-2:#2E7A52; --brass:#9A7B24; --alert:#B23A2E;
+    --card:#FFFFFF; --shadow:0 1px 2px rgba(20,35,28,.05), 0 8px 26px rgba(20,35,28,.07);
+  }
+  :root[data-theme="dark"] {
+    --paper:#0E1613; --paper-2:#101C17; --ink:#E8EBE4; --ink-soft:#A9B6AC; --ink-faint:#6E7F74;
+    --line:#23332B; --green:#5FB98A; --green-2:#7CCB9F; --brass:#D2A94E; --alert:#E0776A;
+    --card:#16241D; --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---- Deck / scroll-snap (desktop presentation feel) ---- */
+  .deck {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) { .deck { scroll-behavior: auto; } }
+
+  .slide {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 6vw, 6rem) clamp(1.5rem, 8vw, 9rem);
+    position: relative;
+  }
+  .slide::before {
+    content: attr(data-n);
+    position: absolute;
+    top: clamp(1.5rem, 4vw, 3rem);
+    right: clamp(1.5rem, 8vw, 9rem);
+    font-family: var(--mono);
+    font-size: .72rem;
+    letter-spacing: .18em;
+    color: var(--ink-faint);
+  }
+
+  .wrap { width: 100%; max-width: 940px; margin: 0 auto; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: .74rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--green);
+    display: inline-flex;
+    align-items: center;
+    gap: .7em;
+    margin: 0 0 1.4rem;
+  }
+  .eyebrow::before { content: ""; width: 1.8rem; height: 2px; background: var(--brass); display: inline-block; }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.5rem, 7vw, 5.2rem);
+    line-height: 1.03;
+    letter-spacing: -.015em;
+    margin: 0 0 1.4rem;
+    text-wrap: balance;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(1.85rem, 4.4vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -.01em;
+    margin: 0 0 1.8rem;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: clamp(1.08rem, 2vw, 1.4rem);
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- Title slide ---- */
+  .title-meta {
+    margin-top: 2.6rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem 2.8rem;
+    font-family: var(--mono);
+    font-size: .8rem;
+    letter-spacing: .04em;
+    color: var(--ink-soft);
+  }
+  .title-meta b { color: var(--ink); font-weight: 600; }
+  .thesis {
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 2.2rem 0 0;
+    max-width: 52ch;
+    padding-left: 1.4rem;
+    border-left: 3px solid var(--green);
+  }
+
+  /* ---- Rows ---- */
+  .rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+  .rows li {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: 1.6rem;
+    padding: 1.15rem 0;
+    border-top: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .rows li:last-child { border-bottom: 1px solid var(--line); }
+  .rows .k {
+    font-family: var(--mono);
+    font-size: .82rem; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--green); font-weight: 600;
+  }
+  .rows .v { font-size: 1.04rem; color: var(--ink-soft); }
+  .rows .v b { color: var(--ink); font-weight: 600; }
+
+  .thread { margin-top: 2.2rem; font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--ink); }
+  .thread .lbl { color: var(--green); font-style: normal; font-family: var(--mono); font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; display:block; margin-bottom:.3rem; }
+
+  /* ---- Cards ---- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top: .5rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1.3rem 1.4rem; box-shadow: var(--shadow); }
+  .card .num { font-family: var(--mono); font-size: .74rem; color: var(--brass); letter-spacing: .1em; }
+  .card h3 { font-family: var(--sans); font-size: 1.02rem; font-weight: 650; margin: .5rem 0 .5rem; color: var(--ink); line-height: 1.25; }
+  .card p { margin: 0; font-size: .92rem; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ---- Guardrails ---- */
+  .guards { display: flex; flex-direction: column; gap: 1rem; margin-top: .5rem; }
+  .guard {
+    display: grid; grid-template-columns: auto 1fr; gap: 1.2rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--alert);
+    border-radius: 10px; padding: 1.25rem 1.5rem; box-shadow: var(--shadow);
+  }
+  .guard .icon { font-family: var(--serif); font-size: 1.5rem; color: var(--alert); line-height: 1.3; font-weight: 700; }
+  .guard h3 { margin: 0 0 .35rem; font-size: 1.06rem; font-weight: 650; color: var(--ink); }
+  .guard p { margin: 0; color: var(--ink-soft); font-size: .96rem; }
+  .guard p b { color: var(--ink); font-weight: 600; }
+
+  /* ---- Steps ---- */
+  .steps { display: flex; flex-direction: column; gap: 0; margin-top: .5rem; counter-reset: step; }
+  .step { display: grid; grid-template-columns: 3.4rem 1fr; gap: 1.4rem; padding: 1.4rem 0; border-top: 1px solid var(--line); align-items: start; }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    font-family: var(--serif); font-size: 2rem; color: var(--green); line-height: 1; font-weight: 600;
+  }
+  .step h3 { margin: 0 0 .35rem; font-size: 1.12rem; font-weight: 650; color: var(--ink); }
+  .step p { margin: 0; color: var(--ink-soft); font-size: 1rem; }
+
+  /* ---- Start slide (ChatGPT Team) ---- */
+  .startcard {
+    margin-top: .4rem;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--green);
+    border-radius: 12px;
+    padding: 1.5rem 1.6rem;
+    box-shadow: var(--shadow);
+  }
+  .startcard .tool {
+    font-family: var(--mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--green); font-weight: 600; display: flex; align-items: center; gap: .6em; margin-bottom: .7rem;
+  }
+  .startcard .why { font-size: 1.06rem; color: var(--ink-soft); margin: 0 0 1.3rem; }
+  .startcard .why b { color: var(--ink); font-weight: 600; }
+  .safelist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .8rem; }
+  .safelist li { display: grid; grid-template-columns: 1.4rem 1fr; gap: .8rem; font-size: 1rem; color: var(--ink-soft); align-items: baseline; }
+  .safelist li::before { content: "✓"; color: var(--green); font-weight: 700; font-family: var(--sans); }
+  .safelist b { color: var(--ink); font-weight: 600; }
+  .rule {
+    margin-top: 1.4rem; padding: 1rem 1.2rem;
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--brass);
+    border-radius: 10px; font-size: .98rem; color: var(--ink-soft); box-shadow: var(--shadow);
+  }
+  .rule b { color: var(--ink); font-weight: 600; }
+  .rule .tag { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: .3rem; }
+  .close {
+    margin-top: 2rem; font-family: var(--serif); font-style: italic;
+    font-size: clamp(1.25rem, 2.6vw, 1.7rem); color: var(--ink); text-wrap: balance;
+  }
+
+  /* ---- Language switch ---- */
+  .langswitch {
+    position: fixed; top: clamp(.9rem, 3vw, 1.6rem); left: 50%; transform: translateX(-50%);
+    z-index: 30; display: flex; gap: 2px; padding: 3px;
+    background: color-mix(in srgb, var(--paper) 78%, transparent);
+    border: 1px solid var(--line); border-radius: 999px; backdrop-filter: blur(6px); box-shadow: var(--shadow);
+  }
+  .langswitch button {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; font-weight: 600;
+    border: 0; background: transparent; color: var(--ink-soft);
+    padding: .34rem .85rem; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s;
+  }
+  .langswitch button[aria-pressed="true"] { background: var(--green); color: var(--paper-2); }
+  .langswitch button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+  /* ---- Nav dots ---- */
+  .nav { position: fixed; right: clamp(.9rem, 2vw, 1.7rem); top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: .8rem; z-index: 20; }
+  .nav a { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink-faint); background: transparent; transition: background .2s, border-color .2s, transform .2s; }
+  .nav a.active { background: var(--green); border-color: var(--green); transform: scale(1.25); }
+  .nav a:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+  .hint {
+    position: fixed; bottom: 1.1rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; color: var(--ink-faint);
+    z-index: 20; display: flex; align-items: center; gap: .5em;
+    background: color-mix(in srgb, var(--paper) 80%, transparent); padding: .3rem .8rem; border-radius: 999px; backdrop-filter: blur(4px);
+  }
+  kbd { font-family: var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: .05em .4em; font-size: .9em; color: var(--ink-soft); }
+
+  /* reveal */
+  .reveal > * { opacity: 0; transform: translateY(14px); }
+  .reveal.seen > * { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s ease; }
+  .reveal.seen > *:nth-child(2) { transition-delay: .06s; }
+  .reveal.seen > *:nth-child(3) { transition-delay: .12s; }
+  .reveal.seen > *:nth-child(4) { transition-delay: .18s; }
+  .reveal.seen > *:nth-child(5) { transition-delay: .24s; }
+  @media (prefers-reduced-motion: reduce) { .reveal > * { opacity: 1; transform: none; } }
+
+  /* ---- Mobile: clean vertical read, no rigid snapping ---- */
+  @media (max-width: 760px) {
+    .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+    .slide { min-height: auto; scroll-snap-align: none; padding: 4.2rem 1.3rem 3rem; }
+    .slide + .slide { border-top: 1px solid var(--line); }
+    .nav, .hint { display: none; }
+    .rows li { grid-template-columns: 1fr; gap: .3rem; }
+    .slide::before { right: 1.3rem; top: 1.4rem; }
+    .langswitch { top: .75rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="langswitch" role="group" aria-label="Language / Sprache">
+  <button type="button" data-lang="de" aria-pressed="false">DE</button>
+  <button type="button" data-lang="en" aria-pressed="true">EN</button>
+</div>
+
+<nav class="nav" aria-label="Slides">
+  <a href="#s1" class="active" aria-label="1"></a>
+  <a href="#s2" aria-label="2"></a>
+  <a href="#s3" aria-label="3"></a>
+  <a href="#s4" aria-label="4"></a>
+  <a href="#s5" aria-label="5"></a>
+  <a href="#s6" aria-label="6"></a>
+</nav>
+
+<div class="hint"><kbd>↓</kbd> <span data-t="hint">or <kbd>Space</kbd> to advance</span></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 — Title -->
+  <section class="slide" id="s1" data-n="01 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb1">A short look inside</p>
+      <h1 data-t="h1">AI in the practice —<br>what already works today</h1>
+      <p class="lede" data-t="lede1">How I put my own working system on top of AI — and what carries over <strong>directly into your tax practice</strong>.</p>
+      <p class="thesis" data-t="thesis">AI doesn’t take the responsibility off your shoulders. It takes the first hour off every task.</p>
+      <div class="title-meta">
+        <span><span data-t="m_for">For</span>&nbsp; <b>Oliver</b></span>
+        <span><span data-t="m_by">By</span>&nbsp; <b>Daniel Arnold</b></span>
+        <span data-t="m_date">July 10, 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 — How I use AI -->
+  <section class="slide" id="s2" data-n="02 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb2">From daily practice</p>
+      <h2 data-t="h2b">How I use AI every day</h2>
+      <ul class="rows">
+        <li><span class="k" data-t="k1">Morning brief</span><span class="v" data-t="v1">Every morning, a <b>single situational picture</b> from my calendar, open tasks, emails and client status — assembled automatically, instead of opening five tabs.</span></li>
+        <li><span class="k" data-t="k2">Preparation</span><span class="v" data-t="v2">Before every meeting, AI pulls together the <b>whole history</b>: what was discussed, what’s still open.</span></li>
+        <li><span class="k" data-t="k3">Meeting notes</span><span class="v" data-t="v3">Conversations get <b>transcribed and summarized</b> — the to-dos fall right out. I no longer take notes by hand.</span></li>
+        <li><span class="k" data-t="k4">Writing</span><span class="v" data-t="v4">Emails and texts as a <b>first draft in seconds</b>. I only edit, instead of staring at a blank page.</span></li>
+        <li><span class="k" data-t="k5">Numbers</span><span class="v" data-t="v5">A living <b>cash-flow cockpit</b> instead of Excel archaeology — the current picture at a glance.</span></li>
+      </ul>
+      <p class="thread"><span class="lbl" data-t="thlabel">The common thread</span><span data-t="thtext">AI takes the first swing. The judgment stays with me.</span></p>
+    </div>
+  </section>
+
+  <!-- 3 — Seven levers -->
+  <section class="slide" id="s3" data-n="03 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb3">Translated to you</p>
+      <h2 data-t="h3b">Seven levers for the tax practice</h2>
+      <div class="grid">
+        <div class="card"><span class="num">01</span><h3 data-t="c1h">Client communication</h3><p data-t="c1p">Explain complex matters in plain language. Draft emails. Send friendly reminders for missing documents.</p></div>
+        <div class="card"><span class="num">02</span><h3 data-t="c2h">Correspondence with the tax office</h3><p data-t="c2p">Drafts for appeals, deadline extensions, standard letters. You review and sign — AI delivers the rough build.</p></div>
+        <div class="card"><span class="num">03</span><h3 data-t="c3h">Receipts &amp; documents</h3><p data-t="c3p">"What’s in these 40 pages?" — in one sentence. Extract, pre-sort, sanity-check.</p></div>
+        <div class="card"><span class="num">04</span><h3 data-t="c4h">Research &amp; framing</h3><p data-t="c4p">Tax rulings, official guidance and law changes summarized in plain terms — as a <b>starting point</b>, never the final word.</p></div>
+        <div class="card"><span class="num">05</span><h3 data-t="c5h">Client meetings</h3><p data-t="c5p">Automatic transcript and summary. The action items from the conversation are laid out for you.</p></div>
+        <div class="card"><span class="num">06</span><h3 data-t="c6h">Practice knowledge</h3><p data-t="c6p">Your internal knowledge, searchable: "How did we solve case X last year?" — answer in seconds.</p></div>
+        <div class="card"><span class="num">07</span><h3 data-t="c7h">Onboarding</h3><p data-t="c7p">AI as a patient explainer for standard processes — it takes the load off you when training new staff.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 — Guardrails -->
+  <section class="slide" id="s4" data-n="04 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb4">Non-negotiable</p>
+      <h2 data-t="h4b">The three guardrails</h2>
+      <div class="guards">
+        <div class="guard">
+          <span class="icon" aria-hidden="true">§</span>
+          <div>
+            <h3 data-t="g1h">Confidentiality &amp; data protection</h3>
+            <p data-t="g1p"><b>No client data in free consumer tools.</b> The path: a business plan with a data-processing agreement (DPA), training on your data switched off, and anonymize when in doubt. Professional secrecy (§&nbsp;203 StGB) and GDPR still apply.</p>
+          </div>
+        </div>
+        <div class="guard">
+          <span class="icon" aria-hidden="true">✓</span>
+          <div>
+            <h3 data-t="g2h">Control before trust</h3>
+            <p data-t="g2p">AI occasionally invents things — especially <b>section numbers, case references and figures</b>. Verify every tax-law statement. The responsibility stays with you, always.</p>
+          </div>
+        </div>
+        <div class="guard">
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <h3 data-t="g3h">Start small</h3>
+            <p data-t="g3p">Practice on <b>low-stakes tasks</b> first — drafts, summaries, research starting points. Not on the finished tax return. Trust grows with experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 — The method -->
+  <section class="slide" id="s5" data-n="05 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb5">How to begin well</p>
+      <h2 data-t="h5b">The method — three moves</h2>
+      <div class="steps">
+        <div class="step">
+          <div>
+            <h3 data-t="s1h">A safe space first</h3>
+            <p data-t="s1p">A business-grade plan where your data stays yours — data-processing agreement in place, model training switched off. The frame before the first prompt.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3 data-t="s2h">Pick one real task</h3>
+            <p data-t="s2p">Not "try something out," but something concrete: the next longer client email, or that one research question already sitting on your desk.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div>
+            <h3 data-t="s3h">Put them side by side</h3>
+            <p data-t="s3p">The AI draft next to your own solution. Where does it save time, where not? That’s how you get a feel — honestly and without risk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 — Start here: ChatGPT Team -->
+  <section class="slide" id="s6" data-n="06 · 06">
+    <div class="wrap reveal">
+      <p class="eyebrow" data-t="eb6">Your first move</p>
+      <h2 data-t="h6b">Start here — ChatGPT Team</h2>
+      <div class="startcard">
+        <div class="tool" data-t="tool">◆ &nbsp;ChatGPT · Team plan</div>
+        <p class="why" data-t="why">Your team already works with AI day to day. So we start where the familiarity already is: <b>one shared ChatGPT Team workspace</b> — a business plan where your content is <b>not used to train the model</b>.</p>
+        <ul class="safelist">
+          <li data-t="safe1"><b>Explore &amp; research</b> — tax questions in general terms, summarize public guidance, weigh options.</li>
+          <li data-t="safe2"><b>Draft &amp; polish</b> — internal notes, plain-language explanations, and English practice (you already do the flashcards).</li>
+          <li data-t="safe3"><b>Structure &amp; think</b> — outline a letter, brainstorm, turn messy notes into a clean summary.</li>
+        </ul>
+        <div class="rule">
+          <span class="tag" data-t="ruletag">The one rule for now</span>
+          <span data-t="rule"><b>No client data, no real names.</b> Keep it general or anonymized — until your Chamber has answered what’s allowed. That answer is your next step; the safe tasks above don’t need it.</span>
+        </div>
+      </div>
+      <p class="close" data-t="close">Not everything at once. One shared workspace, the safe tasks first — and I’ll be right there with you.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  (function () {
+    var T = {
+      hint:   { en: 'or <kbd>Space</kbd> to advance', de: 'oder <kbd>Leertaste</kbd> zum Blättern' },
+
+      eb1:    { en: 'A short look inside', de: 'Ein kurzer Einblick' },
+      h1:     { en: 'AI in the practice —<br>what already works today', de: 'KI in der Kanzlei —<br>was heute schon geht' },
+      lede1:  { en: 'How I put my own working system on top of AI — and what carries over <strong>directly into your tax practice</strong>.',
+                de: 'Wie ich mein eigenes Arbeitssystem auf KI gestellt habe — und was davon <strong>direkt in Ihre Steuerkanzlei</strong> übertragbar ist.' },
+      thesis: { en: 'AI doesn’t take the responsibility off your shoulders. It takes the first hour off every task.',
+                de: 'KI nimmt Ihnen nicht die Verantwortung ab. Sie nimmt Ihnen die erste Stunde jeder Aufgabe ab.' },
+      m_for:  { en: 'For', de: 'Für' },
+      m_by:   { en: 'By', de: 'Von' },
+      m_date: { en: 'July 10, 2026', de: '10. Juli 2026' },
+
+      eb2:    { en: 'From daily practice', de: 'Aus der Praxis' },
+      h2b:    { en: 'How I use AI every day', de: 'Wie ich KI täglich nutze' },
+      k1:     { en: 'Morning brief', de: 'Morgen-Briefing' },
+      v1:     { en: 'Every morning, a <b>single situational picture</b> from my calendar, open tasks, emails and client status — assembled automatically, instead of opening five tabs.',
+                de: 'Jeden Morgen ein <b>Lagebild</b> aus Kalender, offenen Aufgaben, E-Mails und Kundenständen — automatisch zusammengestellt, statt fünf Tabs zu öffnen.' },
+      k2:     { en: 'Preparation', de: 'Vorbereitung' },
+      v2:     { en: 'Before every meeting, AI pulls together the <b>whole history</b>: what was discussed, what’s still open.',
+                de: 'Vor jedem Termin zieht die KI die <b>ganze Historie</b> zusammen: was besprochen wurde, was noch offen ist.' },
+      k3:     { en: 'Meeting notes', de: 'Mitschriften' },
+      v3:     { en: 'Conversations get <b>transcribed and summarized</b> — the to-dos fall right out. I no longer take notes by hand.',
+                de: 'Gespräche werden <b>transkribiert und zusammengefasst</b> — die To-dos fallen direkt heraus. Ich schreibe nicht mehr mit.' },
+      k4:     { en: 'Writing', de: 'Schreiben' },
+      v4:     { en: 'Emails and texts as a <b>first draft in seconds</b>. I only edit, instead of staring at a blank page.',
+                de: 'E-Mails und Texte als <b>Erstentwurf in Sekunden</b>. Ich redigiere nur noch, statt vor dem leeren Blatt zu sitzen.' },
+      k5:     { en: 'Numbers', de: 'Zahlen' },
+      v5:     { en: 'A living <b>cash-flow cockpit</b> instead of Excel archaeology — the current picture at a glance.',
+                de: 'Ein lebendiges <b>Cashflow-Cockpit</b> statt Excel-Archäologie — immer aktueller Stand auf einen Blick.' },
+      thlabel:{ en: 'The common thread', de: 'Der rote Faden' },
+      thtext: { en: 'AI takes the first swing. The judgment stays with me.', de: 'Die KI macht den ersten Aufschlag. Das Urteil bleibt bei mir.' },
+
+      eb3:    { en: 'Translated to you', de: 'Übertragen auf Sie' },
+      h3b:    { en: 'Seven levers for the tax practice', de: 'Sieben Hebel für die Steuerkanzlei' },
+      c1h:    { en: 'Client communication', de: 'Mandantenkommunikation' },
+      c1p:    { en: 'Explain complex matters in plain language. Draft emails. Send friendly reminders for missing documents.',
+                de: 'Komplexe Sachverhalte mandantengerecht erklären. E-Mail-Entwürfe. Freundliche Erinnerungen an fehlende Unterlagen.' },
+      c2h:    { en: 'Correspondence with the tax office', de: 'Schriftverkehr mit dem Finanzamt' },
+      c2p:    { en: 'Drafts for appeals, deadline extensions, standard letters. You review and sign — AI delivers the rough build.',
+                de: 'Entwürfe für Einsprüche, Fristverlängerungen, Standardschreiben. Sie prüfen und zeichnen — die KI liefert den Rohbau.' },
+      c3h:    { en: 'Receipts &amp; documents', de: 'Belege &amp; Dokumente' },
+      c3p:    { en: '"What’s in these 40 pages?" — in one sentence. Extract, pre-sort, sanity-check.',
+                de: '„Was steht in diesen 40 Seiten?" — in einem Satz. Extrahieren, vorsortieren, Plausibilität prüfen.' },
+      c4h:    { en: 'Research &amp; framing', de: 'Recherche &amp; Einordnung' },
+      c4p:    { en: 'Tax rulings, official guidance and law changes summarized in plain terms — as a <b>starting point</b>, never the final word.',
+                de: 'BMF-Schreiben, Urteile und Gesetzesänderungen verständlich zusammengefasst — als <b>Startpunkt</b>, nie als Endstand.' },
+      c5h:    { en: 'Client meetings', de: 'Mandantengespräche' },
+      c5p:    { en: 'Automatic transcript and summary. The action items from the conversation are laid out for you.',
+                de: 'Automatische Mitschrift und Zusammenfassung. Die Aufgaben aus dem Gespräch stehen fertig da.' },
+      c6h:    { en: 'Practice knowledge', de: 'Kanzlei-Wissen' },
+      c6p:    { en: 'Your internal knowledge, searchable: "How did we solve case X last year?" — answer in seconds.',
+                de: 'Ihr internes Wissen durchsuchbar: „Wie haben wir Fall X letztes Jahr gelöst?" — Antwort in Sekunden.' },
+      c7h:    { en: 'Onboarding', de: 'Einarbeitung' },
+      c7p:    { en: 'AI as a patient explainer for standard processes — it takes the load off you when training new staff.',
+                de: 'Die KI als geduldiger Erklärer für Standardprozesse — entlastet Sie beim Anlernen neuer Mitarbeiter.' },
+
+      eb4:    { en: 'Non-negotiable', de: 'Nicht verhandelbar' },
+      h4b:    { en: 'The three guardrails', de: 'Die drei Leitplanken' },
+      g1h:    { en: 'Confidentiality &amp; data protection', de: 'Berufsgeheimnis &amp; Datenschutz' },
+      g1p:    { en: '<b>No client data in free consumer tools.</b> The path: a business plan with a data-processing agreement (DPA), training on your data switched off, and anonymize when in doubt. Professional secrecy (§&nbsp;203 StGB) and GDPR still apply.',
+                de: '<b>Keine Mandantendaten in kostenlose Gratis-Tools.</b> Der Weg: ein Geschäfts-Tarif mit Auftragsverarbeitungsvertrag (AVV), Nutzung zum Training abgeschaltet, im Zweifel anonymisieren. §&nbsp;203 StGB und DSGVO gelten weiter.' },
+      g2h:    { en: 'Control before trust', de: 'Kontrolle vor Vertrauen' },
+      g2p:    { en: 'AI occasionally invents things — especially <b>section numbers, case references and figures</b>. Verify every tax-law statement. The responsibility stays with you, always.',
+                de: 'KI erfindet gelegentlich etwas — gerade <b>Paragraphen, Aktenzeichen und Zahlen</b>. Jede steuerrechtliche Aussage gegenprüfen. Die Verantwortung bleibt bei Ihnen, immer.' },
+      g3h:    { en: 'Start small', de: 'Klein anfangen' },
+      g3p:    { en: 'Practice on <b>low-stakes tasks</b> first — drafts, summaries, research starting points. Not on the finished tax return. Trust grows with experience.',
+                de: 'Erst an <b>unkritischen Aufgaben</b> üben — Entwürfe, Zusammenfassungen, Recherche-Startpunkte. Nicht an der fertigen Steuererklärung. Vertrauen wächst mit der Erfahrung.' },
+
+      eb5:    { en: 'How to begin well', de: 'Gut anfangen' },
+      h5b:    { en: 'The method — three moves', de: 'Die Methode — drei Schritte' },
+      s1h:    { en: 'A safe space first', de: 'Zuerst ein sicherer Raum' },
+      s1p:    { en: 'A business-grade plan where your data stays yours — data-processing agreement in place, model training switched off. The frame before the first prompt.',
+                de: 'Ein Geschäfts-Tarif, in dem Ihre Daten Ihre Daten bleiben — Auftragsverarbeitung geregelt, Modell-Training abgeschaltet. Der Rahmen vor dem ersten Prompt.' },
+      s2h:    { en: 'Pick one real task', de: 'Eine echte Aufgabe wählen' },
+      s2p:    { en: 'Not "try something out," but something concrete: the next longer client email, or that one research question already sitting on your desk.',
+                de: 'Nicht „irgendwas ausprobieren", sondern eine konkrete: die nächste längere Mandanten-Mail, oder diese eine Recherchefrage, die ohnehin auf dem Tisch liegt.' },
+      s3h:    { en: 'Put them side by side', de: 'Nebeneinanderlegen' },
+      s3p:    { en: 'The AI draft next to your own solution. Where does it save time, where not? That’s how you get a feel — honestly and without risk.',
+                de: 'Der KI-Entwurf neben Ihre eigene Lösung. Wo spart es Zeit, wo nicht? So bekommen Sie ein Gefühl — ehrlich und ohne Risiko.' },
+
+      eb6:    { en: 'Your first move', de: 'Ihr erster Schritt' },
+      h6b:    { en: 'Start here — ChatGPT Team', de: 'Der Anfang — ChatGPT Team' },
+      tool:   { en: '◆ &nbsp;ChatGPT · Team plan', de: '◆ &nbsp;ChatGPT · Team-Tarif' },
+      why:    { en: 'Your team already works with AI day to day. So we start where the familiarity already is: <b>one shared ChatGPT Team workspace</b> — a business plan where your content is <b>not used to train the model</b>.',
+                de: 'Ihr Team arbeitet ohnehin schon täglich mit KI. Also starten wir dort, wo die Vertrautheit schon da ist: <b>ein gemeinsamer ChatGPT-Team-Arbeitsbereich</b> — ein Geschäfts-Tarif, in dem Ihre Inhalte <b>nicht zum Training des Modells</b> genutzt werden.' },
+      safe1:  { en: '<b>Explore &amp; research</b> — tax questions in general terms, summarize public guidance, weigh options.',
+                de: '<b>Erkunden &amp; recherchieren</b> — Steuerfragen allgemein halten, öffentliche Hinweise zusammenfassen, Optionen abwägen.' },
+      safe2:  { en: '<b>Draft &amp; polish</b> — internal notes, plain-language explanations, and English practice (you already do the flashcards).',
+                de: '<b>Entwerfen &amp; feilen</b> — interne Notizen, einfache Erklärungen, und Englisch üben (die Karteikarten machen Sie ja schon).' },
+      safe3:  { en: '<b>Structure &amp; think</b> — outline a letter, brainstorm, turn messy notes into a clean summary.',
+                de: '<b>Strukturieren &amp; denken</b> — einen Brief skizzieren, Ideen sammeln, aus Zettel-Chaos eine saubere Zusammenfassung machen.' },
+      ruletag:{ en: 'The one rule for now', de: 'Die eine Regel für jetzt' },
+      rule:   { en: '<b>No client data, no real names.</b> Keep it general or anonymized — until your Chamber has answered what’s allowed. That answer is your next step; the safe tasks above don’t need it.',
+                de: '<b>Keine Mandantendaten, keine echten Namen.</b> Allgemein halten oder anonymisieren — bis Ihre Steuerkammer geklärt hat, was erlaubt ist. Diese Antwort ist Ihr nächster Schritt; die sicheren Aufgaben oben brauchen sie nicht.' },
+      close:  { en: 'Not everything at once. One shared workspace, the safe tasks first — and I’ll be right there with you.',
+                de: 'Nicht alles auf einmal. Ein gemeinsamer Arbeitsbereich, die sicheren Aufgaben zuerst — und ich bin direkt an Ihrer Seite.' }
+    };
+
+    var lang = 'en';
+    var nodes = document.querySelectorAll('[data-t]');
+    var btns = document.querySelectorAll('.langswitch button');
+
+    function applyLang(l) {
+      lang = l;
+      document.documentElement.setAttribute('lang', l);
+      nodes.forEach(function (el) {
+        var entry = T[el.getAttribute('data-t')];
+        if (entry && entry[l] != null) el.innerHTML = entry[l];
+      });
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-lang') === l ? 'true' : 'false'); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); }); });
+    applyLang('en');
+
+    // ---- Deck behaviour ----
+    var deck = document.getElementById('deck');
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+    var dots = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+    var ratios = {};
+
+    function setActive() {
+      var best = -1, bi = 0;
+      slides.forEach(function (s, i) { var r = ratios[i] || 0; if (r > best) { best = r; bi = i; } });
+      dots.forEach(function (d, di) { d.classList.toggle('active', di === bi); });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var i = slides.indexOf(e.target);
+          ratios[i] = e.isIntersecting ? e.intersectionRatio : 0;
+          if (e.isIntersecting && e.intersectionRatio > 0.08) {
+            var r = e.target.querySelector('.reveal');
+            if (r) r.classList.add('seen');
+          }
+        });
+        setActive();
+      }, { threshold: [0, 0.08, 0.25, 0.5, 0.75, 1] });
+      slides.forEach(function (s) { io.observe(s); });
+    } else {
+      document.querySelectorAll('.reveal').forEach(function (r) { r.classList.add('seen'); });
+    }
+
+    // Keyboard navigation (desktop)
+    function go(dir) {
+      var idx = Math.round(deck.scrollTop / window.innerHeight);
+      var next = Math.max(0, Math.min(slides.length - 1, idx + dir));
+      slides[next].scrollIntoView({ behavior: 'smooth' });
+    }
+    window.addEventListener('keydown', function (e) {
+      if (e.target && /^(BUTTON|A|INPUT|TEXTAREA)$/.test(e.target.tagName) && (e.key === ' ' || e.key === 'Enter')) return;
+      if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(1); }
+      else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(-1); }
+      else if (e.key === 'Home') { e.preventDefault(); slides[0].scrollIntoView({ behavior: 'smooth' }); }
+      else if (e.key === 'End') { e.preventDefault(); slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' }); }
+    });
+  })();
+</script>
+</body>
+</html>
