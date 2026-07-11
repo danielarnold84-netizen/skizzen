@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Daniel Arnold — Kurzprofil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#edbd41; --ink:#343434; --paper:#f2f1ef; --anthra:#403d3f;
+    --muted:#858a92; --green:#464528; --sheet:#ffffff; --line:#e4e1db;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  body{ padding:32px 16px 64px; }
+
+  /* Druck-/PDF-Leiste (nur Bildschirm) */
+  .bar{
+    max-width:820px; margin:0 auto 16px; display:flex; justify-content:flex-end; gap:10px;
+  }
+  .btn{
+    font-family:'Poppins',sans-serif; font-size:13px; font-weight:500;
+    background:var(--anthra); color:#fff; border:none; border-radius:10px;
+    padding:11px 18px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.12); transition:transform .08s, background .15s;
+  }
+  .btn:hover{ background:#302e2f; }
+  .btn:active{ transform:translateY(1px); }
+  .btn .ic{ font-size:15px; }
+
+  /* Das Blatt */
+  .sheet{
+    max-width:820px; margin:0 auto; background:var(--sheet);
+    border:1px solid var(--line); border-radius:16px;
+    box-shadow:0 10px 40px rgba(52,52,52,.10);
+    padding:52px 56px 40px; position:relative; overflow:hidden;
+  }
+  /* Signatur-Bogen (dezent) */
+  .sheet::before{
+    content:''; position:absolute; top:-90px; right:-90px; width:220px; height:220px;
+    border-radius:50%; background:radial-gradient(circle at 30% 70%, rgba(237,189,65,.16), transparent 70%);
+    pointer-events:none;
+  }
+
+  header.masthead{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; }
+  .id h1{
+    font-family:'League Spartan',sans-serif; font-weight:700; font-size:40px;
+    letter-spacing:.005em; line-height:1.02; color:var(--ink);
+  }
+  .id .role{
+    font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+    margin-top:8px; font-weight:500;
+  }
+  .id .accent{ width:56px; height:4px; background:var(--gold); border-radius:3px; margin-top:16px; }
+  .logo img{ height:60px; width:auto; display:block; }
+
+  .lede{ margin-top:26px; }
+  .lede p{ font-size:15.5px; color:#3d3d3d; }
+  .lede p + p{ margin-top:12px; }
+
+  section.block{ margin-top:26px; }
+  h2{
+    font-family:'League Spartan',sans-serif; font-weight:600; font-size:15px;
+    letter-spacing:.05em; text-transform:uppercase; color:var(--ink);
+    display:flex; align-items:center; gap:10px; margin-bottom:12px;
+  }
+  h2::before{ content:''; width:14px; height:14px; border-radius:3px; background:var(--gold); flex:none; }
+
+  ul.pts{ list-style:none; display:grid; gap:8px; }
+  ul.pts li{ position:relative; padding-left:20px; font-size:14.5px; }
+  ul.pts li::before{
+    content:''; position:absolute; left:2px; top:9px; width:7px; height:7px;
+    border-radius:50%; background:var(--gold);
+  }
+
+  .contribute p{ font-size:14.5px; }
+  .contribute p + p{ margin-top:10px; }
+
+  .stance{
+    margin-top:26px; background:color-mix(in srgb, var(--gold) 10%, var(--sheet));
+    border-left:4px solid var(--gold); border-radius:0 12px 12px 0;
+    padding:16px 20px; font-size:14.5px; color:#3d3d3d;
+  }
+  .stance .lbl{
+    font-family:'League Spartan',sans-serif; font-weight:600; font-size:13px;
+    letter-spacing:.05em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:6px;
+  }
+
+  footer.foot{
+    margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  }
+  .foot .who{ font-size:13px; color:var(--muted); line-height:1.5; }
+  .foot .who b{ color:var(--ink); font-weight:600; }
+  .foot .who a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--gold); }
+  .foot .mark img{ height:34px; width:auto; opacity:.9; display:block; }
+
+  @media (max-width:640px){
+    .sheet{ padding:34px 24px 30px; }
+    .id h1{ font-size:32px; }
+    .logo img{ height:46px; }
+    header.masthead{ flex-direction:column-reverse; align-items:flex-start; gap:14px; }
+  }
+
+  /* ---- Druck / PDF ---- */
+  @page{ size:A4; margin:14mm; }
+  @media print{
+    html,body{ background:#fff; padding:0; }
+    .bar{ display:none !important; }
+    .sheet{
+      max-width:none; margin:0; border:none; border-radius:0; box-shadow:none;
+      padding:0;
+    }
+    .sheet::before{ display:none; }
+    .stance{ background:#faf3df !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    h2::before, ul.pts li::before, .id .accent, .stance{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    section.block, .stance, footer.foot{ break-inside:avoid; }
+    .lede{ break-after:avoid; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="bar">
+    <button class="btn" onclick="window.print()" aria-label="Als PDF speichern oder drucken">
+      <span class="ic">⤓</span> Als PDF speichern / drucken
+    </button>
+  </div>
+
+  <div class="sheet">
+    <header class="masthead">
+      <div class="id">
+        <h1>Daniel Arnold</h1>
+        <div class="role">Kommunikationscoach · Zwickau</div>
+        <div class="accent"></div>
+      </div>
+      <div class="logo"><img src="logo.png" alt="Arnold Coaching"></div>
+    </header>
+
+    <div class="lede">
+      <p>Ich lebe mit meiner Tochter in Zwickau und arbeite hier als selbstständiger Kommunikationscoach. Ich begleite Geschäftsführer, Führungskräfte und Teams dabei, schwierige Gespräche zu führen, Missverständnisse früh zu erkennen und Zusammenarbeit verlässlicher zu machen – auf Deutsch und Englisch.</p>
+      <p>Mich interessiert nicht nur, was in einer Organisation offiziell beschlossen wird. Mich interessiert vor allem, ob Menschen einander verstehen, Verantwortung übernehmen und gemeinsam etwas bewegen können. Diese Perspektive würde ich gern in die Kulturarbeit der Stadt einbringen.</p>
+    </div>
+
+    <section class="block">
+      <h2>Beruflicher Hintergrund</h2>
+      <ul class="pts">
+        <li>Selbstständiger Kommunikations- und Sprachcoach für Geschäftsführer, Führungskräfte und Teams</li>
+        <li>Mehr als zehn Jahre Erfahrung in Sprachbildung, Coaching und der Begleitung von Lern- und Entwicklungsprozessen; als Dozent und Coach tätig seit 2015</li>
+        <li>Pädagogischer Hintergrund, Gebärdensprachdolmetschen und Kommunikationsausbildung</li>
+        <li>Erfahrung mit mittelständischen Unternehmen aus Industrie, Dienstleistung und Verwaltung</li>
+        <li>Schwerpunkt: schwierige Gespräche, Konflikte, Feedback, Rollenklärung und Zusammenarbeit in Teams</li>
+        <li>Arbeit mit internationalen Mitarbeitenden und mehrsprachigen Gruppen</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Bezug zu Zwickau</h2>
+      <ul class="pts">
+        <li>Lebensmittelpunkt in Zwickau; meine Tochter geht hier zur Schule</li>
+        <li>Vorsitz im Elternrat von Kita und Hort</li>
+        <li>Kommunikationsarbeit im Umfeld des BSV Sachsen Zwickau</li>
+        <li>Austausch mit Schulen und Jugendlichen zu Kommunikation, Lernen und persönlicher Orientierung</li>
+        <li>Engagement für Save Soil / Conscious Planet und Erfahrung in ehrenamtlicher Koordination</li>
+      </ul>
+    </section>
+
+    <section class="block contribute">
+      <h2>Was ich beitragen kann</h2>
+      <p>Ich kann Gespräche strukturieren, unterschiedliche Perspektiven zusammenbringen und auch dann ruhig bleiben, wenn Interessen auseinandergehen. Ich kenne sowohl die unternehmerische als auch die pädagogische Seite und bringe eine internationale Perspektive mit.</p>
+      <p>Besonders interessiert mich die Frage, wie Kultur, Sport, Bildung und Stadtgesellschaft stärker miteinander verbunden werden können. Dabei geht es mir nicht um schnelle Schlagworte, sondern um tragfähige Zusammenarbeit und konkrete Verbesserungen.</p>
+    </section>
+
+    <div class="stance">
+      <span class="lbl">Haltung</span>
+      Ich halte viel davon, Menschen zuzuhören, bevor Entscheidungen getroffen werden. Kompetenz, Klarheit und Verlässlichkeit sind mir wichtiger als Selbstdarstellung. Ich würde mich gern dort einbringen, wo diese Haltung gebraucht wird und echte Mitgestaltung möglich ist.
+    </div>
+
+    <footer class="foot">
+      <div class="who">
+        <b>Daniel Arnold</b> · Arnold Coaching<br>
+        <a href="mailto:daniel@arnoldcoaching.de">daniel@arnoldcoaching.de</a> · <a href="https://arnoldcoaching.de">arnoldcoaching.de</a>
+      </div>
+      <div class="mark"><img src="logo.png" alt="Arnold Coaching"></div>
+    </footer>
+  </div>
+
+</body>
+</html>
