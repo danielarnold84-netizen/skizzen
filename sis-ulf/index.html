@@ -64,10 +64,29 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
-    padding:clamp(28px,6vw,72px) 20px 64px;
+    padding:clamp(22px,5vw,44px) 20px 64px;
     min-height:100vh;
   }
   .wrap{max-width:760px;margin:0 auto}
+
+  /* ---- language switch ---- */
+  .langbar{display:flex;justify-content:flex-end;margin-bottom:clamp(20px,4vw,34px)}
+  .seg{
+    display:inline-flex;background:var(--card-2);border:1px solid var(--line);
+    border-radius:10px;padding:3px;gap:2px;box-shadow:var(--shadow);
+  }
+  .seg button{
+    appearance:none;-webkit-appearance:none;border:0;background:transparent;cursor:pointer;
+    font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--muted);padding:8px 15px;min-height:38px;border-radius:7px;
+    transition:background .15s ease,color .15s ease;
+  }
+  .seg button:not(.on):hover{color:var(--ink)}
+  .seg button.on{background:var(--accent);color:#fff;box-shadow:var(--shadow)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button.on{color:#08110e}}
+  :root[data-theme="dark"] .seg button.on{color:#08110e}
+  :root[data-theme="light"] .seg button.on{color:#fff}
+  .seg button:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
 
   .eyebrow{
     font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
@@ -242,29 +261,36 @@
 <div class="page">
 <main class="wrap">
 
+  <div class="langbar">
+    <div class="seg" role="group" aria-label="Sprache / Language">
+      <button type="button" data-lang="de" class="on" aria-pressed="true">DE</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
   <header>
-    <p class="eyebrow">Für Ulf · SIS Middle East</p>
-    <h1>Dein Steuerungs-System in&nbsp;Asana</h1>
-    <p class="lead">Lieber Ulf — hier ist die Struktur, die ich aus euren QM-Dokumenten und unserem Gespräch gebaut habe. <b>Kein Dokumenten&shy;archiv</b>, sondern eine Landkarte eurer Organisation: wer verantwortet was, was hängt, was ist bis wann fällig.</p>
-    <a class="cta" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">Cockpit öffnen <span class="arw">→</span></a>
-    <p class="meta">Erster Stand · Juli 2026 · gebaut von Daniel</p>
+    <p class="eyebrow" data-i18n="eyebrow_for">Für Ulf · SIS Middle East</p>
+    <h1 data-i18n="h1">Dein Steuerungs-System in&nbsp;Asana</h1>
+    <p class="lead" data-i18n="lead">Lieber Ulf — hier ist die Struktur, die ich aus euren QM-Dokumenten und unserem Gespräch gebaut habe. <b>Kein Dokumenten&shy;archiv</b>, sondern eine Landkarte eurer Organisation: wer verantwortet was, was hängt, was ist bis wann fällig.</p>
+    <a class="cta" data-i18n="cta_cockpit" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">Cockpit öffnen <span class="arw">→</span></a>
+    <p class="meta" data-i18n="meta">Erster Stand · Juli 2026 · gebaut von Daniel</p>
   </header>
 
   <section aria-labelledby="idee">
-    <p class="eyebrow">Die Idee</p>
-    <h2 class="statement" id="idee">Kein Dokumentenregister.<br><span class="em">Ein Steuerungs-Cockpit.</span></h2>
-    <p class="body">Eure QM-Dokumente bleiben die Quelle — aber Asana bildet nicht die Ordner auf deiner Festplatte ab. Es zeigt eure <b>echte Organisation</b>: die Einrichtungen, die Kernprozesse, die Verantwortlichkeiten und die Projekte mit echten Terminen.</p>
+    <p class="eyebrow" data-i18n="eyebrow_idea">Die Idee</p>
+    <h2 class="statement" id="idee" data-i18n="st_idea">Kein Dokumentenregister.<br><span class="em">Ein Steuerungs-Cockpit.</span></h2>
+    <p class="body" data-i18n="body_idea">Eure QM-Dokumente bleiben die Quelle — aber Asana bildet nicht die Ordner auf deiner Festplatte ab. Es zeigt eure <b>echte Organisation</b>: die Einrichtungen, die Kernprozesse, die Verantwortlichkeiten und die Projekte mit echten Terminen.</p>
     <div class="pillars">
-      <span class="pillar"><span class="dot"></span>Wer verantwortet was</span>
-      <span class="pillar"><span class="dot"></span>Was gerade hängt</span>
-      <span class="pillar"><span class="dot"></span>Was bis wann fällig ist</span>
+      <span class="pillar"><span class="dot"></span><span data-i18n="p_acct">Wer verantwortet was</span></span>
+      <span class="pillar"><span class="dot"></span><span data-i18n="p_stuck">Was gerade hängt</span></span>
+      <span class="pillar"><span class="dot"></span><span data-i18n="p_due">Was bis wann fällig ist</span></span>
     </div>
   </section>
 
   <section aria-labelledby="aufbau">
-    <p class="eyebrow">So ist es aufgebaut</p>
-    <h2 class="statement" id="aufbau">Ein Cockpit, vier Bereiche<br>— plus die Quellenbasis.</h2>
-    <p class="body muted">Alles hängt unter dem Executive Overview. Klick dich von oben nach unten durch.</p>
+    <p class="eyebrow" data-i18n="eyebrow_built">So ist es aufgebaut</p>
+    <h2 class="statement" id="aufbau" data-i18n="st_built">Ein Cockpit, vier Bereiche<br>— plus die Quellenbasis.</h2>
+    <p class="body muted" data-i18n="body_built">Alles hängt unter dem Executive Overview. Klick dich von oben nach unten durch.</p>
 
     <div class="ladder">
       <div class="spine" aria-hidden="true"></div>
@@ -276,12 +302,12 @@
         <div class="card crown">
           <div class="card-head">
             <div>
-              <p class="kicker">Dein Cockpit</p>
+              <p class="kicker" data-i18n="k_cockpit">Dein Cockpit</p>
               <h3><a href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">Executive Overview</a></h3>
             </div>
-            <a class="open" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
+            <a class="open" data-i18n="open_link" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
           </div>
-          <p>Der Überblick über alle Bereiche und die kritischsten Projekte — eine Ansicht, ein Blick. Von hier aus startest du jeden Tag.</p>
+          <p data-i18n="d_cockpit">Der Überblick über alle Bereiche und die kritischsten Projekte — eine Ansicht, ein Blick. Von hier aus startest du jeden Tag.</p>
         </div>
       </div>
 
@@ -292,12 +318,12 @@
         <div class="card">
           <div class="card-head">
             <div>
-              <p class="kicker">Führung</p>
+              <p class="kicker" data-i18n="k_lead">Führung</p>
               <h3><a href="https://app.asana.com/0/portfolio/1216436648635740/list" target="_blank" rel="noopener">Leadership Structure</a></h3>
             </div>
-            <a class="open" href="https://app.asana.com/0/portfolio/1216436648635740/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
+            <a class="open" data-i18n="open_link" href="https://app.asana.com/0/portfolio/1216436648635740/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
           </div>
-          <p>Die Führungsebene: eure Strategie, die Funktionen und die Kernprozesse aus dem QM-System.</p>
+          <p data-i18n="d_lead">Die Führungsebene: eure Strategie, die Funktionen und die Kernprozesse aus dem QM-System.</p>
           <div class="chips">
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1216448301777567" target="_blank" rel="noopener">Strategy &amp; Priorities</a>
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1216448488792864" target="_blank" rel="noopener">Company Functions &amp; Responsibilities</a>
@@ -313,12 +339,12 @@
         <div class="card">
           <div class="card-head">
             <div>
-              <p class="kicker">Umsetzung</p>
+              <p class="kicker" data-i18n="k_deliv">Umsetzung</p>
               <h3><a href="https://app.asana.com/0/portfolio/1216436768939356/list" target="_blank" rel="noopener">Operative</a></h3>
             </div>
-            <a class="open" href="https://app.asana.com/0/portfolio/1216436768939356/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
+            <a class="open" data-i18n="open_link" href="https://app.asana.com/0/portfolio/1216436768939356/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
           </div>
-          <p>Die Projekte mit echten Terminen — hier wird geliefert.</p>
+          <p data-i18n="d_deliv">Die Projekte mit echten Terminen — hier wird geliefert.</p>
           <div class="chips">
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1213358138828864" target="_blank" rel="noopener">Capital Med Opening</a>
             <a class="chip due" href="https://app.asana.com/1/1211316100355379/project/1213358138828777" target="_blank" rel="noopener">Accreditation &amp; Nursing Pilot (GENEB) <span class="cal">31.07.</span></a>
@@ -336,18 +362,18 @@
         <div class="card">
           <div class="card-head">
             <div>
-              <p class="kicker">Einrichtungen</p>
+              <p class="kicker" data-i18n="k_inst">Einrichtungen</p>
               <h3><a href="https://app.asana.com/0/portfolio/1213358138828700/list" target="_blank" rel="noopener">Institutions Overview</a></h3>
             </div>
-            <a class="open" href="https://app.asana.com/0/portfolio/1213358138828700/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
+            <a class="open" data-i18n="open_link" href="https://app.asana.com/0/portfolio/1213358138828700/list" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
           </div>
-          <p>Jede Einrichtung als eigener Bereich — mit Leitung, Prioritäten und offenen Punkten.</p>
+          <p data-i18n="d_inst">Jede Einrichtung als eigener Bereich — mit Leitung, Prioritäten und offenen Punkten.</p>
           <div class="chips">
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1213358138828926" target="_blank" rel="noopener">SEU · Saxony Egypt University</a>
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1213358465556404" target="_blank" rel="noopener">Telc Testing Center</a>
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1213358466256068" target="_blank" rel="noopener">Academy</a>
             <a class="chip" href="https://app.asana.com/1/1211316100355379/project/1213358453784907" target="_blank" rel="noopener">Red Sea</a>
-            <span class="chip"><span class="more">und weitere</span></span>
+            <span class="chip"><span class="more" data-i18n="more_inst">und weitere</span></span>
           </div>
         </div>
       </div>
@@ -359,12 +385,12 @@
         <div class="card quiet">
           <div class="card-head">
             <div>
-              <p class="kicker">Quellenbasis</p>
+              <p class="kicker" data-i18n="k_source">Quellenbasis</p>
               <h3><a href="https://app.asana.com/1/1211316100355379/project/1213358138828769" target="_blank" rel="noopener">QM Source Map</a></h3>
             </div>
-            <a class="open" href="https://app.asana.com/1/1211316100355379/project/1213358138828769" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
+            <a class="open" data-i18n="open_link" href="https://app.asana.com/1/1211316100355379/project/1213358138828769" target="_blank" rel="noopener">öffnen <span class="arw">↗</span></a>
           </div>
-          <p>Deine QM-Dokumente als Referenz — zum Nachvollziehen, aus welchem Dokument welche Struktur stammt. Keine 291 Kopien, nur die Landkarte.</p>
+          <p data-i18n="d_source">Deine QM-Dokumente als Referenz — zum Nachvollziehen, aus welchem Dokument welche Struktur stammt. Keine 291 Kopien, nur die Landkarte.</p>
         </div>
       </div>
 
@@ -372,32 +398,103 @@
   </section>
 
   <section aria-labelledby="edit">
-    <p class="eyebrow">Was von dir kommt</p>
-    <h2 class="statement" id="edit">Überall, wo <span class="tag">(edit)</span> steht,<br>fehlt eine Info von dir.</h2>
+    <p class="eyebrow" data-i18n="eyebrow_edit">Was von dir kommt</p>
+    <h2 class="statement" id="edit" data-i18n="st_edit">Überall, wo <span class="tag">(edit)</span> steht,<br>fehlt eine Info von dir.</h2>
     <div class="edit-call">
-      <p>Ein Name, eine Zuordnung, eine offene Frage — markiert mit <span class="tag">(edit)</span>. Trag nur ein, was du <b>sicher</b> weißt.</p>
-      <p><span class="gold">Lücken sind Gold:</span> genau die zeigen, wo wir gemeinsam klären. Es muss nicht perfekt sein — es muss eure Realität treffen.</p>
+      <p data-i18n="edit_p1">Ein Name, eine Zuordnung, eine offene Frage — markiert mit <span class="tag">(edit)</span>. Trag nur ein, was du <b>sicher</b> weißt.</p>
+      <p data-i18n="edit_p2"><span class="gold">Lücken sind Gold:</span> genau die zeigen, wo wir gemeinsam klären. Es muss nicht perfekt sein — es muss eure Realität treffen.</p>
     </div>
   </section>
 
   <section aria-labelledby="start">
-    <p class="eyebrow">So startest du</p>
-    <h2 class="statement" id="start">In drei Schritten drin.</h2>
+    <p class="eyebrow" data-i18n="eyebrow_start">So startest du</p>
+    <h2 class="statement" id="start" data-i18n="st_start">In drei Schritten drin.</h2>
     <ol class="steps">
-      <li><b>Cockpit öffnen</b> — verschaff dir den Überblick im Executive Overview.</li>
-      <li><b>Durch die Bereiche klicken</b> — trifft die Struktur eure Realität? Was fehlt, was ist zu viel?</li>
-      <li><b>Die <span class="tag">(edit)</span>-Stellen füllen</b>, wo du sicher bist — den Rest gehen wir zusammen durch.</li>
+      <li data-i18n="step1"><b>Cockpit öffnen</b> — verschaff dir den Überblick im Executive Overview.</li>
+      <li data-i18n="step2"><b>Durch die Bereiche klicken</b> — trifft die Struktur eure Realität? Was fehlt, was ist zu viel?</li>
+      <li data-i18n="step3"><b>Die <span class="tag">(edit)</span>-Stellen füllen</b>, wo du sicher bist — den Rest gehen wir zusammen durch.</li>
     </ol>
   </section>
 
   <footer class="outro">
-    <p class="signoff">Kein Stress, keine Perfektion — ein erster brauchbarer Stand, den wir gemeinsam schärfen. Fragen? Schreib mir jederzeit.</p>
+    <p class="signoff" data-i18n="signoff">Kein Stress, keine Perfektion — ein erster brauchbarer Stand, den wir gemeinsam schärfen. Fragen? Schreib mir jederzeit.</p>
     <p class="sig">— Daniel</p>
-    <a class="cta" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">Cockpit öffnen <span class="arw">→</span></a>
-    <p class="foot">Abgeleitet aus dem QM-Handbuch SIS ME + unserem Gespräch, 4. Juli 2026.<br>Die Links öffnen die jeweiligen Bereiche direkt in Asana.</p>
+    <a class="cta" data-i18n="cta_cockpit" href="https://app.asana.com/0/portfolio/1213358138828695/list" target="_blank" rel="noopener">Cockpit öffnen <span class="arw">→</span></a>
+    <p class="foot" data-i18n="foot">Abgeleitet aus dem QM-Handbuch SIS ME + unserem Gespräch, 4. Juli 2026.<br>Die Links öffnen die jeweiligen Bereiche direkt in Asana.</p>
   </footer>
 
 </main>
 </div>
+
+<script>
+(function(){
+  var EN = {
+    eyebrow_for: "For Ulf · SIS Middle East",
+    h1: "Your steering system in&nbsp;Asana",
+    lead: "Dear Ulf — this is the structure I built from your QM documents and our conversation. <b>Not a document archive</b>, but a map of your organisation: who's accountable for what, what's stuck, what's due when.",
+    cta_cockpit: 'Open cockpit <span class="arw">→</span>',
+    meta: "First version · July 2026 · built by Daniel",
+    eyebrow_idea: "The idea",
+    st_idea: 'Not a document register.<br><span class="em">A steering cockpit.</span>',
+    body_idea: "Your QM documents stay the source — but Asana doesn't mirror the folders on your hard drive. It shows your <b>real organisation</b>: the institutions, the core processes, the responsibilities and the projects with real deadlines.",
+    p_acct: "Who's accountable",
+    p_stuck: "What's stuck",
+    p_due: "What's due when",
+    eyebrow_built: "How it's built",
+    st_built: "One cockpit, four areas<br>— plus the source base.",
+    body_built: "Everything sits under the Executive Overview. Click your way down, top to bottom.",
+    k_cockpit: "Your cockpit",
+    d_cockpit: "The overview of all areas and the most critical projects — one view, one glance. This is where you start each day.",
+    open_link: 'open <span class="arw">↗</span>',
+    k_lead: "Leadership",
+    d_lead: "The leadership level: your strategy, the functions and the core processes from the QM system.",
+    k_deliv: "Delivery",
+    d_deliv: "The projects with real deadlines — this is where delivery happens.",
+    k_inst: "Institutions",
+    d_inst: "Each institution as its own area — with leadership, priorities and open points.",
+    more_inst: "and more",
+    k_source: "Source base",
+    d_source: "Your QM documents as reference — to trace which structure came from which document. Not 291 copies, just the map.",
+    eyebrow_edit: "What comes from you",
+    st_edit: 'Wherever it says <span class="tag">(edit)</span>,<br>something’s missing from you.',
+    edit_p1: 'A name, an assignment, an open question — marked with <span class="tag">(edit)</span>. Only fill in what you know <b>for sure</b>.',
+    edit_p2: '<span class="gold">Gaps are gold:</span> they show exactly where we clarify together. It doesn’t need to be perfect — it needs to match your reality.',
+    eyebrow_start: "How to start",
+    st_start: "In three steps.",
+    step1: "<b>Open the cockpit</b> — get the overview in the Executive Overview.",
+    step2: "<b>Click through the areas</b> — does the structure match your reality? What's missing, what's too much?",
+    step3: '<b>Fill the <span class="tag">(edit)</span> spots</b> where you’re sure — we’ll go through the rest together.',
+    signoff: "No stress, no perfection — a first usable version we'll sharpen together. Questions? Write me anytime.",
+    foot: "Derived from the SIS ME QM manual + our conversation, 4 July 2026.<br>The links open each area directly in Asana."
+  };
+
+  var nodes = document.querySelectorAll('[data-i18n]');
+  nodes.forEach(function(n){ n._de = n.innerHTML; });
+  var buttons = document.querySelectorAll('.seg button');
+
+  function setLang(lang){
+    var en = lang === 'en';
+    nodes.forEach(function(n){
+      var k = n.getAttribute('data-i18n');
+      n.innerHTML = (en && EN[k] != null) ? EN[k] : n._de;
+    });
+    document.documentElement.setAttribute('lang', en ? 'en' : 'de');
+    buttons.forEach(function(b){
+      var active = b.getAttribute('data-lang') === lang;
+      b.classList.toggle('on', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    try{ localStorage.setItem('ulf-lang', lang); }catch(e){}
+  }
+
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); });
+  });
+
+  var saved = 'de';
+  try{ saved = localStorage.getItem('ulf-lang') || 'de'; }catch(e){}
+  setLang(saved);
+})();
+</script>
 </body>
 </html>
