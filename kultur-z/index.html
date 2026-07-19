@@ -7,82 +7,96 @@
 <title>Daniel Arnold — Vorstellung für Kultur-Z</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#f4efe4; --card:#fbf8f1; --ink:#221f19; --muted:#6c6558;
-    --accent:#9a6a2f; --accent-tint:#f1e8d6; --slate:#33383f; --rule:#ddd2bf;
+    --gold:#edbd41; --gold-deep:#7a5d10; --gold-tint:#f7edcf; --anthra:#403d3f;
+    --rule:#e0d6c0;
     --serif:'Fraunces',"Iowan Old Style",Palatino,Georgia,serif;
     --sans:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   @media (prefers-color-scheme:dark){
     :root{--paper:#191713;--card:#201d18;--ink:#ece5d6;--muted:#9a9184;
-    --accent:#cd9d59;--accent-tint:#2c2519;--slate:#c7cdd6;--rule:#34302a;}
+      --gold:#edbd41;--gold-deep:#e9c667;--gold-tint:#2b2513;--anthra:#c7c2bb;--rule:#34302a;}
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);
     line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
   body{padding:28px 16px 64px;}
 
-  /* Druck-/PDF-Leiste (nur Bildschirm) */
   .bar{max-width:52rem;margin:0 auto 14px;display:flex;justify-content:flex-end;gap:10px;}
   .btn{font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;
-    background:var(--slate);color:#fff;border:none;border-radius:10px;padding:9px 15px;}
+    background:var(--anthra);color:#fff;border:none;border-radius:10px;padding:9px 15px;}
   .btn:hover{opacity:.9;}
-  .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .btn:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px;}
 
   .page{max-width:52rem;margin:0 auto;}
-  .sheet{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  .sheet{position:relative;background:var(--card);border:1px solid var(--rule);border-radius:14px;
     box-shadow:0 1px 2px rgba(34,31,25,.05),0 16px 44px -22px rgba(34,31,25,.3);
-    padding:clamp(1.4rem,3.5vw,2.9rem);}
+    padding:clamp(1.4rem,3.5vw,2.8rem);}
+  .brandmark{position:absolute;top:clamp(1.2rem,3vw,2.2rem);right:clamp(1.2rem,3vw,2.2rem);
+    width:42px;height:42px;opacity:.9;}
 
-  .hero{display:grid;grid-template-columns:15rem 1fr;gap:clamp(1.2rem,3vw,2.1rem);align-items:start;}
+  .hero{display:grid;grid-template-columns:14rem 1fr;gap:clamp(1.2rem,3vw,2rem);align-items:start;}
   .portrait{width:100%;aspect-ratio:854/1280;object-fit:cover;border-radius:10px;
     display:block;box-shadow:0 8px 26px -14px rgba(34,31,25,.5);}
   .eyebrow{font-size:.68rem;letter-spacing:.19em;text-transform:uppercase;
-    color:var(--accent);font-weight:600;margin-bottom:.5rem;}
+    color:var(--gold-deep);font-weight:600;margin-bottom:.5rem;}
   h1{font-family:var(--serif);font-weight:500;font-size:clamp(2.1rem,5vw,2.9rem);
     line-height:1.03;letter-spacing:-.01em;text-wrap:balance;}
-  .role{color:var(--slate);font-size:.98rem;font-weight:600;margin-top:.5rem;letter-spacing:.01em;}
+  .role{color:var(--anthra);font-size:.98rem;font-weight:600;margin-top:.5rem;letter-spacing:.01em;}
   .role span{color:var(--muted);font-weight:400;}
-  .lead{margin-top:1.1rem;}
-  .lead p{margin-bottom:.7rem;max-width:34rem;}
+  .lead{margin-top:1rem;}
+  .lead p{margin-bottom:.65rem;max-width:34rem;}
   .lead p:last-child{margin-bottom:0;}
 
-  h2{font-family:var(--sans);font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;
-    color:var(--slate);font-weight:600;margin-bottom:.65rem;display:flex;align-items:center;gap:.55rem;}
-  h2::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--accent);flex:none;}
-  p{margin-bottom:.7rem;}
+  h2{font-family:var(--sans);font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--anthra);font-weight:600;margin-bottom:.6rem;display:flex;align-items:center;gap:.55rem;}
+  h2::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--gold);flex:none;}
+  p{margin-bottom:.65rem;}
   strong{font-weight:600;}
 
-  .feature{margin-top:1.9rem;background:var(--accent-tint);border:1px solid var(--rule);
-    border-radius:11px;padding:clamp(1.1rem,2.5vw,1.6rem) clamp(1.1rem,2.5vw,1.7rem);}
-  .feature h2{color:var(--accent);}
-  .feature p{max-width:40rem;}
-  ul{list-style:none;margin-top:.5rem;display:grid;gap:.45rem;}
-  li{position:relative;padding-left:1.3rem;}
+  .feature{margin-top:1.7rem;background:var(--gold-tint);border:1px solid var(--rule);
+    border-left:3px solid var(--gold);border-radius:10px;
+    padding:clamp(1rem,2.2vw,1.35rem) clamp(1.1rem,2.4vw,1.6rem);}
+  .feature h2{color:var(--gold-deep);}
+  .feature p{max-width:41rem;margin-bottom:.6rem;}
+  ul{list-style:none;margin-top:.4rem;display:grid;gap:.4rem;}
+  li{position:relative;padding-left:1.25rem;}
   li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;
-    border-radius:50%;border:1.5px solid var(--accent);}
+    border-radius:50%;border:1.5px solid var(--gold);}
 
-  .lower{margin-top:1.9rem;display:grid;grid-template-columns:1fr 1fr;
-    gap:1.5rem 2.2rem;border-top:1px solid var(--rule);padding-top:1.6rem;}
-  .lower h2{font-size:.72rem;color:var(--muted);}
-  .lower h2::before{background:var(--muted);}
-  .lower p,.lower li{font-size:.9rem;line-height:1.48;}
-  .lower .span-2{grid-column:1 / -1;}
-  .qlist li{padding-left:1.2rem;}
-  .qlist li::before{border-color:var(--muted);}
+  .lower{margin-top:1.7rem;display:grid;grid-template-columns:1fr 1fr;
+    gap:1.4rem 2.2rem;border-top:1px solid var(--rule);padding-top:1.5rem;}
+  .lower h2{font-size:.72rem;}
+  .lower p,.lower li{font-size:.9rem;line-height:1.46;}
+  .span-2{grid-column:1 / -1;}
 
-  footer{margin-top:1.8rem;border-top:2px solid var(--accent);padding-top:1rem;
+  .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.7rem;}
+  .chip{font-size:.74rem;font-weight:500;color:var(--ink);background:var(--card);
+    border:1px solid var(--gold);border-radius:999px;padding:.28rem .68rem;}
+
+  .leitsatz{font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:1.08rem;line-height:1.4;color:var(--ink);
+    border-left:3px solid var(--gold);padding-left:.85rem;margin-bottom:.75rem;}
+
+  .kennen{margin-top:1.7rem;border-top:1px solid var(--rule);padding-top:1.5rem;}
+  .qlist{display:grid;grid-template-columns:1fr 1fr;gap:.4rem 1.6rem;margin:.5rem 0 .9rem;}
+  .qlist li::before{border-color:var(--anthra);}
+  .close{font-size:.98rem;color:var(--ink);max-width:44rem;}
+
+  footer{margin-top:1.6rem;border-top:2px solid var(--gold);padding-top:1rem;
     display:flex;flex-wrap:wrap;gap:.3rem 1.1rem;align-items:baseline;font-size:.9rem;color:var(--muted);}
   footer .nm{font-family:var(--serif);font-size:1.1rem;color:var(--ink);font-weight:600;}
-  footer a{color:var(--accent);text-decoration:none;}
+  footer a{color:var(--gold-deep);text-decoration:none;}
   footer a:hover,footer a:focus-visible{text-decoration:underline;}
 
   @media (max-width:620px){
     .hero{grid-template-columns:1fr;}
-    .portrait{max-width:13rem;}
-    .lower{grid-template-columns:1fr;}
+    .portrait{max-width:12rem;}
+    .lower,.qlist{grid-template-columns:1fr;}
+    .brandmark{width:34px;height:34px;}
   }
   @media print{
     @page{size:A4;margin:12mm;}
@@ -90,8 +104,8 @@
     .bar{display:none;}
     .page{max-width:none;}
     .sheet{border:0;box-shadow:none;border-radius:0;padding:0;}
-    .feature{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    section,.feature,footer{break-inside:avoid;}
+    .feature,.chip{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    section,.feature,.kennen,footer{break-inside:avoid;}
   }
 </style>
 </head>
@@ -103,6 +117,7 @@
 
 <div class="page">
   <article class="sheet">
+    <img class="brandmark" src="logo.png" alt="Arnold Coaching" />
 
     <header class="hero">
       <img class="portrait" src="daniel-portrait.jpg" alt="Porträtfoto von Daniel Arnold" />
@@ -112,51 +127,52 @@
         <p class="role">Kommunikationscoach · Unternehmer · <span>Zwickau</span></p>
         <div class="lead">
           <p>Ich lebe mit meiner Tochter in Zwickau und arbeite hier als selbstständiger Kommunikationscoach. Ich begleite Geschäftsführer, Führungskräfte und Teams dabei, auch dann klar miteinander zu sprechen, wenn Interessen auseinandergehen, Verantwortung unklar ist oder ein Konflikt schon länger im Raum steht.</p>
-          <p>Mein beruflicher Weg verbindet Kommunikation, Pädagogik und unternehmerische Praxis. Bevor ich Arnold Coaching gegründet habe, war ich über mehrere Jahre am Aufbau und Wachstum eines regionalen Bildungsunternehmens beteiligt. Heute arbeite ich vor allem mit mittelständischen Unternehmen und internationalen Teams — auf Deutsch und Englisch.</p>
+          <p>Mein Weg verbindet Kommunikation, Pädagogik und unternehmerische Praxis. Vor Arnold Coaching war ich mehrere Jahre am Aufbau eines regionalen Bildungsunternehmens beteiligt; heute arbeite ich vor allem mit mittelständischen Unternehmen und internationalen Teams — auf Deutsch und Englisch.</p>
         </div>
       </div>
     </header>
 
     <section class="feature">
       <h2>Was ich einbringen kann</h2>
-      <p>Meine Stärke liegt nicht darin, für jedes Fachthema sofort eine fertige Antwort zu haben. Ich kann zuhören, unterschiedliche Perspektiven erfassen und sichtbar machen, worüber eigentlich entschieden werden muss.</p>
-      <p>In meiner Arbeit erlebe ich regelmäßig, dass Organisationen nicht an fehlenden Ideen scheitern, sondern daran, dass Menschen aneinander vorbeireden, Rollen unklar bleiben oder wichtige Stimmen zu spät gehört werden. Ich kann solche Gespräche strukturieren, ohne sie unnötig zu verhärten.</p>
+      <p>Meine Stärke ist nicht, für jedes Fachthema sofort eine fertige Antwort zu haben. Ich höre zu, erfasse unterschiedliche Perspektiven und mache sichtbar, worüber eigentlich entschieden werden muss — und ich strukturiere schwierige Gespräche, ohne sie zu verhärten.</p>
       <ul>
         <li>Erfahrung mit Führungskräften, Teams und Veränderungsprozessen</li>
-        <li>pädagogischer Hintergrund und Arbeit mit jungen Menschen</li>
-        <li>internationale Erfahrung und Arbeit in mehrsprachigen Kontexten</li>
-        <li>Erfahrung in ehrenamtlichen, europäischen Volunteer-Strukturen</li>
-        <li>ein unabhängiger Blick, der nicht an eine Parteimitgliedschaft gebunden ist</li>
+        <li>pädagogischer Hintergrund, Arbeit mit jungen Menschen und internationalen Teams</li>
+        <li>ein unabhängiger Blick, nicht an eine Parteimitgliedschaft gebunden</li>
       </ul>
     </section>
 
     <div class="lower">
       <section>
         <h2>Warum Zwickau</h2>
-        <p>Zwickau ist für mich nicht nur mein Wohnort. Meine Tochter geht hier zur Schule, ich bin im Elternrat von Schule und Hort aktiv und habe über meine Arbeit Einblicke in Unternehmen, Bildung und Sport der Region bekommen. Dazu gehört auch ein früheres Kommunikationscoaching beim BSV Sachsen Zwickau.</p>
-        <p>Ich sehe mich hier für die kommenden Jahre verwurzelt. Gerade deshalb interessiert mich die Frage, wie die Stadt auf die Veränderungen vorbereitet werden kann, die wirtschaftlich und gesellschaftlich vor ihr liegen.</p>
+        <div class="chips">
+          <span class="chip">Familie &amp; Schule</span>
+          <span class="chip">regionale Unternehmen</span>
+          <span class="chip">Sport &amp; Ehrenamt</span>
+        </div>
+        <p>Zwickau ist für mich nicht nur mein Wohnort. Meine Tochter geht hier zur Schule, ich bin im Elternrat von Schule und Hort aktiv und habe über meine Arbeit — bis hin zum Coaching beim BSV Sachsen Zwickau — Einblick in Unternehmen, Bildung und Sport der Region. Ich sehe mich hier für die kommenden Jahre verwurzelt.</p>
       </section>
 
       <section>
-        <h2>Meine Perspektive auf Kultur &amp; Stadtentwicklung</h2>
-        <p>Kultur ist für mich größer als einzelne Veranstaltungen oder Einrichtungen. Sie zeigt sich darin, wo Menschen einer Stadt zusammenkommen, was sie miteinander verbindet und welche Erfahrungen sie gemeinsam machen können.</p>
-        <p>Mich interessiert besonders, wie Sport, Musik, Theater, Bildung und Stadtgesellschaft stärker zusammengedacht werden können. In Zwickau gibt es dafür bereits starke Orte und Institutionen — unter anderem die Stadthalle, den FSV, das Theater und das Robert-Schumann-Konservatorium. Sie stehen jedoch häufig eher nebeneinander, als gemeinsam Wirkung für die Stadt zu entfalten.</p>
-        <p>Die Stadthalle könnte beispielsweise mehr sein als ein Veranstaltungsort: ein Ort, an dem sich unterschiedliche Teile der Stadt begegnen. Auch Entscheidungen rund um Sportstätten sollten deshalb nicht nur nach ihrer Funktion für Training oder Verwaltung betrachtet werden, sondern ebenso danach, welches Erlebnis sie für Zuschauer schaffen und welche Bindung an die Stadt daraus entsteht.</p>
-      </section>
-
-      <section class="span-2">
-        <h2>Wie ich an die Aufgabe herangehen würde</h2>
-        <p>Ich möchte nicht von außen erklären, was Kultur-Z tun sollte. Zuerst möchte ich verstehen:</p>
-        <ul class="qlist">
-          <li>Wer arbeitet dort bereits mit welchem Auftrag?</li>
-          <li>Welche Themen und Entscheidungen liegen tatsächlich im Gremium?</li>
-          <li>Was funktioniert schon gut?</li>
-          <li>Wo fehlt eine Perspektive, Verbindung oder klare Kommunikation?</li>
-          <li>Wo kann mein Beitrag konkret etwas verändern — und wo nicht?</li>
+        <h2>Meine Perspektive auf Kultur</h2>
+        <p class="leitsatz">Kultur zeigt sich dort, wo Menschen einer Stadt zusammenkommen — nicht in einzelnen Veranstaltungen.</p>
+        <ul>
+          <li>Starke Orte — Stadthalle, FSV, Theater, Robert-Schumann-Konservatorium — stehen oft nebeneinander, statt gemeinsam für die Stadt zu wirken.</li>
+          <li>Die Stadthalle könnte mehr sein als ein Veranstaltungsort: ein Ort der Begegnung. Auch bei Sportstätten zählt das Erlebnis für Zuschauer, nicht nur die Funktion.</li>
         </ul>
-        <p style="margin-top:.7rem">Danach lässt sich ehrlich entscheiden, ob die Aufgabe, die Menschen und der Rahmen zueinander passen. Für diese Kennenlernphase bin ich offen und bereit, mich aktiv einzubringen.</p>
       </section>
     </div>
+
+    <section class="kennen">
+      <h2>Kennenlernen</h2>
+      <p>Ich möchte nicht von außen erklären, was Kultur-Z tun sollte. Zuerst möchte ich verstehen:</p>
+      <ul class="qlist">
+        <li>Welche Aufgabe und welchen Handlungsspielraum hat das Gremium?</li>
+        <li>Welche Menschen und Perspektiven arbeiten dort bereits zusammen?</li>
+        <li>Wo kann mein Hintergrund tatsächlich etwas beitragen?</li>
+      </ul>
+      <p class="close">Ich würde die Menschen und die Arbeit von Kultur-Z gern kennenlernen und dann gemeinsam prüfen, ob und an welcher Stelle mein Beitrag sinnvoll ist.</p>
+    </section>
 
     <footer>
       <span class="nm">Daniel Arnold</span>
