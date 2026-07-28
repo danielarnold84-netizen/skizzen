@@ -1,0 +1,14 @@
+{
+  "name": "skizzen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sandkasten für Skizzen, Mockups und Konzeptseiten — skizzen.arnoldcoaching.de",
+  "scripts": {
+    "lint": "node tools/lint-pages.js",
+    "test": "node --test",
+    "check": "npm run lint && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
