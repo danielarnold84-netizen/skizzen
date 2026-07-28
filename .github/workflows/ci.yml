@@ -1,0 +1,26 @@
+name: CI
+
+# Die Seiten hier gehen ohne Review direkt live (GitHub Pages auf main).
+# Dieser Lauf ist die einzige Kontrolle davor — er muss schnell und leise sein.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      # Keine Abhängigkeiten — npm ci gäbe es nichts zu installieren.
+      - name: Konventionen prüfen
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
