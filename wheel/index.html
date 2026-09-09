@@ -2025,7 +2025,11 @@ function buildPrintOutput() {
   let html = '<div class="print-page">';
   html += '<h1 class="print-h1">' + escapeHtml(t("h1")) + '</h1>';
   html += '<p class="print-meta">' + escapeHtml(t("eyebrow")) + ' · ' + escapeHtml(dateStr) + '</p>';
-  html += '<div class="print-wheel-area">' + document.getElementById("wheel").outerHTML + '</div>';
+  // Ohne id, sonst gibt es die Seite zweimal — getElementById("wheel")
+  // träfe danach womöglich den Druckklon statt des lebenden Rades.
+  const wheelCopy = document.getElementById("wheel").cloneNode(true);
+  wheelCopy.removeAttribute("id");
+  html += '<div class="print-wheel-area">' + wheelCopy.outerHTML + '</div>';
   html += '<table class="print-table"><thead><tr><th>#</th><th>' + escapeHtml(state.lang === "en" ? "Category" : "Bereich") + '</th><th>Score</th></tr></thead><tbody>';
   AXES.forEach((a, i) => {
     html += '<tr><td>' + a.n + '</td><td>' + escapeHtml(dict.cat[a.n]) + '</td><td>' + state.scores[i] + '/10</td></tr>';
