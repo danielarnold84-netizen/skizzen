@@ -4,11 +4,15 @@
   "private": true,
   "description": "Sandkasten für Skizzen, Mockups und Konzeptseiten — skizzen.arnoldcoaching.de",
   "scripts": {
-    "lint": "node tools/lint-pages.js",
+    "lint": "node tools/lint-pages.js && node tools/i18n-parity.js",
     "test": "node --test",
+    "smoke": "node --test smoke/*.smoke.js",
     "check": "npm run lint && npm test"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
   }
 }
