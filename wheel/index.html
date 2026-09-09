@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
 <title>LifeBook Quick Check · Wheel of Life · Arnold Coaching</title>
 <meta name="description" content="LifeBook Quick Check: Mit etwas Abstand sieht man mehr. 12 Lebensbereiche, ein Augenblick — dein Standort, nicht dein Soll.">
 <meta property="og:title" content="LifeBook Quick Check · Wheel of Life · Arnold Coaching">
@@ -1006,6 +1007,7 @@
 <!-- Print-Output Container (versteckt außer Print) -->
 <div id="print-output"></div>
 
+<script src="wheel-state.js"></script>
 <script>
 // =====================================================
 // I18N
@@ -1365,16 +1367,15 @@ const I18N = {
   }
 };
 
-// Achsen im Uhrzeigersinn ab 12 Uhr (oben), Bereiche aufsteigend 1..12
-const AXES = [
-  { idx: 0,  n: 1 }, { idx: 1,  n: 2 }, { idx: 2,  n: 3 },
-  { idx: 3,  n: 4 }, { idx: 4,  n: 5 }, { idx: 5,  n: 6 },
-  { idx: 6,  n: 7 }, { idx: 7,  n: 8 }, { idx: 8,  n: 9 },
-  { idx: 9,  n:10 }, { idx:10,  n:11 }, { idx:11,  n:12 },
-];
-// Alte Yoga-Achsen-Reihenfolge (V2 vor 29.04. abend) — für Migration
-const LEGACY_AXES_N_V2 = [12, 11, 2, 9, 10, 6, 7, 8, 3, 4, 5, 1];
-const STEPS = ["definition", "highsLows", "strategy", "dreamFactory"];
+// Achsen, Migration, Geometrie und Persistenz: siehe wheel-state.js
+const {
+  AXES, STEPS, WHEEL, DEFAULT_SCORE, LEVER_MINIMUM,
+  STORAGE_KEY, SNAPSHOT_KEY, SEEN_KEY,
+  angleRad, appendSnapshot, axisIndexOf, computeLevers, escapeHtml,
+  findSnapshot, insightDiffKey, nextAxisCategory, parseSnapshots,
+  parseStoredState, point, projectToScore, scoreRadius, serializeState,
+  statementsAverage, statementsAsScore, summarize
+} = WheelState;
 
 // Reclaim-Link für die Tiefen-Session (Daniel-bestätigt 29.04.)
 const DEEP_DIVE_URL = "https://app.reclaim.ai/m/daniel-arnold/meet-daniel";
@@ -1382,13 +1383,8 @@ const DEEP_DIVE_URL = "https://app.reclaim.ai/m/daniel-arnold/meet-daniel";
 // =====================================================
 // STATE
 // =====================================================
-const STORAGE_KEY = "wheel-of-life-yoga-v2";
-const SNAPSHOT_KEY = "wheel-of-life-yoga-v2-snapshots";
-const SEEN_KEY = "wheel-of-life-yoga-v2-seen-intro";
-const LEGACY_KEY  = "wheel-of-life-v1";
-
 let state = {
-  scores: AXES.map(() => 5),
+  scores: AXES.map(() => DEFAULT_SCORE),
   notes: {},
   lang: "de",
   date: null,
@@ -1396,82 +1392,37 @@ let state = {
 };
 
 function ensureNotes(n) {
-  if (!state.notes[n]) {
-    state.notes[n] = {
-      definition: "",
-      highsLows: "",
-      dreamFactory: "",
-      strategy: "",
-      done: { definition: false, highsLows: false, dreamFactory: false, strategy: false },
-      statementScores: [5,5,5,5,5],
-      initialScore: null,
-      completed: false,
-      completedScore: null
-    };
-  }
-  if (!state.notes[n].statementScores) {
-    state.notes[n].statementScores = [5,5,5,5,5];
-  }
-  if (!state.notes[n].done) {
-    state.notes[n].done = { definition: false, highsLows: false, dreamFactory: false, strategy: false };
-  }
-  if (state.notes[n].initialScore === undefined) state.notes[n].initialScore = null;
-  if (state.notes[n].completed === undefined) state.notes[n].completed = false;
-  if (state.notes[n].completedScore === undefined) state.notes[n].completedScore = null;
-  return state.notes[n];
+  return WheelState.ensureNotes(state.notes, n);
 }
 
 function loadFromStorage() {
-  try {
-    let raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      const browserLang = (navigator.language || "de").toLowerCase();
-      state.lang = browserLang.startsWith("en") ? "en" : "de";
-      return;
-    }
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed.scores) && parsed.scores.length === 12) {
-      let scores = parsed.scores.map(s => Math.max(1, Math.min(10, Number(s) || 5)));
-      // Migration: alte Yoga-Achsen-Reihenfolge (kein version-Flag oder version<3) → neu auf 1..12 mappen
-      if (!parsed.version || parsed.version < 3) {
-        const oldByN = {};
-        LEGACY_AXES_N_V2.forEach((n, i) => { oldByN[n] = scores[i]; });
-        scores = AXES.map(a => (oldByN[a.n] != null ? oldByN[a.n] : 5));
-      }
-      state.scores = scores;
-    }
-    if (parsed.notes && typeof parsed.notes === "object") {
-      state.notes = parsed.notes;
-    }
-    if (parsed.lang === "de" || parsed.lang === "en") {
-      state.lang = parsed.lang;
-    }
-    if (parsed.date) state.date = new Date(parsed.date);
-  } catch (e) { /* ignore */ }
+  let raw = null;
+  try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+  const loaded = parseStoredState(raw, typeof navigator !== "undefined" ? navigator.language : "de");
+  state.scores = loaded.scores;
+  state.notes = loaded.notes;
+  state.lang = loaded.lang;
+  state.date = loaded.date;
 }
 
 function saveAll(silent) {
   state.date = new Date();
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    version: 3,
-    scores: state.scores,
-    notes: state.notes,
-    lang: state.lang,
-    date: state.date.toISOString()
-  }));
+  try {
+    localStorage.setItem(STORAGE_KEY, serializeState(state));
+  } catch (e) { /* Speicher voll oder gesperrt — Seite läuft weiter */ }
   updateLastUpdateLabel();
   if (!silent) flashSaved();
 }
 
 function resetAll() {
   if (!confirm(t("confirmReset"))) return;
-  state.scores = AXES.map(() => 5);
+  state.scores = AXES.map(() => DEFAULT_SCORE);
   state.date = null;
   saveAll(true);
   document.querySelectorAll('input[type="range"][data-idx]').forEach((inp) => {
-    inp.value = 5;
+    inp.value = DEFAULT_SCORE;
     updateSliderFill(inp);
-    inp.parentElement.querySelector(".slider-value").textContent = "5";
+    inp.parentElement.querySelector(".slider-value").textContent = String(DEFAULT_SCORE);
   });
   renderWheel();
   renderMeter();
@@ -1482,21 +1433,17 @@ function resetAll() {
 // SNAPSHOTS
 // =====================================================
 function loadSnapshots() {
-  try {
-    return JSON.parse(localStorage.getItem(SNAPSHOT_KEY) || "[]");
-  } catch (e) { return []; }
+  let raw = null;
+  try { raw = localStorage.getItem(SNAPSHOT_KEY); } catch (e) { /* ignore */ }
+  return parseSnapshots(raw);
 }
 function persistSnapshots(arr) {
-  localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(arr));
+  try {
+    localStorage.setItem(SNAPSHOT_KEY, JSON.stringify(arr));
+  } catch (e) { /* Speicher voll oder gesperrt — Seite läuft weiter */ }
 }
 function saveSnapshot() {
-  const snapshots = loadSnapshots();
-  snapshots.push({
-    date: new Date().toISOString(),
-    scores: [...state.scores]
-  });
-  if (snapshots.length > 12) snapshots.shift();
-  persistSnapshots(snapshots);
+  persistSnapshots(appendSnapshot(loadSnapshots(), state.scores, new Date().toISOString()));
   renderSnapshotList();
 }
 function renderSnapshotList() {
@@ -1528,10 +1475,7 @@ function renderSnapshotList() {
   });
 }
 function getCompareScores() {
-  if (!state.compareSnapshot) return null;
-  const snapshots = loadSnapshots();
-  const snap = snapshots.find(s => s.date === state.compareSnapshot);
-  return snap ? snap.scores : null;
+  return findSnapshot(loadSnapshots(), state.compareSnapshot);
 }
 
 // =====================================================
@@ -1572,19 +1516,6 @@ function setLang(lang) {
 // =====================================================
 // WHEEL RENDER
 // =====================================================
-const WHEEL = { cx: 270, cy: 270, rMax: 200 };
-
-function angleRad(idx) {
-  // Uhr-Position: n=12 → 12 Uhr (oben), n=1..11 → 1..11 Uhr (im Uhrzeigersinn)
-  const a = AXES[idx];
-  const clockPos = (a && a.n === 12) ? 0 : (a ? a.n : 0);
-  return (clockPos * 30 - 90) * Math.PI / 180;
-}
-function point(idx, r) {
-  const a = angleRad(idx);
-  return [WHEEL.cx + Math.cos(a) * r, WHEEL.cy + Math.sin(a) * r];
-}
-
 function renderWheel() {
   const dict = I18N[state.lang] || I18N.de;
   const svg = document.getElementById("wheel");
@@ -1632,7 +1563,7 @@ function renderWheel() {
   // Compare-Polygon (Outline, falls Snapshot ausgewählt)
   const compareScores = getCompareScores();
   if (compareScores) {
-    const cmpPts = AXES.map((a, i) => point(a.idx, compareScores[i] * (WHEEL.rMax / 10)));
+    const cmpPts = AXES.map((a, i) => point(a.idx, scoreRadius(compareScores[i])));
     el("polygon", {
       points: cmpPts.map(p => p.join(",")).join(" "),
       class: "compare-polygon"
@@ -1640,7 +1571,7 @@ function renderWheel() {
   }
 
   // IST-Polygon
-  const pts = AXES.map((a, i) => point(a.idx, state.scores[i] * (WHEEL.rMax / 10)));
+  const pts = AXES.map((a, i) => point(a.idx, scoreRadius(state.scores[i])));
   el("polygon", {
     points: pts.map(p => p.join(",")).join(" "),
     class: "ist-polygon"
@@ -1679,14 +1610,11 @@ function renderWheel() {
 
 function renderMeter() {
   const dict = I18N[state.lang] || I18N.de;
-  const avg = (state.scores.reduce((s,n)=>s+n, 0) / state.scores.length).toFixed(1);
-  const min = Math.min(...state.scores);
-  const max = Math.max(...state.scores);
-  const weakestIdx = state.scores.indexOf(min);
-  document.getElementById("avg-score").textContent = avg;
-  document.getElementById("spread").textContent = max - min;
-  document.getElementById("weakest").textContent = min;
-  document.getElementById("weakest-name").textContent = dict.cat[AXES[weakestIdx].n];
+  const stats = summarize(state.scores);
+  document.getElementById("avg-score").textContent = stats.average.toFixed(1);
+  document.getElementById("spread").textContent = stats.spread;
+  document.getElementById("weakest").textContent = stats.min;
+  document.getElementById("weakest-name").textContent = dict.cat[AXES[stats.weakestIdx].n];
 }
 
 // =====================================================
@@ -1752,14 +1680,6 @@ function clientToSVG(clientX, clientY) {
   const ctm = svg.getScreenCTM();
   if (!ctm) return { x: clientX, y: clientY };
   return pt.matrixTransform(ctm.inverse());
-}
-
-function projectToScore(idx, svgX, svgY) {
-  const a = angleRad(idx);
-  const dx = Math.cos(a), dy = Math.sin(a);
-  const proj = (svgX - WHEEL.cx) * dx + (svgY - WHEEL.cy) * dy;
-  let score = Math.round(proj / (WHEEL.rMax / 10));
-  return Math.max(1, Math.min(10, score));
 }
 
 function setScore(i, score) {
@@ -1836,7 +1756,7 @@ function openDrawer(n) {
   const notes = ensureNotes(n);
   // Initial-Score beim ersten Öffnen einer Kategorie festhalten
   if (notes.initialScore === null || notes.initialScore === undefined) {
-    const idx = AXES.findIndex(a => a.n === n);
+    const idx = axisIndexOf(n);
     if (idx >= 0) {
       notes.initialScore = state.scores[idx];
       saveAll(true);
@@ -1875,24 +1795,18 @@ function toggleInsightCard(show) {
 function renderInsightCard(notes) {
   const first = notes.initialScore;
   const after = notes.completedScore != null ? notes.completedScore : (() => {
-    const idx = AXES.findIndex(a => a.n === drawerN);
+    const idx = axisIndexOf(drawerN);
     return idx >= 0 ? state.scores[idx] : null;
   })();
   document.getElementById("insight-first").textContent = first != null ? first : "—";
   document.getElementById("insight-after").textContent = after != null ? after : "—";
-  let diffKey = "insightDiffSame";
-  if (first != null && after != null) {
-    const diff = Math.abs(after - first);
-    if (diff >= 2) diffKey = "insightDiffLarge";
-    else if (diff >= 1) diffKey = "insightDiffSmall";
-  }
-  document.getElementById("insight-text").textContent = t(diffKey);
+  document.getElementById("insight-text").textContent = t(insightDiffKey(first, after));
 }
 
 function completeArea() {
   if (drawerN === null) return;
   const notes = ensureNotes(drawerN);
-  const idx = AXES.findIndex(a => a.n === drawerN);
+  const idx = axisIndexOf(drawerN);
   if (idx < 0) return;
   notes.completedScore = state.scores[idx];
   notes.completed = true;
@@ -1913,35 +1827,23 @@ function renderLevers() {
   const progress = document.getElementById("levers-progress");
   if (!block || !list || !progress) return;
 
-  // Alle abgeschlossenen Bereiche sammeln
-  const completedAxes = AXES.map((a, i) => {
-    const notes = state.notes[a.n];
-    if (!notes || !notes.completed) return null;
-    const initial = notes.initialScore;
-    const after = notes.completedScore != null ? notes.completedScore : state.scores[i];
-    const diff = (initial != null && after != null) ? Math.abs(after - initial) : 0;
-    const firstStrategyLine = (notes.strategy || "").split(/\r?\n/).map(s => s.trim()).filter(Boolean)[0] || "";
-    return { n: a.n, idx: i, initial, after, diff, score: state.scores[i], firstStep: firstStrategyLine };
-  }).filter(Boolean);
+  // Abgeschlossene Bereiche, sortiert nach Verschiebung bzw. niedrigstem Stand
+  const sorted = computeLevers(state.notes, state.scores);
 
-  progress.textContent = t("leversProgress") + " " + completedAxes.length + " / 12";
+  progress.textContent = t("leversProgress") + " " + sorted.length + " / " + AXES.length;
 
-  if (completedAxes.length < 3) {
+  if (sorted.length < LEVER_MINIMUM) {
     list.innerHTML = '<div class="levers-empty">' + escapeHtml(t("leversEmpty")) + '</div>';
     return;
   }
 
-  // Sortieren: erst nach Diff (absteigend), dann nach niedrigstem Score (aufsteigend)
-  const sorted = [...completedAxes].sort((a, b) => {
-    if (b.diff !== a.diff) return b.diff - a.diff;
-    return a.score - b.score;
-  });
-  const top3 = sorted.slice(0, 3);
+  const top3 = sorted.slice(0, LEVER_MINIMUM);
 
   list.innerHTML = top3.map(item => {
     const catName = dict.cat[item.n] || ("#" + item.n);
-    const stepText = item.firstStep ? escapeHtml(item.firstStep)
-      : '<span class="lever-item-empty">' + escapeHtml(item.firstStep === "" ? "—" : item.firstStep) + '</span>';
+    const stepText = item.firstStep
+      ? escapeHtml(item.firstStep)
+      : '<span class="lever-item-empty">—</span>';
     const scoreLabel = (item.initial != null ? item.initial : "—") + " → " + (item.after != null ? item.after : "—");
     return '<div class="lever-item">' +
       '<div class="lever-item-title"><span>' + escapeHtml(catName) + '</span><span class="lever-item-score">' + scoreLabel + '</span></div>' +
@@ -1957,15 +1859,14 @@ function closeDrawer() {
 }
 function navDrawer(dir) {
   if (drawerN === null) return;
-  const idx = AXES.findIndex(a => a.n === drawerN);
-  if (idx < 0) return;
-  const newIdx = (idx + dir + 12) % 12;
-  openDrawer(AXES[newIdx].n);
+  const next = nextAxisCategory(drawerN, dir);
+  if (next === null) return;
+  openDrawer(next);
 }
 function refreshDrawerLabels() {
   const dict = I18N[state.lang] || I18N.de;
   if (drawerN === null) return;
-  const idx = AXES.findIndex(a => a.n === drawerN);
+  const idx = axisIndexOf(drawerN);
   document.getElementById("drawer-title").textContent = dict.cat[drawerN];
   document.getElementById("drawer-score").textContent = (idx >= 0 ? state.scores[idx] : "—") + "/10";
   const notes = ensureNotes(drawerN);
@@ -2018,18 +1919,15 @@ function updateStatementFill(inp) {
 function updateStatementsAvg() {
   if (drawerN === null) return;
   const notes = ensureNotes(drawerN);
-  const avg = notes.statementScores.reduce((a,b) => a+b, 0) / notes.statementScores.length;
   const elAvg = document.getElementById("statements-avg");
-  if (elAvg) elAvg.textContent = avg.toFixed(1);
+  if (elAvg) elAvg.textContent = statementsAverage(notes.statementScores).toFixed(1);
 }
 function applyStatementsAvg() {
   if (drawerN === null) return;
   const notes = ensureNotes(drawerN);
-  const avg = notes.statementScores.reduce((a,b) => a+b, 0) / notes.statementScores.length;
-  const score = Math.max(1, Math.min(10, Math.round(avg)));
-  const idx = AXES.findIndex(a => a.n === drawerN);
+  const idx = axisIndexOf(drawerN);
   if (idx < 0) return;
-  setScore(idx, score);
+  setScore(idx, statementsAsScore(notes.statementScores));
   refreshDrawerLabels();
   saveAll(true);
 }
@@ -2127,7 +2025,11 @@ function buildPrintOutput() {
   let html = '<div class="print-page">';
   html += '<h1 class="print-h1">' + escapeHtml(t("h1")) + '</h1>';
   html += '<p class="print-meta">' + escapeHtml(t("eyebrow")) + ' · ' + escapeHtml(dateStr) + '</p>';
-  html += '<div class="print-wheel-area">' + document.getElementById("wheel").outerHTML + '</div>';
+  // Ohne id, sonst gibt es die Seite zweimal — getElementById("wheel")
+  // träfe danach womöglich den Druckklon statt des lebenden Rades.
+  const wheelCopy = document.getElementById("wheel").cloneNode(true);
+  wheelCopy.removeAttribute("id");
+  html += '<div class="print-wheel-area">' + wheelCopy.outerHTML + '</div>';
   html += '<table class="print-table"><thead><tr><th>#</th><th>' + escapeHtml(state.lang === "en" ? "Category" : "Bereich") + '</th><th>Score</th></tr></thead><tbody>';
   AXES.forEach((a, i) => {
     html += '<tr><td>' + a.n + '</td><td>' + escapeHtml(dict.cat[a.n]) + '</td><td>' + state.scores[i] + '/10</td></tr>';
@@ -2163,14 +2065,6 @@ function printWheel() {
 // =====================================================
 // HELPERS
 // =====================================================
-function escapeHtml(str) {
-  return String(str == null ? "" : str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
 function escapeAttr(str) {
   return escapeHtml(str);
 }
